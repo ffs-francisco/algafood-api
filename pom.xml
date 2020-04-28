@@ -20,12 +20,23 @@
         <java.version>14</java.version>
     </properties>
 
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+            
+            
+        <!--DEVELOP-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+        <!--DEVELOP-->
+            
+            
+        <!--TESTS-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -37,7 +48,9 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--TESTS-->
     </dependencies>
+    
 
     <build>
         <plugins>
