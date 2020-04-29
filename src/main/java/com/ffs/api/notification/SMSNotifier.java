@@ -1,15 +1,15 @@
 package com.ffs.api.notification;
 
 import com.ffs.api.model.Custumer;
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
  *
  * @author francisco
  */
-@Primary
 @Component
+@Qualifier("URGENT")
 public class SMSNotifier implements Notifier {
 
     @Override

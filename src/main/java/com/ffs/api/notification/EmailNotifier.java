@@ -1,6 +1,7 @@
 package com.ffs.api.notification;
 
 import com.ffs.api.model.Custumer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
  * @author francisco
  */
 @Component
+@Qualifier("NORMAL")
 public class EmailNotifier implements Notifier {
 
     @Override
