@@ -2,7 +2,6 @@ package com.ffs.api.service;
 
 import com.ffs.api.model.Custumer;
 import com.ffs.api.notification.Notifier;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,21 +12,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustumerActivationService {
 
-    private final List<Notifier> notifiers;
+    private final Notifier notifier;
 
     public CustumerActivationService(
-            @Autowired List<Notifier> notifiers
+            @Autowired Notifier notifiers
     ) {
-        this.notifiers = notifiers;
+        this.notifier = notifiers;
     }
 
     public void activate(final Custumer custumer) {
         custumer.activate();
 
-        if (notifiers.isEmpty()) {
-            System.out.println("Não existe notificador, mas o cliente fora ativado!");
-        } else {
-            notifiers.forEach(notifier -> notifier.notify(custumer, "Seu cadastro está ativo!"));
-        }
+        notifier.notify(custumer, "Seu cadastro está ativo!");
     }
 }

@@ -1,12 +1,14 @@
 package com.ffs.api.notification;
 
 import com.ffs.api.model.Custumer;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 /**
  *
  * @author francisco
  */
+@Primary
 @Component
 public class SMSNotifier implements Notifier {
 
