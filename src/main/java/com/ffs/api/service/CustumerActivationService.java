@@ -14,14 +14,19 @@ public class CustumerActivationService {
 
     private final Notifier notifier;
 
-    @Autowired
-    public CustumerActivationService(Notifier notification) {
+    public CustumerActivationService(
+            @Autowired(required = false) Notifier notification
+    ) {
         this.notifier = notification;
     }
 
     public void activate(final Custumer custumer) {
         custumer.activate();
 
-        notifier.notify(custumer, "Seu cadastro está ativo");
+        if (notifier != null) {
+            notifier.notify(custumer, "Seu cadastro está ativo!");
+        } else {
+            System.out.println("Não existe notificador, mas o cliente fora ativado!");
+        }
     }
 }
