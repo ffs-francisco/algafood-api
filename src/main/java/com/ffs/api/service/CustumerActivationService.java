@@ -2,9 +2,11 @@ package com.ffs.api.service;
 
 import com.ffs.api.model.Custumer;
 import com.ffs.api.notification.Notifier;
+import com.ffs.api.notification.type.NotifierType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import static com.ffs.api.notification.type.UrgencyLevel.NORMAL;
 
 /**
  *
@@ -16,7 +18,7 @@ public class CustumerActivationService {
     private final Notifier notifier;
 
     public CustumerActivationService(
-            @Qualifier("URGENT")
+            @NotifierType(NORMAL)
             @Autowired Notifier notifiers
     ) {
         this.notifier = notifiers;

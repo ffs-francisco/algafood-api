@@ -1,15 +1,18 @@
-package com.ffs.api.notification;
+package com.ffs.api.notification.impl;
 
 import com.ffs.api.model.Custumer;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.ffs.api.notification.Notifier;
+import com.ffs.api.notification.type.NotifierType;
 import org.springframework.stereotype.Component;
+
+import static com.ffs.api.notification.type.UrgencyLevel.URGENT;
 
 /**
  *
  * @author francisco
  */
 @Component
-@Qualifier("NORMAL")
+@NotifierType(URGENT)
 public class EmailNotifier implements Notifier {
 
     @Override
