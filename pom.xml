@@ -36,6 +36,15 @@
         <!--DEVELOP-->
             
             
+        <!--CUSTOM PROPERTIES-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--CUSTOM PROPERTIES-->
+                
+                                                
         <!--TESTS-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
