@@ -1,14 +1,10 @@
 package com.ffs.api.service;
 
 import com.ffs.api.model.Custumer;
-import com.ffs.api.notification.Notifier;
-import com.ffs.api.notification.type.NotifierType;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import com.ffs.api.publisher.event.CustumerActivatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-
-import static com.ffs.api.notification.type.UrgencyLevel.NORMAL;
 
 /**
  *
@@ -17,28 +13,12 @@ import static com.ffs.api.notification.type.UrgencyLevel.NORMAL;
 @Component
 public class CustumerActivationService {
 
-    private final Notifier notifier;
-
-    public CustumerActivationService(
-            @NotifierType(NORMAL)
-            @Autowired Notifier notifiers
-    ) {
-        this.notifier = notifiers;
-    }
-
-    @PostConstruct
-    public void init() {
-        System.out.println("Initialized!");
-    }
-
-    @PreDestroy
-    public void destroy() {
-        System.out.println("Stopped!");
-    }
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     public void activate(final Custumer custumer) {
         custumer.activate();
 
-        notifier.notify(custumer, "Seu cadastro está ativo!");
+        eventPublisher.publishEvent(new CustumerActivatedEvent(custumer));
     }
 }
