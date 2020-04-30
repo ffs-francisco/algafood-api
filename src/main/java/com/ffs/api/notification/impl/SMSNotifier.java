@@ -5,14 +5,14 @@ import com.ffs.api.notification.Notifier;
 import com.ffs.api.notification.type.NotifierType;
 import org.springframework.stereotype.Component;
 
-import static com.ffs.api.notification.type.UrgencyLevel.NORMAL;
+import static com.ffs.api.notification.type.UrgencyLevel.URGENT;
 
 /**
  *
  * @author francisco
  */
 @Component
-@NotifierType(NORMAL)
+@NotifierType(URGENT)
 public class SMSNotifier implements Notifier {
 
     @Override
