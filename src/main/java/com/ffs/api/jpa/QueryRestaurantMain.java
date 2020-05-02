@@ -5,13 +5,17 @@ import com.ffs.api.domain.model.Restaurant;
 import com.ffs.api.domain.repository.RestaurantRepository;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+
+import static java.lang.String.format;
 
 /**
  *
  * @author francisco
  */
+@Slf4j
 public class QueryRestaurantMain {
 
     public static void main(String[] args) {
@@ -21,7 +25,7 @@ public class QueryRestaurantMain {
         insertKithen(restaurantRepository);
         restaurantRepository.findAll()
                 .forEach((it) -> {
-                    System.out.println(it.toString());
+                    log.info(format("Restaurante %s com frete %f - cozinha %s ", it.getName(), it.getShippingFee(), it.getKitchen().getName()));
                 });
     }
 
@@ -30,10 +34,9 @@ public class QueryRestaurantMain {
         restaurant01.setName("Brasileiro");
         restaurant01.setShippingFee(new BigDecimal(BigInteger.TEN));
 
-        var restaurant02 =  new Restaurant();
+        var restaurant02 = new Restaurant();
         restaurant02.setName("Japones");
         restaurant02.setShippingFee(new BigDecimal(BigInteger.ONE));
-        
 
         restaurantRepository.save(restaurant01);
         restaurantRepository.save(restaurant02);

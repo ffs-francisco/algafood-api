@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -27,4 +28,7 @@ public class Restaurant implements Serializable {
     private String name;
 
     private BigDecimal shippingFee;
+
+    @ManyToOne
+    private Kitchen kitchen;
 }
