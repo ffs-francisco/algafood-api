@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,5 +31,6 @@ public class Restaurant implements Serializable {
     private BigDecimal shippingFee;
 
     @ManyToOne
+    @JoinColumn(name = "kitchen_id")
     private Kitchen kitchen;
 }
