@@ -1,7 +1,6 @@
 package com.ffs.api.jpa;
 
 import com.ffs.api.ApiApplication;
-import com.ffs.api.KitchenRegistration;
 import com.ffs.api.model.Kitchen;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
