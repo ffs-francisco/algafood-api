@@ -13,19 +13,24 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Component
 public class KitchenRegistration {
-
+    
     @PersistenceContext
     private EntityManager manager;
-
+    
     @Transactional
     public Kitchen save(final Kitchen kitchen) {
         return this.manager.merge(kitchen);
     }
-
+    
+    @Transactional
+    public void delete(final Kitchen kitchen) {
+        this.manager.remove(this.getById(kitchen.getId()));
+    }
+    
     public List<Kitchen> list() {
         return this.manager.createQuery("FROM Kitchen", Kitchen.class).getResultList();
     }
-
+    
     public Kitchen getById(Long id) {
         return this.manager.find(Kitchen.class, id);
     }
