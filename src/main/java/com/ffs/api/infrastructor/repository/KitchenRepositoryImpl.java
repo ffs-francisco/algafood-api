@@ -1,6 +1,7 @@
-package com.ffs.api.jpa;
+package com.ffs.api.infrastructor.repository;
 
-import com.ffs.api.model.Kitchen;
+import com.ffs.api.domain.model.Kitchen;
+import com.ffs.api.domain.repository.KitchenRepository;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,26 +13,30 @@ import org.springframework.transaction.annotation.Transactional;
  * @author francisco
  */
 @Component
-public class KitchenRegistration {
-    
+public class KitchenRepositoryImpl implements KitchenRepository {
+
     @PersistenceContext
     private EntityManager manager;
-    
+
+    @Override
     @Transactional
     public Kitchen save(final Kitchen kitchen) {
         return this.manager.merge(kitchen);
     }
-    
+
+    @Override
     @Transactional
     public void delete(final Kitchen kitchen) {
-        this.manager.remove(this.getById(kitchen.getId()));
+        this.manager.remove(this.findById(kitchen.getId()));
     }
-    
-    public List<Kitchen> list() {
+
+    @Override
+    public List<Kitchen> findAll() {
         return this.manager.createQuery("FROM Kitchen", Kitchen.class).getResultList();
     }
-    
-    public Kitchen getById(Long id) {
+
+    @Override
+    public Kitchen findById(Long id) {
         return this.manager.find(Kitchen.class, id);
     }
 }

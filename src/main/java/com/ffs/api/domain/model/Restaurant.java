@@ -1,6 +1,7 @@
-package com.ffs.api.model;
+package com.ffs.api.domain.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,19 +14,20 @@ import static javax.persistence.GenerationType.IDENTITY;
  * @author francisco
  */
 @Entity
-public class Kitchen implements Serializable {
+public class Restaurant implements Serializable {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long Id;
+    private Long id;
     private String name;
+    private BigDecimal shippingFee;
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
-    public void setId(Long Id) {
-        this.Id = Id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -36,10 +38,18 @@ public class Kitchen implements Serializable {
         this.name = name;
     }
 
+    public BigDecimal getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(BigDecimal shippingFee) {
+        this.shippingFee = shippingFee;
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this.Id);
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -54,13 +64,12 @@ public class Kitchen implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Kitchen other = (Kitchen) obj;
-        return Objects.equals(this.Id, other.Id);
+        final Restaurant other = (Restaurant) obj;
+        return Objects.equals(this.id, other.id);
     }
 
     @Override
     public String toString() {
-        return "Kitchen{" + "Id=" + Id + ", name=" + name + '}';
+        return "Restaurant{" + "id=" + id + ", name=" + name + ", shippingFee=" + shippingFee + '}';
     }
-
 }
