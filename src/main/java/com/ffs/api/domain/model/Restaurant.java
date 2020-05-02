@@ -2,6 +2,7 @@ package com.ffs.api.domain.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,11 +27,13 @@ public class Restaurant implements Serializable {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(name = "shipping_fee", nullable = false)
     private BigDecimal shippingFee;
 
     @ManyToOne
-    @JoinColumn(name = "kitchen_id")
+    @JoinColumn(name = "kitchen_id", nullable = false)
     private Kitchen kitchen;
 }
