@@ -18,7 +18,7 @@ public class KitchenRegistration {
     private EntityManager manager;
 
     @Transactional
-    public Kitchen add(final Kitchen kitchen) {
+    public Kitchen save(final Kitchen kitchen) {
         return this.manager.merge(kitchen);
     }
 

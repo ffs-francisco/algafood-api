@@ -29,7 +29,7 @@ public class QueryKitchenMain {
         var kitchen02 = new Kitchen();
         kitchen02.setName("Japonesa");
 
-        kitchenRegistration.add(kitchen01);
-        kitchenRegistration.add(kitchen02);
+        kitchenRegistration.save(kitchen01);
+        kitchenRegistration.save(kitchen02);
     }
 }
