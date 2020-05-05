@@ -1,5 +1,6 @@
 package com.ffs.api.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
  *
  * @author francisco
  */
+@JsonRootName("kitchen")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -23,7 +25,7 @@ public class Kitchen implements Serializable {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long Id;
-    
+
     @Column(nullable = false)
     private String name;
 }
