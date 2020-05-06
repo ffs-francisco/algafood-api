@@ -3,6 +3,7 @@ package com.ffs.api.controller;
 import com.ffs.api.controller.model.KitchensXMLWrapper;
 import com.ffs.api.domain.model.Kitchen;
 import com.ffs.api.domain.repository.KitchenRepository;
+import com.ffs.api.domain.service.KitchenRegistrationService;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class KitchenController {
     @Autowired
     private KitchenRepository kitchenRepository;
 
+    @Autowired
+    private KitchenRegistrationService kitchenRegistrationService;
+
     @GetMapping
     public List<Kitchen> listAll() {
         return this.kitchenRepository.findAll();
@@ -53,7 +57,7 @@ public class KitchenController {
     @PostMapping
     @ResponseStatus(CREATED)
     public Kitchen add(@RequestBody Kitchen kitchen) {
-        return this.kitchenRepository.save(kitchen);
+        return this.kitchenRegistrationService.save(kitchen);
     }
 
     @PutMapping("/{kitchenId}")
@@ -64,7 +68,7 @@ public class KitchenController {
         if (kitchen != null) {
             BeanUtils.copyProperties(kitchenParam, kitchen, "id");
 
-            return ResponseEntity.ok(this.kitchenRepository.save(kitchen));
+            return ResponseEntity.ok(this.kitchenRegistrationService.save(kitchen));
         } else {
             return ResponseEntity.notFound().build();
         }
