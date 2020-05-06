@@ -6,8 +6,10 @@ import com.ffs.api.domain.repository.KitchenRepository;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 
 /**
@@ -64,6 +67,22 @@ public class KitchenController {
             return ResponseEntity.ok(this.kitchenRepository.save(kitchen));
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{kitchenId}")
+    @ResponseStatus(CREATED)
+    public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId) {
+        try {
+            var kitchen = this.kitchenRepository.findById(kitchenId);
+
+            if (kitchen != null) {
+                this.kitchenRepository.delete(kitchen);
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.notFound().build();
+        } catch (DataIntegrityViolationException ex) {
+            return ResponseEntity.status(CONFLICT).build();
         }
     }
 }
