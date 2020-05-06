@@ -4,12 +4,14 @@ import com.ffs.api.controller.model.KitchensXMLWrapper;
 import com.ffs.api.domain.model.Kitchen;
 import com.ffs.api.domain.repository.KitchenRepository;
 import java.util.List;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -49,5 +51,19 @@ public class KitchenController {
     @ResponseStatus(CREATED)
     public Kitchen add(@RequestBody Kitchen kitchen) {
         return this.kitchenRepository.save(kitchen);
+    }
+
+    @PutMapping("/{kitchenId}")
+    @ResponseStatus(CREATED)
+    public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchenParam) {
+        var kitchen = this.kitchenRepository.findById(kitchenId);
+
+        if (kitchen != null) {
+            BeanUtils.copyProperties(kitchenParam, kitchen, "id");
+
+            return ResponseEntity.ok(this.kitchenRepository.save(kitchen));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
