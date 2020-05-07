@@ -1,6 +1,5 @@
 package com.ffs.api.controller;
 
-import com.ffs.api.controller.model.KitchensXMLWrapper;
 import com.ffs.api.domain.exception.EntityInUseException;
 import com.ffs.api.domain.exception.EntityNotFoundException;
 import com.ffs.api.domain.model.Kitchen;
@@ -9,7 +8,6 @@ import com.ffs.api.domain.service.KitchenRegistrationService;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,11 +39,6 @@ public class KitchenController {
   @GetMapping
   public List<Kitchen> listAll() {
     return this.kitchenRepository.findAll();
-  }
-
-  @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-  public KitchensXMLWrapper listAllXML() {
-    return new KitchensXMLWrapper(this.kitchenRepository.findAll());
   }
 
   @GetMapping("/{kitchenId}")
