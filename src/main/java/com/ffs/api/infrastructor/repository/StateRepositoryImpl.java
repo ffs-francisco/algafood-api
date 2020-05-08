@@ -5,6 +5,7 @@ import com.ffs.api.domain.repository.StateRepository;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +27,13 @@ public class StateRepositoryImpl implements StateRepository {
 
     @Override
     @Transactional
-    public void delete(final State state) {
-        this.manager.remove(this.findById(state.getId()));
+    public void delete(final Long stateId) {
+        var state = this.findById(stateId);
+        if (state == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
+
+        manager.remove(state);
     }
 
     @Override
