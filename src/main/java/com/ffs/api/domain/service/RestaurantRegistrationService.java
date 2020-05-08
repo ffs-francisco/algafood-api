@@ -15,22 +15,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RestaurantRegistrationService {
 
-  @Autowired
-  private RestaurantRepository restaurantRepository;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
-  @Autowired
-  private KitchenRepository kitchenRepository;
+    @Autowired
+    private KitchenRepository kitchenRepository;
 
-  @Transactional
-  public Restaurant save(final Restaurant restaurant) throws EntityNotFoundException {
-    var kitchenId = restaurant.getKitchen().getId();
+    @Transactional
+    public Restaurant save(final Restaurant restaurant) throws EntityNotFoundException {
+        final var kitchenId = restaurant.getKitchen().getId();
 
-    if (kitchenRepository.findById(kitchenId) == null) {
-      throw new EntityNotFoundException(
-              String.format("Não existe cadastro de conzinnha com código %d", kitchenId));
+        final var kitchen = kitchenRepository.findById(kitchenId);
+        if (kitchen == null) {
+            throw new EntityNotFoundException(
+                    String.format("Não existe cadastro de conzinha com código %d", kitchenId));
+        }
+
+        restaurant.setKitchen(kitchen);
+        return restaurantRepository.save(restaurant);
     }
-
-    return restaurantRepository.save(restaurant);
-  }
 
 }
