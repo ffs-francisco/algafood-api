@@ -1,5 +1,6 @@
 package com.ffs.api.controller;
 
+import com.ffs.api.domain.exception.EntityInUseException;
 import com.ffs.api.domain.exception.EntityNotFoundException;
 import com.ffs.api.domain.model.City;
 import com.ffs.api.domain.repository.CityRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,6 +71,19 @@ public class CityConstroller {
 
             return ResponseEntity.notFound().build();
         } catch (EntityNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{cityId}")
+    public ResponseEntity<?> delete(@PathVariable final Long cityId) {
+        try {
+            cityRegistrationService.delete(cityId);
+
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (EntityInUseException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

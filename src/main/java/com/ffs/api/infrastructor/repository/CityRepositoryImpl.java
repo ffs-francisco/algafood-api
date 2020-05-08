@@ -5,6 +5,7 @@ import com.ffs.api.domain.repository.CityRepository;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +27,13 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     @Transactional
-    public void delete(final City city) {
-        this.manager.remove(this.findById(city.getId()));
+    public void delete(final Long cityId) {
+        final var city = findById(cityId);
+        if (city == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
+
+        this.manager.remove(city);
     }
 
     @Override
