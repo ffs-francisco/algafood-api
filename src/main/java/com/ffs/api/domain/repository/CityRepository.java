@@ -1,19 +1,14 @@
 package com.ffs.api.domain.repository;
 
 import com.ffs.api.domain.model.City;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author francisco
  */
-public interface CityRepository {
+@Repository
+public interface CityRepository extends JpaRepository<City, Long> {
 
-    List<City> findAll();
-
-    City findById(Long id);
-
-    City save(final City city);
-
-    void delete(final Long cityId);
 }

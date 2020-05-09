@@ -41,11 +41,11 @@ public class CityConstroller {
     @GetMapping("/{cityId}")
     public ResponseEntity<City> gitById(@PathVariable final Long cityId) {
         final var city = cityRepository.findById(cityId);
-        if (city == null) {
+        if (city.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(city);
+        return ResponseEntity.ok(city.get());
     }
 
     @PostMapping
@@ -63,10 +63,10 @@ public class CityConstroller {
         final var citySaved = cityRepository.findById(cityId);
 
         try {
-            if (citySaved != null) {
-                BeanUtils.copyProperties(city, citySaved, "id");
+            if (citySaved.isPresent()) {
+                BeanUtils.copyProperties(city, citySaved.get(), "id");
 
-                return ResponseEntity.ok(cityRegistrationService.save(citySaved));
+                return ResponseEntity.ok(cityRegistrationService.save(citySaved.get()));
             }
 
             return ResponseEntity.notFound().build();

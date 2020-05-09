@@ -38,7 +38,7 @@ public class CityRegistrationService {
 
     public void delete(final Long cityId) throws EntityInUseException, EntityNotFoundException {
         try {
-            cityRepository.delete(cityId);
+            cityRepository.deleteById(cityId);
         } catch (EmptyResultDataAccessException ex) {
             throw new EntityNotFoundException(
                     String.format("Não exsiste um cadastro de cidade com código %d", cityId));
