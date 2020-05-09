@@ -1,19 +1,14 @@
 package com.ffs.api.domain.repository;
 
 import com.ffs.api.domain.model.FormPayment;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author francisco
  */
-public interface FormPaymentRepository {
+@Repository
+public interface FormPaymentRepository extends JpaRepository<FormPayment, Long> {
 
-    List<FormPayment> findAll();
-
-    FormPayment findById(Long id);
-
-    FormPayment save(final FormPayment city);
-
-    void delete(final FormPayment formPayment);
 }
