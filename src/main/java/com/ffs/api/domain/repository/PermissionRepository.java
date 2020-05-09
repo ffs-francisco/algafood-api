@@ -1,19 +1,13 @@
 package com.ffs.api.domain.repository;
 
 import com.ffs.api.domain.model.Permission;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author francisco
  */
-public interface PermissionRepository {
-
-    List<Permission> findAll();
-
-    Permission findById(Long id);
-
-    Permission save(final Permission permission);
-
-    void delete(final Permission permission);
+@Repository
+public interface PermissionRepository extends JpaRepository<Permission, Long> {
 }
