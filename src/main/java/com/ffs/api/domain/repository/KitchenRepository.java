@@ -1,19 +1,12 @@
 package com.ffs.api.domain.repository;
 
 import com.ffs.api.domain.model.Kitchen;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author francisco
  */
-public interface KitchenRepository {
+public interface KitchenRepository extends JpaRepository<Kitchen, Long> {
 
-    List<Kitchen> findAll();
-
-    Kitchen findById(Long id);
-
-    Kitchen save(Kitchen kitchen);
-
-    void delete(Long id);
 }

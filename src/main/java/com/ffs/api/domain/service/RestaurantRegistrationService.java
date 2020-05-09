@@ -25,11 +25,9 @@ public class RestaurantRegistrationService {
     public Restaurant save(final Restaurant restaurant) throws EntityNotFoundException {
         final var kitchenId = restaurant.getKitchen().getId();
 
-        final var kitchen = kitchenRepository.findById(kitchenId);
-        if (kitchen == null) {
-            throw new EntityNotFoundException(
-                    String.format("Não existe cadastro de conzinha com código %d", kitchenId));
-        }
+        final var kitchen = kitchenRepository.findById(kitchenId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                String.format("Não existe cadastro de conzinha com código %d", kitchenId)));
 
         restaurant.setKitchen(kitchen);
         return restaurantRepository.save(restaurant);

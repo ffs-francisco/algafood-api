@@ -30,55 +30,55 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/kitchens")
 public class KitchenController {
 
-  @Autowired
-  private KitchenRepository kitchenRepository;
+    @Autowired
+    private KitchenRepository kitchenRepository;
 
-  @Autowired
-  private KitchenRegistrationService kitchenRegistrationService;
+    @Autowired
+    private KitchenRegistrationService kitchenRegistrationService;
 
-  @GetMapping
-  public List<Kitchen> listAll() {
-    return this.kitchenRepository.findAll();
-  }
-
-  @GetMapping("/{kitchenId}")
-  public ResponseEntity<Kitchen> findById(@PathVariable Long kitchenId) {
-    var kitchen = this.kitchenRepository.findById(kitchenId);
-
-    return (kitchen != null) ? ResponseEntity.ok(kitchen) : ResponseEntity.notFound().build();
-  }
-
-  @PostMapping
-  @ResponseStatus(CREATED)
-  public Kitchen add(@RequestBody Kitchen kitchen) {
-    return this.kitchenRegistrationService.save(kitchen);
-  }
-
-  @PutMapping("/{kitchenId}")
-  @ResponseStatus(CREATED)
-  public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchenParam) {
-    var kitchen = this.kitchenRepository.findById(kitchenId);
-
-    if (kitchen != null) {
-      BeanUtils.copyProperties(kitchenParam, kitchen, "id");
-
-      return ResponseEntity.ok(this.kitchenRegistrationService.save(kitchen));
-    } else {
-      return ResponseEntity.notFound().build();
+    @GetMapping
+    public List<Kitchen> listAll() {
+        return this.kitchenRepository.findAll();
     }
-  }
 
-  @DeleteMapping("/{kitchenId}")
-  @ResponseStatus(CREATED)
-  public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId) {
-    try {
-      kitchenRegistrationService.delete(kitchenId);
+    @GetMapping("/{kitchenId}")
+    public ResponseEntity<Kitchen> findById(@PathVariable Long kitchenId) {
+        var kitchen = this.kitchenRepository.findById(kitchenId);
 
-      return ResponseEntity.noContent().build();
-    } catch (EntityNotFoundException ex) {
-      return ResponseEntity.notFound().build();
-    } catch (EntityInUseException ex) {
-      return ResponseEntity.status(CONFLICT).build();
+        return (kitchen.isPresent()) ? ResponseEntity.ok(kitchen.get()) : ResponseEntity.notFound().build();
     }
-  }
+
+    @PostMapping
+    @ResponseStatus(CREATED)
+    public Kitchen add(@RequestBody Kitchen kitchen) {
+        return this.kitchenRegistrationService.save(kitchen);
+    }
+
+    @PutMapping("/{kitchenId}")
+    @ResponseStatus(CREATED)
+    public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchenParam) {
+        var kitchen = this.kitchenRepository.findById(kitchenId);
+
+        if (kitchen.isPresent()) {
+            BeanUtils.copyProperties(kitchenParam, kitchen.get(), "id");
+
+            return ResponseEntity.ok(this.kitchenRegistrationService.save(kitchen.get()));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{kitchenId}")
+    @ResponseStatus(CREATED)
+    public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId) {
+        try {
+            kitchenRegistrationService.delete(kitchenId);
+
+            return ResponseEntity.noContent().build();
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        } catch (EntityInUseException ex) {
+            return ResponseEntity.status(CONFLICT).build();
+        }
+    }
 }

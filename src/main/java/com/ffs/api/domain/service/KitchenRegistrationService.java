@@ -16,22 +16,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class KitchenRegistrationService {
 
-  @Autowired
-  private KitchenRepository kitchenRepository;
+    @Autowired
+    private KitchenRepository kitchenRepository;
 
-  public Kitchen save(final Kitchen kitchen) {
-    return kitchenRepository.save(kitchen);
-  }
-
-  public void delete(final Long kitchenId) {
-    try {
-      kitchenRepository.delete(kitchenId);
-    } catch (EmptyResultDataAccessException ex) {
-      throw new EntityNotFoundException(
-              String.format("Não exsiste um cadastro de cozinha com código %d", kitchenId));
-    } catch (DataIntegrityViolationException ex) {
-      throw new EntityInUseException(
-              String.format("Cozinha de código %d não pode ser removida, pois já está em uso", kitchenId));
+    public Kitchen save(final Kitchen kitchen) {
+        return kitchenRepository.save(kitchen);
     }
-  }
+
+    public void delete(final Long kitchenId) {
+        try {
+            kitchenRepository.deleteById(kitchenId);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new EntityNotFoundException(
+                    String.format("Não exsiste um cadastro de cozinha com código %d", kitchenId));
+        } catch (DataIntegrityViolationException ex) {
+            throw new EntityInUseException(
+                    String.format("Cozinha de código %d não pode ser removida, pois já está em uso", kitchenId));
+        }
+    }
 }
