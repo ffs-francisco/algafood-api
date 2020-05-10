@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /**
  *
  * @author francisco
@@ -37,6 +36,11 @@ public class TestController {
         return kitchenRepository.findByName(name);
     }
 
+    @GetMapping("/kitchens/first")
+    public Optional<Kitchen> kitchenFirst() {
+        return kitchenRepository.findFirst();
+    }
+
     @GetMapping("/restaurants/by-name")
     public List<Restaurant> restaurantByName(String name, Long kitchenId) {
         return restaurantRepository.findByLikeNameAndKitchenId(name, kitchenId);
@@ -50,5 +54,10 @@ public class TestController {
     @GetMapping("/restaurants/with-free-shipping")
     public List<Restaurant> findRestaurantWhitFreeShipping(String name) {
         return restaurantRepository.findWithFreeShippingAndNameSimilar(name);
+    }
+
+    @GetMapping("/restaurants/first")
+    public Optional<Restaurant> findRestaurantFirst() {
+        return restaurantRepository.findFirst();
     }
 }

@@ -3,13 +3,14 @@ package com.ffs.api.domain.repository;
 import com.ffs.api.domain.model.Kitchen;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author francisco
  */
-public interface KitchenRepository extends JpaRepository<Kitchen, Long> {
+@Repository
+public interface KitchenRepository extends CustomJpaRepository<Kitchen, Long> {
 
     List<Kitchen> findAllByNameContaining(String name);
 
