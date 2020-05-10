@@ -3,10 +3,13 @@ package com.ffs.api.infrastructor.repositoty;
 import com.ffs.api.domain.repository.RestaurantRepositoryCustom;
 import com.ffs.api.domain.model.Restaurant;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 /**
  *
@@ -20,13 +23,29 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
 
     @Override
     public List<Restaurant> find(String name, BigDecimal shippingFeeInitial, BigDecimal shippingFeeFinal) {
-        final var jpql = "FROM Restaurant WHERE name LIKE :name "
-                + "AND shippingFee BETWEEN :shippingFeeInitial AND :shippingFeeFinal";
+        final var jpql = new StringBuilder();
+        final var parameters = new HashMap<String, Object>();
 
-        return entityManager.createQuery(jpql, Restaurant.class)
-                .setParameter("name", "%" + name + "%")
-                .setParameter("shippingFeeInitial", shippingFeeInitial)
-                .setParameter("shippingFeeFinal", shippingFeeFinal)
-                .getResultList();
+        jpql.append("FROM Restaurant WHERE 0 = 0 ");
+        if (StringUtils.hasLength(name)) {
+            jpql.append("AND name LIKE :name ");
+            parameters.put("name", "%" + name + "%");
+
+        }
+
+        if (shippingFeeInitial != null) {
+            jpql.append("AND shippingFee >= :shippingFeeInitial ");
+            parameters.put("shippingFeeInitial", shippingFeeInitial);
+        }
+
+        if (shippingFeeFinal != null) {
+            jpql.append("AND shippingFee <= :shippingFeeFinal ");
+            parameters.put("shippingFeeFinal", shippingFeeFinal);
+        }
+
+        TypedQuery<Restaurant> query = entityManager.createQuery(jpql.toString(), Restaurant.class);
+        parameters.forEach((param, value) -> query.setParameter(param, value));
+
+        return query.getResultList();
     }
 }
