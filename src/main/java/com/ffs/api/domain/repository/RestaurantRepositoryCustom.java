@@ -11,4 +11,6 @@ import java.util.List;
 public interface RestaurantRepositoryCustom {
 
     List<Restaurant> find(String name, BigDecimal shippingFeeInitial, BigDecimal shippingFeeFinal);
+
+    List<Restaurant> findWithFreeShippingAndNameSimilar(String name);
 }
