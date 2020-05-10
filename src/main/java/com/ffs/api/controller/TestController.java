@@ -4,6 +4,7 @@ import com.ffs.api.domain.model.Kitchen;
 import com.ffs.api.domain.model.Restaurant;
 import com.ffs.api.domain.repository.KitchenRepository;
 import com.ffs.api.domain.repository.RestaurantRepository;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +39,10 @@ public class TestController {
     @GetMapping("/restaurants/by-name")
     public List<Restaurant> restaurantByName(String name, Long kitchenId) {
         return restaurantRepository.findByLikeNameAndKitchenId(name, kitchenId);
+    }
+
+    @GetMapping("/restaurants/find")
+    public List<Restaurant> findRestaurant(String name, BigDecimal shippingFeeInitial, BigDecimal shippingFeeFinal) {
+        return restaurantRepository.find(name, shippingFeeInitial, shippingFeeFinal);
     }
 }
