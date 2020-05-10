@@ -4,8 +4,6 @@ import com.ffs.api.domain.model.Kitchen;
 import com.ffs.api.domain.model.Restaurant;
 import com.ffs.api.domain.repository.KitchenRepository;
 import com.ffs.api.domain.repository.RestaurantRepository;
-import com.ffs.api.infrastructor.repositoty.specification.RestaurantWhitFreeShippingApec;
-import com.ffs.api.infrastructor.repositoty.specification.RestaurantWhitNameSimilarApec;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.ffs.api.infrastructor.repositoty.specification.RestaurantSpecs.whitFreeShipping;
+import static com.ffs.api.infrastructor.repositoty.specification.RestaurantSpecs.whitNameSimilar;
 
 /**
  *
@@ -50,9 +51,6 @@ public class TestController {
 
     @GetMapping("/restaurants/with-free-shipping")
     public List<Restaurant> findRestaurantWhitFreeShipping(String name) {
-        var whitFreeShipping = new RestaurantWhitFreeShippingApec();
-        var whitNameSimilar = new RestaurantWhitNameSimilarApec(name);
-
-        return restaurantRepository.findAll(whitFreeShipping.and(whitNameSimilar));
+        return restaurantRepository.findAll(whitFreeShipping().and(whitNameSimilar(name)));
     }
 }
