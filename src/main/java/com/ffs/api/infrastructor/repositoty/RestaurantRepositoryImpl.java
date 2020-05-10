@@ -3,11 +3,14 @@ package com.ffs.api.infrastructor.repositoty;
 import com.ffs.api.domain.repository.RestaurantRepositoryCustom;
 import com.ffs.api.domain.model.Restaurant;
 import java.math.BigDecimal;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -23,29 +26,25 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
 
     @Override
     public List<Restaurant> find(String name, BigDecimal shippingFeeInitial, BigDecimal shippingFeeFinal) {
-        final var jpql = new StringBuilder();
-        final var parameters = new HashMap<String, Object>();
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Restaurant> criteriaQuery = criteriaBuilder.createQuery(Restaurant.class);
+        
+        Root<Restaurant> root = criteriaQuery.from(Restaurant.class);
+        List<Predicate> predicates = new ArrayList<>();
 
-        jpql.append("FROM Restaurant WHERE 0 = 0 ");
         if (StringUtils.hasLength(name)) {
-            jpql.append("AND name LIKE :name ");
-            parameters.put("name", "%" + name + "%");
-
+            predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
         }
-
         if (shippingFeeInitial != null) {
-            jpql.append("AND shippingFee >= :shippingFeeInitial ");
-            parameters.put("shippingFeeInitial", shippingFeeInitial);
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("shippingFee"), shippingFeeInitial));
         }
-
         if (shippingFeeFinal != null) {
-            jpql.append("AND shippingFee <= :shippingFeeFinal ");
-            parameters.put("shippingFeeFinal", shippingFeeFinal);
+
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("shippingFee"), shippingFeeFinal));
         }
 
-        TypedQuery<Restaurant> query = entityManager.createQuery(jpql.toString(), Restaurant.class);
-        parameters.forEach((param, value) -> query.setParameter(param, value));
-
-        return query.getResultList();
+        criteriaQuery.where(predicates.toArray(new Predicate[0]));
+        return entityManager.createQuery(criteriaQuery)
+                .getResultList();
     }
 }
