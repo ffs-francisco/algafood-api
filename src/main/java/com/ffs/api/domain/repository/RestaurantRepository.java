@@ -4,6 +4,7 @@ import com.ffs.api.domain.model.Restaurant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,8 @@ import org.springframework.stereotype.Repository;
  * @author francisco
  */
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, RestaurantRepositoryCustom {
+public interface RestaurantRepository extends
+        JpaRepository<Restaurant, Long>, JpaSpecificationExecutor<Restaurant>, RestaurantRepositoryCustom {
 
     int countByKitchenId(Long kitchenId);
 

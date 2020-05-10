@@ -4,6 +4,8 @@ import com.ffs.api.domain.model.Kitchen;
 import com.ffs.api.domain.model.Restaurant;
 import com.ffs.api.domain.repository.KitchenRepository;
 import com.ffs.api.domain.repository.RestaurantRepository;
+import com.ffs.api.infrastructor.repositoty.specification.RestaurantWhitFreeShippingApec;
+import com.ffs.api.infrastructor.repositoty.specification.RestaurantWhitNameSimilarApec;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
@@ -44,5 +46,13 @@ public class TestController {
     @GetMapping("/restaurants/find")
     public List<Restaurant> findRestaurant(String name, BigDecimal shippingFeeInitial, BigDecimal shippingFeeFinal) {
         return restaurantRepository.find(name, shippingFeeInitial, shippingFeeFinal);
+    }
+
+    @GetMapping("/restaurants/with-free-shipping")
+    public List<Restaurant> findRestaurantWhitFreeShipping(String name) {
+        var whitFreeShipping = new RestaurantWhitFreeShippingApec();
+        var whitNameSimilar = new RestaurantWhitNameSimilarApec(name);
+
+        return restaurantRepository.findAll(whitFreeShipping.and(whitNameSimilar));
     }
 }
