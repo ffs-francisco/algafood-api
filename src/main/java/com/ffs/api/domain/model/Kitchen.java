@@ -24,7 +24,7 @@ public class Kitchen implements Serializable {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
