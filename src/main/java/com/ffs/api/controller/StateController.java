@@ -42,11 +42,11 @@ public class StateController {
     @GetMapping("/{stateId}")
     public ResponseEntity<State> getById(@PathVariable final Long stateId) {
         final var state = stateRepository.findById(stateId);
-        if (state == null) {
+        if (state.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(state);
+        return ResponseEntity.ok(state.get());
     }
 
     @PostMapping
@@ -58,12 +58,12 @@ public class StateController {
     @PutMapping("/{stateId}")
     public ResponseEntity<State> update(@PathVariable final Long stateId, @RequestBody final State state) {
         final var stateSaved = stateRepository.findById(stateId);
-        if (stateSaved == null) {
+        if (stateSaved.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        BeanUtils.copyProperties(state, stateSaved, "id");
-        return ResponseEntity.ok(stateRegistrationService.save(stateSaved));
+        BeanUtils.copyProperties(state, stateSaved.get(), "id");
+        return ResponseEntity.ok(stateRegistrationService.save(stateSaved.get()));
     }
 
     @DeleteMapping("/{stateId}")

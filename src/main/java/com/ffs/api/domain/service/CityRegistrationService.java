@@ -26,11 +26,9 @@ public class CityRegistrationService {
     public City save(final City city) throws EntityNotFoundException {
         final var stateId = city.getState().getId();
 
-        final var state = stateRepository.findById(stateId);
-        if (state == null) {
-            throw new EntityNotFoundException(
-                    String.format("Não existe um cadastro de estado com o código %d", stateId));
-        }
+        final var state = stateRepository.findById(stateId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                String.format("Não existe um cadastro de estado com o código %d", stateId)));
 
         city.setState(state);
         return cityRepository.save(city);

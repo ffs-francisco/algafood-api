@@ -1,19 +1,14 @@
 package com.ffs.api.domain.repository;
 
 import com.ffs.api.domain.model.State;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author francisco
  */
-public interface StateRepository {
+@Repository
+public interface StateRepository extends JpaRepository<State, Long> {
 
-    List<State> findAll();
-
-    State findById(Long id);
-
-    State save(final State state);
-
-    void delete(final Long stateId);
 }
