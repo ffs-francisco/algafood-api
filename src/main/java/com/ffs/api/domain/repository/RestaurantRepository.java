@@ -1,19 +1,14 @@
 package com.ffs.api.domain.repository;
 
 import com.ffs.api.domain.model.Restaurant;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author francisco
  */
-public interface RestaurantRepository {
+@Repository
+public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
-    List<Restaurant> findAll();
-
-    Restaurant findById(Long id);
-
-    Restaurant save(Restaurant restaurant);
-
-    void delete(Restaurant restaurant);
 }

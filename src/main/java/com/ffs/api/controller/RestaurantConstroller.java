@@ -44,11 +44,11 @@ public class RestaurantConstroller {
     @GetMapping("/{restaurantId}")
     public ResponseEntity<Restaurant> getById(@PathVariable Long restaurantId) {
         var restaurant = restaurantRepository.findById(restaurantId);
-        if (restaurant != null) {
-            return ResponseEntity.ok(restaurant);
+        if (restaurant.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(restaurant.get());
     }
 
     @PostMapping
@@ -66,11 +66,11 @@ public class RestaurantConstroller {
         var restaurantSaved = restaurantRepository.findById(restaurantId);
 
         try {
-            if (restaurantSaved != null) {
-                BeanUtils.copyProperties(restaurant, restaurantSaved, "id");
+            if (restaurantSaved.isPresent()) {
+                BeanUtils.copyProperties(restaurant, restaurantSaved.get(), "id");
 
                 return ResponseEntity.status(HttpStatus.CREATED)
-                        .body(restaurantRegistrationService.save(restaurantSaved));
+                        .body(restaurantRegistrationService.save(restaurantSaved.get()));
             }
 
             return ResponseEntity.notFound().build();
@@ -82,12 +82,12 @@ public class RestaurantConstroller {
     @PatchMapping("/{restaurantId}")
     public ResponseEntity<?> update(@PathVariable final Long restaurantId, @RequestBody Map<String, Object> fields) {
         var restaurantSaved = restaurantRepository.findById(restaurantId);
-        if (restaurantSaved == null) {
+        if (restaurantSaved.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        merge(fields, restaurantSaved);
-        return this.update(restaurantId, restaurantSaved);
+        merge(fields, restaurantSaved.get());
+        return this.update(restaurantId, restaurantSaved.get());
     }
 
     private void merge(Map<String, Object> dataOrigin, Restaurant restaurantDestination) {
