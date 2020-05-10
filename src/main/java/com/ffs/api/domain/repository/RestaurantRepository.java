@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +23,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     List<Restaurant> findTop2ByNameContainingAndKitchenId(String name, Long kitchenId);
 
-    @Query("FROM Restaurant WHERE name LIKE %:name% AND kitchen.id = :kitchenId")
+    //@Query("FROM Restaurant WHERE name LIKE %:name% AND kitchen.id = :kitchenId")
     List<Restaurant> findByLikeNameAndKitchenId(@Param("name") String name, @Param("kitchenId") Long kitchenId);
 }

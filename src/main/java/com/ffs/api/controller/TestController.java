@@ -1,6 +1,7 @@
 package com.ffs.api.controller;
 
 import com.ffs.api.domain.model.Kitchen;
+import com.ffs.api.domain.model.Restaurant;
 import com.ffs.api.domain.repository.KitchenRepository;
 import com.ffs.api.domain.repository.RestaurantRepository;
 import java.util.List;
@@ -32,5 +33,10 @@ public class TestController {
     @GetMapping("/kitchens/by-name")
     public Optional<Kitchen> kitchenByName(String name) {
         return kitchenRepository.findByName(name);
+    }
+
+    @GetMapping("/restaurants/by-name")
+    public List<Restaurant> restaurantByName(String name, Long kitchenId) {
+        return restaurantRepository.findByLikeNameAndKitchenId(name, kitchenId);
     }
 }
