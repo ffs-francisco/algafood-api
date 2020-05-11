@@ -21,3 +21,5 @@ INSERT INTO form_payment (id, description) VALUES (3, 'Dinheiro');
 
 INSERT INTO permission (id, name, description) VALUES (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
 INSERT INTO permission (id, name, description) VALUES (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
+
+INSERT INTO restaurant_form_payment (restaurant_id, form_payment_id) VALUES (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
