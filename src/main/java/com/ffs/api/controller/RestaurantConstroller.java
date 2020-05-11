@@ -67,7 +67,7 @@ public class RestaurantConstroller {
 
         try {
             if (restaurantSaved.isPresent()) {
-                BeanUtils.copyProperties(restaurant, restaurantSaved.get(), "id");
+                BeanUtils.copyProperties(restaurant, restaurantSaved.get(), "id", "formPayments");
 
                 return ResponseEntity.status(HttpStatus.CREATED)
                         .body(restaurantRegistrationService.save(restaurantSaved.get()));
