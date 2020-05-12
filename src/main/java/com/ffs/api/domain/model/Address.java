@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Data;
 
+import static javax.persistence.FetchType.LAZY;
+
 /**
  *
  * @author francisco
@@ -30,7 +32,7 @@ public class Address implements Serializable {
     @Column(name = "address_district")
     private String district;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "address_city_id")
     private City city;
 }
