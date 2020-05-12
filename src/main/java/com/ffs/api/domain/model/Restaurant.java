@@ -22,6 +22,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -59,7 +60,7 @@ public class Restaurant implements Serializable {
     private List<Product> products = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch = EAGER)
     @JoinTable(name = "restaurant_form_payment",
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "form_payment_id"))
