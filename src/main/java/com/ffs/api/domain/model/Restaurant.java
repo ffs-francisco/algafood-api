@@ -3,6 +3,7 @@ package com.ffs.api.domain.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -16,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -53,4 +56,14 @@ public class Restaurant implements Serializable {
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "form_payment_id"))
     private List<FormPayment> formPayments = new ArrayList<>();
+
+    @JsonIgnore
+    @CreationTimestamp
+    @Column(nullable = false)
+    private LocalDateTime dateRegister;
+
+    @JsonIgnore
+    @UpdateTimestamp
+    @Column(nullable = false)
+    private LocalDateTime dateUpdate;
 }
