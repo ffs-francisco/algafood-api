@@ -1,10 +1,12 @@
 package com.ffs.api.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -41,6 +43,11 @@ public class Restaurant implements Serializable {
     @JoinColumn(name = "kitchen_id", nullable = false)
     private Kitchen kitchen;
 
+    @JsonIgnore
+    @Embedded
+    private Address address;
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurant_form_payment",
             joinColumns = @JoinColumn(name = "restaurant_id"),
