@@ -4,6 +4,7 @@ import com.ffs.api.domain.model.Restaurant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -17,10 +18,12 @@ public interface RestaurantRepository extends
 
     int countByKitchenId(Long kitchenId);
 
+    @Query("FROM Restaurant R JOIN FETCH R.kitchen LEFT JOIN FETCH R.formPayments")
+    List<Restaurant> findAll();
+
     Optional<Restaurant> findFirstByNameContainingAndKitchenId(String name, Long kitchenId);
 
     List<Restaurant> findTop2ByNameContainingAndKitchenId(String name, Long kitchenId);
 
-    //@Query("FROM Restaurant WHERE name LIKE %:name% AND kitchen.id = :kitchenId")
     List<Restaurant> findByLikeNameAndKitchenId(@Param("name") String name, @Param("kitchenId") Long kitchenId);
 }

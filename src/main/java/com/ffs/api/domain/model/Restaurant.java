@@ -1,7 +1,6 @@
 package com.ffs.api.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,8 +21,6 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import static javax.persistence.FetchType.EAGER;
-import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 /**
@@ -50,8 +47,7 @@ public class Restaurant implements Serializable {
     @Embedded
     private Address address;
 
-    @JsonIgnoreProperties("hibernateLazyInitializer")
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "kitchen_id", nullable = false)
     private Kitchen kitchen;
 
@@ -59,8 +55,7 @@ public class Restaurant implements Serializable {
     @OneToMany(mappedBy = "restaurant")
     private List<Product> products = new ArrayList<>();
 
-    @JsonIgnore
-    @ManyToMany(fetch = EAGER)
+    @ManyToMany
     @JoinTable(name = "restaurant_form_payment",
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "form_payment_id"))
