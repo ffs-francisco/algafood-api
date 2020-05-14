@@ -1,7 +1,5 @@
 package com.ffs.api.controller;
 
-import com.ffs.api.domain.exception.EntityInUseException;
-import com.ffs.api.domain.exception.EntityNotFoundException;
 import com.ffs.api.domain.model.Kitchen;
 import com.ffs.api.domain.repository.KitchenRepository;
 import com.ffs.api.domain.service.KitchenRegistrationService;
@@ -19,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.*;
 
 /**
  *
@@ -68,17 +65,22 @@ public class KitchenController {
         }
     }
 
+//    @DeleteMapping("/{kitchenId}")
+//    @ResponseStatus(CREATED)
+//    public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId) {
+//        try {
+//            kitchenRegistrationService.delete(kitchenId);
+//
+//            return ResponseEntity.noContent().build();
+//        } catch (EntityNotFoundException ex) {
+//            return ResponseEntity.notFound().build();
+//        } catch (EntityInUseException ex) {
+//            return ResponseEntity.status(CONFLICT).build();
+//        }
+//    }
     @DeleteMapping("/{kitchenId}")
-    @ResponseStatus(CREATED)
-    public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId) {
-        try {
-            kitchenRegistrationService.delete(kitchenId);
-
-            return ResponseEntity.noContent().build();
-        } catch (EntityNotFoundException ex) {
-            return ResponseEntity.notFound().build();
-        } catch (EntityInUseException ex) {
-            return ResponseEntity.status(CONFLICT).build();
-        }
+    @ResponseStatus(NO_CONTENT)
+    public void delete(@PathVariable Long kitchenId) {
+        kitchenRegistrationService.delete(kitchenId);
     }
 }
