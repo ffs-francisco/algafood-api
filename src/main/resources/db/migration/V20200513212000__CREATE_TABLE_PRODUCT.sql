@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS product (
   id            BIGINT        NOT NULL AUTO_INCREMENT,
   name          VARCHAR(100)  NOT NULL,
-  description   VARCHAR(100)  NOT NULL,
+  description   VARCHAR(200)  NOT NULL,
   price         DECIMAL(19,2) NOT NULL,
   active        BIT(1)        NOT NULL,
 

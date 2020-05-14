@@ -55,6 +55,7 @@ public class Restaurant implements Serializable {
     @OneToMany(mappedBy = "restaurant")
     private List<Product> products = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurant_form_payment",
             joinColumns = @JoinColumn(name = "restaurant_id"),
