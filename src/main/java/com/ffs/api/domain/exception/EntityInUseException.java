@@ -1,17 +1,20 @@
 package com.ffs.api.domain.exception;
 
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
-import static org.springframework.http.HttpStatus.CONFLICT;
 
 /**
  *
  * @author francisco
  */
-@ResponseStatus(CONFLICT)
-public class EntityInUseException extends RuntimeException {
+public class EntityInUseException extends ResponseStatusException {
 
-    public EntityInUseException(final String message) {
-        super(message);
+    public EntityInUseException(HttpStatus status, String reason) {
+        super(status, reason);
+    }
+
+    public EntityInUseException(final String reason) {
+        this(HttpStatus.CONFLICT, reason);
     }
 }

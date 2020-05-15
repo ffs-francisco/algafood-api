@@ -1,17 +1,19 @@
 package com.ffs.api.domain.exception;
 
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  *
  * @author francisco
  */
-@ResponseStatus(NOT_FOUND)
-public class EntityNotFoundException extends RuntimeException {
+public class EntityNotFoundException extends ResponseStatusException {
 
-    public EntityNotFoundException(final String message) {
-        super(message);
+    public EntityNotFoundException(HttpStatus status, String reason) {
+        super(status, reason);
+    }
+
+    public EntityNotFoundException(String reason) {
+        this(HttpStatus.NOT_FOUND, reason);
     }
 }
