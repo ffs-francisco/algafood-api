@@ -28,38 +28,38 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 public class KitchenController {
 
     @Autowired
-    private KitchenService kitchenRegistrationService;
+    private KitchenService kitchenService;
 
     @GetMapping
     @ResponseStatus(OK)
     public List<Kitchen> listAll() {
-        return this.kitchenRegistrationService.findAll();
+        return this.kitchenService.findAll();
     }
 
     @GetMapping("/{kitchenId}")
     @ResponseStatus(OK)
     public Kitchen findById(@PathVariable Long kitchenId) {
-        return kitchenRegistrationService.findById(kitchenId);
+        return kitchenService.findById(kitchenId);
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
     public Kitchen add(@RequestBody Kitchen kitchen) {
-        return this.kitchenRegistrationService.save(kitchen);
+        return this.kitchenService.save(kitchen);
     }
 
     @PutMapping("/{kitchenId}")
     @ResponseStatus(OK)
     public Kitchen update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchenParam) {
-        var kitchen = this.kitchenRegistrationService.findById(kitchenId);
+        var kitchen = this.kitchenService.findById(kitchenId);
 
         BeanUtils.copyProperties(kitchenParam, kitchen, "id");
-        return this.kitchenRegistrationService.save(kitchen);
+        return this.kitchenService.save(kitchen);
     }
 
     @DeleteMapping("/{kitchenId}")
     @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable Long kitchenId) {
-        kitchenRegistrationService.deleteById(kitchenId);
+        kitchenService.deleteById(kitchenId);
     }
 }
