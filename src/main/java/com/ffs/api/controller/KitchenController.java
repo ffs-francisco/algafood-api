@@ -1,12 +1,10 @@
 package com.ffs.api.controller;
 
 import com.ffs.api.domain.model.Kitchen;
-import com.ffs.api.domain.repository.KitchenRepository;
-import com.ffs.api.domain.service.KitchenRegistrationService;
+import com.ffs.api.domain.service.KitchenService;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 /**
  *
@@ -28,21 +28,18 @@ import static org.springframework.http.HttpStatus.*;
 public class KitchenController {
 
     @Autowired
-    private KitchenRepository kitchenRepository;
-
-    @Autowired
-    private KitchenRegistrationService kitchenRegistrationService;
+    private KitchenService kitchenRegistrationService;
 
     @GetMapping
+    @ResponseStatus(OK)
     public List<Kitchen> listAll() {
-        return this.kitchenRepository.findAll();
+        return this.kitchenRegistrationService.findAll();
     }
 
     @GetMapping("/{kitchenId}")
-    public ResponseEntity<Kitchen> findById(@PathVariable Long kitchenId) {
-        var kitchen = this.kitchenRepository.findById(kitchenId);
-
-        return (kitchen.isPresent()) ? ResponseEntity.ok(kitchen.get()) : ResponseEntity.notFound().build();
+    @ResponseStatus(OK)
+    public Kitchen findById(@PathVariable Long kitchenId) {
+        return kitchenRegistrationService.findById(kitchenId);
     }
 
     @PostMapping
@@ -52,22 +49,17 @@ public class KitchenController {
     }
 
     @PutMapping("/{kitchenId}")
-    @ResponseStatus(CREATED)
-    public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchenParam) {
-        var kitchen = this.kitchenRepository.findById(kitchenId);
+    @ResponseStatus(OK)
+    public Kitchen update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchenParam) {
+        var kitchen = this.kitchenRegistrationService.findById(kitchenId);
 
-        if (kitchen.isPresent()) {
-            BeanUtils.copyProperties(kitchenParam, kitchen.get(), "id");
-
-            return ResponseEntity.ok(this.kitchenRegistrationService.save(kitchen.get()));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        BeanUtils.copyProperties(kitchenParam, kitchen, "id");
+        return this.kitchenRegistrationService.save(kitchen);
     }
 
     @DeleteMapping("/{kitchenId}")
     @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable Long kitchenId) {
-        kitchenRegistrationService.delete(kitchenId);
+        kitchenRegistrationService.deleteById(kitchenId);
     }
 }
