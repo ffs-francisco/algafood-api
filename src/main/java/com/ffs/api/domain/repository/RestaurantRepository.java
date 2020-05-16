@@ -18,7 +18,7 @@ public interface RestaurantRepository extends
 
     int countByKitchenId(Long kitchenId);
 
-    @Query("FROM Restaurant R JOIN FETCH R.kitchen LEFT JOIN FETCH R.formPayments")
+    @Query("FROM Restaurant R JOIN FETCH R.kitchen")
     List<Restaurant> findAll();
 
     Optional<Restaurant> findFirstByNameContainingAndKitchenId(String name, Long kitchenId);
