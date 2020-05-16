@@ -1,5 +1,7 @@
 package com.ffs.api.controller;
 
+import com.ffs.api.domain.exception.BusinessException;
+import com.ffs.api.domain.exception.EntityNotFoundException;
 import com.ffs.api.domain.model.City;
 import com.ffs.api.domain.service.CityService;
 import java.util.List;
@@ -43,7 +45,11 @@ public class CityConstroller {
     @PostMapping
     @ResponseStatus(CREATED)
     public City add(@RequestBody final City city) {
-        return cityService.save(city);
+        try {
+            return cityService.save(city);
+        } catch (EntityNotFoundException e) {
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @PutMapping("/{cityId}")
@@ -51,8 +57,12 @@ public class CityConstroller {
     public City update(@PathVariable final Long cityId, @RequestBody City city) {
         final var citySaved = cityService.findById(cityId);
 
-        BeanUtils.copyProperties(city, citySaved, "id");
-        return cityService.save(citySaved);
+        try {
+            BeanUtils.copyProperties(city, citySaved, "id");
+            return cityService.save(citySaved);
+        } catch (EntityNotFoundException e) {
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{cityId}")
