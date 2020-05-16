@@ -1,6 +1,8 @@
 package com.ffs.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ffs.api.domain.exception.BusinessException;
+import com.ffs.api.domain.exception.EntityNotFoundException;
 import com.ffs.api.domain.model.Restaurant;
 import com.ffs.api.domain.service.RestaurantService;
 import java.lang.reflect.Field;
@@ -48,7 +50,11 @@ public class RestaurantController {
     @PostMapping
     @ResponseStatus(CREATED)
     public Restaurant add(@RequestBody final Restaurant restaurant) {
-        return restaurantService.save(restaurant);
+        try {
+            return restaurantService.save(restaurant);
+        } catch (EntityNotFoundException e) {
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @PutMapping("/{restaurantId}")
@@ -56,9 +62,13 @@ public class RestaurantController {
     public Restaurant update(@PathVariable final Long restaurantId, @RequestBody final Restaurant restaurant) {
         var restaurantSaved = restaurantService.findById(restaurantId);
 
-        BeanUtils.copyProperties(restaurant, restaurantSaved,
-                "id", "formPayments", "address", "dateRegister", "products");
-        return restaurantService.save(restaurantSaved);
+        try {
+            BeanUtils.copyProperties(restaurant, restaurantSaved,
+                    "id", "formPayments", "address", "dateRegister", "products");
+            return restaurantService.save(restaurantSaved);
+        } catch (EntityNotFoundException e) {
+            throw new BusinessException(e.getMessage());
+        }
     }
 
     @PatchMapping("/{restaurantId}")
