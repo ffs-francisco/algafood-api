@@ -20,13 +20,13 @@ public class StateService {
     @Autowired
     private StateRepository stateRepository;
 
-    public State findById(final Long stateId) {
-        return stateRepository.findById(stateId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(MSG_NOT_FOUND, stateId)));
-    }
-
     public List<State> findAll() {
         return stateRepository.findAll();
+    }
+
+    public State findById(final Long stateId) throws EntityNotFoundException {
+        return stateRepository.findById(stateId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(MSG_NOT_FOUND, stateId)));
     }
 
     public State save(final State state) {
