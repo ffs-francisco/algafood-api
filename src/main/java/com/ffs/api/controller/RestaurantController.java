@@ -53,7 +53,7 @@ public class RestaurantController {
         try {
             return restaurantService.save(restaurant);
         } catch (EntityNotFoundException e) {
-            throw new BusinessException(e.getMessage());
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 
@@ -67,7 +67,7 @@ public class RestaurantController {
                     "id", "formPayments", "address", "dateRegister", "products");
             return restaurantService.save(restaurantSaved);
         } catch (EntityNotFoundException e) {
-            throw new BusinessException(e.getMessage());
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 

@@ -2,6 +2,7 @@ package com.ffs.api.domain.service;
 
 import com.ffs.api.domain.exception.EntityInUseException;
 import com.ffs.api.domain.exception.EntityNotFoundException;
+import com.ffs.api.domain.exception.StateNotFoundException;
 import com.ffs.api.domain.model.State;
 import com.ffs.api.domain.repository.StateRepository;
 import java.util.List;
@@ -26,7 +27,7 @@ public class StateService {
 
     public State findById(final Long stateId) throws EntityNotFoundException {
         return stateRepository.findById(stateId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(MSG_NOT_FOUND, stateId)));
+                .orElseThrow(() -> new StateNotFoundException(stateId));
     }
 
     public State save(final State state) {
@@ -37,12 +38,9 @@ public class StateService {
         try {
             stateRepository.deleteById(stateId);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException(String.format(MSG_NOT_FOUND, stateId));
+            throw new StateNotFoundException(stateId);
         } catch (DataIntegrityViolationException e) {
-            throw new EntityInUseException(String.format(MSG_CONFLICT, stateId));
+            throw new EntityInUseException(stateId, State.class);
         }
     }
-
-    private final String MSG_NOT_FOUND = "Não existe um cadastro de estado com código %d";
-    private final String MSG_CONFLICT = "Estado de código %d não pode ser removido, pois está em uso";
 }

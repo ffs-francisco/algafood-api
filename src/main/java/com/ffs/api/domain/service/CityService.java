@@ -2,6 +2,7 @@ package com.ffs.api.domain.service;
 
 import com.ffs.api.domain.exception.EntityInUseException;
 import com.ffs.api.domain.exception.EntityNotFoundException;
+import com.ffs.api.domain.exception.StateNotFoundException;
 import com.ffs.api.domain.model.City;
 import com.ffs.api.domain.repository.CityRepository;
 import java.util.List;
@@ -29,10 +30,10 @@ public class CityService {
 
     public City findById(Long cityId) {
         return cityRepository.findById(cityId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(MSG_NOT_FOUND, cityId)));
+                .orElseThrow(() -> new EntityNotFoundException(cityId, City.class));
     }
 
-    public City save(final City city) throws EntityNotFoundException {
+    public City save(final City city) throws StateNotFoundException {
         final var state = stateService.findById(city.getState().getId());
 
         city.setState(state);
@@ -43,12 +44,9 @@ public class CityService {
         try {
             cityRepository.deleteById(cityId);
         } catch (EmptyResultDataAccessException ex) {
-            throw new EntityNotFoundException(String.format(MSG_NOT_FOUND, cityId));
+            throw new EntityNotFoundException(cityId, City.class);
         } catch (DataIntegrityViolationException ex) {
-            throw new EntityInUseException(String.format(MSG_CONFLICT, cityId));
+            throw new EntityInUseException(cityId, City.class);
         }
     }
-
-    private final String MSG_NOT_FOUND = "Não exsiste um cadastro de cidade com código %d";
-    private final String MSG_CONFLICT = "Cidade de código %d não pode ser removida, pois já está em uso";
 }

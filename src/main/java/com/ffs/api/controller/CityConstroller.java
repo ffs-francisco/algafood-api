@@ -1,7 +1,7 @@
 package com.ffs.api.controller;
 
 import com.ffs.api.domain.exception.BusinessException;
-import com.ffs.api.domain.exception.EntityNotFoundException;
+import com.ffs.api.domain.exception.StateNotFoundException;
 import com.ffs.api.domain.model.City;
 import com.ffs.api.domain.service.CityService;
 import java.util.List;
@@ -47,8 +47,8 @@ public class CityConstroller {
     public City add(@RequestBody final City city) {
         try {
             return cityService.save(city);
-        } catch (EntityNotFoundException e) {
-            throw new BusinessException(e.getMessage());
+        } catch (StateNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 
@@ -60,8 +60,8 @@ public class CityConstroller {
         try {
             BeanUtils.copyProperties(city, citySaved, "id");
             return cityService.save(citySaved);
-        } catch (EntityNotFoundException e) {
-            throw new BusinessException(e.getMessage());
+        } catch (StateNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 
