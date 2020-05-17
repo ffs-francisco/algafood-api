@@ -1,7 +1,7 @@
 package com.ffs.api.domain.service;
 
 import com.ffs.api.domain.exception.EntityInUseException;
-import com.ffs.api.domain.exception.EntityNotFoundException;
+import com.ffs.api.domain.exception.KitchenNotFoundException;
 import com.ffs.api.domain.model.Kitchen;
 import com.ffs.api.domain.repository.KitchenRepository;
 import java.util.List;
@@ -20,9 +20,9 @@ public class KitchenService {
     @Autowired
     private KitchenRepository kitchenRepository;
 
-    public Kitchen findById(final Long kitchenId) throws EntityNotFoundException {
+    public Kitchen findById(final Long kitchenId) throws KitchenNotFoundException {
         return kitchenRepository.findById(kitchenId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(MSG_NOT_FOUND, kitchenId)));
+                .orElseThrow(() -> new KitchenNotFoundException(kitchenId));
     }
 
     public List<Kitchen> findAll() {
@@ -33,16 +33,13 @@ public class KitchenService {
         return kitchenRepository.save(kitchen);
     }
 
-    public void deleteById(final Long kitchenId) throws EntityInUseException, EntityNotFoundException {
+    public void deleteById(final Long kitchenId) throws EntityInUseException, KitchenNotFoundException {
         try {
             kitchenRepository.deleteById(kitchenId);
         } catch (EmptyResultDataAccessException ex) {
-            throw new EntityNotFoundException(String.format(MSG_NOT_FOUND, kitchenId));
+            throw new KitchenNotFoundException(kitchenId);
         } catch (DataIntegrityViolationException ex) {
-            throw new EntityInUseException(String.format(MSG_CONFLICT, kitchenId));
+            throw new EntityInUseException(kitchenId, Kitchen.class);
         }
     }
-
-    private final String MSG_CONFLICT = "Cozinha de código %d não pode ser removida, pois já está em uso";
-    private final String MSG_NOT_FOUND = "Não existe um cadastro de cozinha com código %d";
 }

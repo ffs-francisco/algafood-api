@@ -9,7 +9,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  * @author francisco
  */
 @ResponseStatus(NOT_FOUND)
-public class EntityNotFoundException extends BusinessException {
+public abstract class EntityNotFoundException extends BusinessException {
 
     public EntityNotFoundException(String reason) {
         super(reason);

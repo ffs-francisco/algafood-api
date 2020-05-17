@@ -1,6 +1,7 @@
 package com.ffs.api.domain.service;
 
 import com.ffs.api.domain.exception.EntityNotFoundException;
+import com.ffs.api.domain.exception.RestaurantNotFoundException;
 import com.ffs.api.domain.model.Restaurant;
 import com.ffs.api.domain.repository.RestaurantRepository;
 import java.util.List;
@@ -25,9 +26,9 @@ public class RestaurantService {
         return restaurantRepository.findAll();
     }
 
-    public Restaurant findById(Long restaurantId) throws EntityNotFoundException {
+    public Restaurant findById(Long restaurantId) throws RestaurantNotFoundException {
         return restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(MSG_NOT_FOUND, restaurantId)));
+                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
     }
 
     @Transactional
@@ -37,6 +38,4 @@ public class RestaurantService {
         restaurant.setKitchen(kitchen);
         return restaurantRepository.save(restaurant);
     }
-
-    private final String MSG_NOT_FOUND = "Não existe cadastro de restaurant com código %d";
 }

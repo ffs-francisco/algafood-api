@@ -1,7 +1,7 @@
 package com.ffs.api.domain.service;
 
+import com.ffs.api.domain.exception.CityNotFoundException;
 import com.ffs.api.domain.exception.EntityInUseException;
-import com.ffs.api.domain.exception.EntityNotFoundException;
 import com.ffs.api.domain.exception.StateNotFoundException;
 import com.ffs.api.domain.model.City;
 import com.ffs.api.domain.repository.CityRepository;
@@ -28,9 +28,9 @@ public class CityService {
         return cityRepository.findAll();
     }
 
-    public City findById(Long cityId) {
+    public City findById(Long cityId) throws CityNotFoundException {
         return cityRepository.findById(cityId)
-                .orElseThrow(() -> new EntityNotFoundException(cityId, City.class));
+                .orElseThrow(() -> new CityNotFoundException(cityId));
     }
 
     public City save(final City city) throws StateNotFoundException {
@@ -40,11 +40,11 @@ public class CityService {
         return cityRepository.save(city);
     }
 
-    public void delete(final Long cityId) throws EntityInUseException, EntityNotFoundException {
+    public void delete(final Long cityId) throws EntityInUseException, CityNotFoundException {
         try {
             cityRepository.deleteById(cityId);
         } catch (EmptyResultDataAccessException ex) {
-            throw new EntityNotFoundException(cityId, City.class);
+            throw new CityNotFoundException(cityId);
         } catch (DataIntegrityViolationException ex) {
             throw new EntityInUseException(cityId, City.class);
         }
