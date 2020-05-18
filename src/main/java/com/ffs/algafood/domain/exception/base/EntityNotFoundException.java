@@ -1,15 +1,10 @@
-package com.ffs.algafood.domain.exception;
-
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+package com.ffs.algafood.domain.exception.base;
 
 /**
  *
  * @author francisco
  */
-@ResponseStatus(NOT_FOUND)
-public abstract class EntityNotFoundException extends BusinessException {
+public class EntityNotFoundException extends BusinessException {
 
     public EntityNotFoundException(String reason) {
         super(reason);

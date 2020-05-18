@@ -1,7 +1,7 @@
 package com.ffs.algafood.domain.service;
 
 import com.ffs.algafood.domain.exception.CityNotFoundException;
-import com.ffs.algafood.domain.exception.EntityInUseException;
+import com.ffs.algafood.domain.exception.base.EntityInUseException;
 import com.ffs.algafood.domain.exception.StateNotFoundException;
 import com.ffs.algafood.domain.model.City;
 import com.ffs.algafood.domain.repository.CityRepository;

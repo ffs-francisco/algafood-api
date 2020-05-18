@@ -1,6 +1,6 @@
 package com.ffs.algafood.domain.service;
 
-import com.ffs.algafood.domain.exception.EntityInUseException;
+import com.ffs.algafood.domain.exception.base.EntityInUseException;
 import com.ffs.algafood.domain.exception.KitchenNotFoundException;
 import com.ffs.algafood.domain.model.Kitchen;
 import com.ffs.algafood.domain.repository.KitchenRepository;

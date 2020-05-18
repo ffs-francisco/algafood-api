@@ -1,7 +1,7 @@
 package com.ffs.algafood.api.controller;
 
-import com.ffs.algafood.domain.exception.BusinessException;
 import com.ffs.algafood.domain.exception.StateNotFoundException;
+import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.model.City;
 import com.ffs.algafood.domain.service.CityService;
 import java.util.List;

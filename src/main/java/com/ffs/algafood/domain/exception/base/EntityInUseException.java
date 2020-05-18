@@ -1,14 +1,9 @@
-package com.ffs.algafood.domain.exception;
-
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import static org.springframework.http.HttpStatus.CONFLICT;
+package com.ffs.algafood.domain.exception.base;
 
 /**
  *
  * @author francisco
  */
-@ResponseStatus(CONFLICT)
 public class EntityInUseException extends BusinessException {
 
     public EntityInUseException(String reason) {

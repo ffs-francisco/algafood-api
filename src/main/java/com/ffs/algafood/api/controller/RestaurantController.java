@@ -1,8 +1,8 @@
 package com.ffs.algafood.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ffs.algafood.domain.exception.BusinessException;
-import com.ffs.algafood.domain.exception.EntityNotFoundException;
+import com.ffs.algafood.domain.exception.base.BusinessException;
+import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.Restaurant;
 import com.ffs.algafood.domain.service.RestaurantService;
 import java.lang.reflect.Field;

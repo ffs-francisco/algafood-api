@@ -1,14 +1,9 @@
-package com.ffs.algafood.domain.exception;
-
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
+package com.ffs.algafood.domain.exception.base;
 
 /**
  *
  * @author francisco
  */
-@ResponseStatus(BAD_REQUEST)
 public class BusinessException extends RuntimeException {
 
     public BusinessException(String reason) {
