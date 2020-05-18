@@ -1,9 +1,9 @@
 package com.ffs.algafood.api.exception;
 
 import java.time.LocalDateTime;
-import javax.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.context.request.WebRequest;
 
 /**
  *
@@ -18,11 +18,11 @@ public class ApiException {
     private final String message;
     private final String path;
 
-    public ApiException(String message, HttpStatus status, HttpServletRequest request) {
+    public ApiException(String message, HttpStatus status, WebRequest request) {
         this.timestamp = LocalDateTime.now();
         this.status = status.value();
         this.error = status.getReasonPhrase();
         this.message = message;
-        this.path = request.getRequestURI();
+        this.path = request.getDescription(false).substring(4);
     }
 }
