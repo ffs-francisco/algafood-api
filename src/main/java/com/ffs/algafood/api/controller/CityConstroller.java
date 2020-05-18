@@ -1,13 +1,19 @@
 package com.ffs.algafood.api.controller;
 
+import com.ffs.algafood.api.exception.ApiException;
 import com.ffs.algafood.domain.exception.BusinessException;
+import com.ffs.algafood.domain.exception.EntityNotFoundException;
 import com.ffs.algafood.domain.exception.StateNotFoundException;
 import com.ffs.algafood.domain.model.City;
 import com.ffs.algafood.domain.service.CityService;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,5 +75,23 @@ public class CityConstroller {
     @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable final Long cityId) {
         cityService.delete(cityId);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<?> exceptionHandlerNotFound(EntityNotFoundException e) {
+        var apiException = ApiException.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.NOT_FOUND.value())
+                .error(HttpStatus.NOT_FOUND.name())
+                .message(e.getMessage()).build();
+
+        return ResponseEntity.status(NOT_FOUND)
+                .body(apiException);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<?> exceptionHandlerBadRequest(BusinessException e) {
+        return ResponseEntity.status(NOT_FOUND)
+                .body(e.getMessage());
     }
 }
