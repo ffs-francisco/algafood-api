@@ -12,17 +12,19 @@ import org.springframework.web.context.request.WebRequest;
 @Getter
 public class ApiException {
 
-    private final LocalDateTime timestamp;
+    private final LocalDateTime timestamp = LocalDateTime.now();
     private final Integer status;
+    private final String type;
     private final String title;
     private final String detail;
     private final String path;
 
-    public ApiException(String message, HttpStatus status, WebRequest request) {
-        this.timestamp = LocalDateTime.now();
+    public ApiException(String detail, ApiExceptionType type, HttpStatus status, WebRequest request) {
         this.status = status.value();
-        this.title = status.getReasonPhrase();
-        this.detail = message;
+        this.type = type.getUri();
+        this.title = type.getTitle();
+        this.detail = detail;
+
         this.path = request.getDescription(false).substring(4);
     }
 }
