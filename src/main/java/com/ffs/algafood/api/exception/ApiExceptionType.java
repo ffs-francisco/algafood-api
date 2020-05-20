@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public enum ApiExceptionType {
 
+    INVALID_PARAMETER("/invalid-path-parameter", "Invalid Path Parameter."),
     INCOMPREHENSIBLE_MESSAGE("/incomprehensible-message", "Incomprehensible Message"),
     ENTITY_NOT_FOUND("/entity-not-found", "Entity Not Found"),
     ENTITY_IN_USE("/entity-in-use", "Entity In Use"),
