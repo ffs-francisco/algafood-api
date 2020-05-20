@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import static com.ffs.algafood.api.exception.ApiExceptionType.*;
@@ -31,22 +32,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handlerNotFound(EntityNotFoundException ex, WebRequest request) {
-        final var apiException = new ApiException(ex.getMessage(), ENTITY_NOT_FOUND, NOT_FOUND, request);
-
+        final var apiException = new ApiException(ex.getMessage(), RESOURCE_NOT_FOUND, NOT_FOUND, request);
         return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), NOT_FOUND, request);
     }
 
     @ExceptionHandler(EntityInUseException.class)
     public ResponseEntity<?> handlerEntityInUse(EntityInUseException ex, WebRequest request) {
         final var apiException = new ApiException(ex.getMessage(), ENTITY_IN_USE, CONFLICT, request);
-
         return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), CONFLICT, request);
     }
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handlerBusiness(BusinessException ex, WebRequest request) {
         final var apiException = new ApiException(ex.getMessage(), ERROR_BUSINESS, BAD_REQUEST, request);
-
         return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), BAD_REQUEST, request);
     }
 
@@ -83,6 +81,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         final var apiException = new ApiException(detail, INCOMPREHENSIBLE_MESSAGE, BAD_REQUEST, request);
         return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), BAD_REQUEST, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        final var detail = String.format("The resource '%s' requested, does not exist.",
+                ex.getRequestURL());
+
+        final var apiException = new ApiException(detail, RESOURCE_NOT_FOUND, NOT_FOUND, request);
+        return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), NOT_FOUND, request);
     }
 
     private String detailInvalidFormat(InvalidFormatException ex) {

@@ -11,7 +11,7 @@ public enum ApiExceptionType {
 
     INVALID_PARAMETER("/invalid-path-parameter", "Invalid Path Parameter."),
     INCOMPREHENSIBLE_MESSAGE("/incomprehensible-message", "Incomprehensible Message"),
-    ENTITY_NOT_FOUND("/entity-not-found", "Entity Not Found"),
+    RESOURCE_NOT_FOUND("/resource-not-found", "Resource Not Found"),
     ENTITY_IN_USE("/entity-in-use", "Entity In Use"),
     ERROR_BUSINESS("/error-business", "Business Rule Violation");
 
