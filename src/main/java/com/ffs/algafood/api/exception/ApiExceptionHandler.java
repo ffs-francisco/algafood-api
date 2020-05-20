@@ -1,8 +1,11 @@
 package com.ffs.algafood.api.exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityInUseException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +48,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        Throwable rootCause = ExceptionUtils.getRootCause(ex);
+        if (rootCause instanceof InvalidFormatException) {
+            return this.handleInvalidFormatException((InvalidFormatException) rootCause, headers, BAD_REQUEST, request);
+        }
+
         var detail = "The request body is invalid. Verify syntax errors.";
         var apiException = new ApiException(detail, INCOMPREHENSIBLE_MESSAGE, BAD_REQUEST, request);
 
@@ -54,5 +62,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         return super.handleExceptionInternal(ex, body, headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        var detail = "The proprety '%s' received a value of '%s', which is of type invalid. Enter a '%s' type value.";
+        var path = ex.getPath().stream().map(ref -> ref.getFieldName()).collect(Collectors.joining("."));
+
+        detail = String.format(detail, path, ex.getValue(), ex.getTargetType().getSimpleName());
+        var apiException = new ApiException(detail, INCOMPREHENSIBLE_MESSAGE, BAD_REQUEST, request);
+
+        return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), BAD_REQUEST, request);
     }
 }
