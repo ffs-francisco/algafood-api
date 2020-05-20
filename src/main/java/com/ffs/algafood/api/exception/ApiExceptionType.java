@@ -13,7 +13,8 @@ public enum ApiExceptionType {
     INCOMPREHENSIBLE_MESSAGE("/incomprehensible-message", "Incomprehensible Message"),
     RESOURCE_NOT_FOUND("/resource-not-found", "Resource Not Found"),
     ENTITY_IN_USE("/entity-in-use", "Entity In Use"),
-    ERROR_BUSINESS("/error-business", "Business Rule Violation");
+    ERROR_BUSINESS("/error-business", "Business Rule Violation"),
+    INTERNAL_SYSTEM_ERROR("/internal-system-error", "Internal System Error");
 
     private final String uri;
     private final String title;

@@ -30,6 +30,21 @@ import static org.springframework.http.HttpStatus.*;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleUncaught(Exception ex, WebRequest request) {
+        final var detail = "An unexpected internal system error has occurred. "
+                + "Try again and if the problem persists, contact your system administrator.";
+
+        /**
+         * Print the Stack Trace on the console while a logginf mechaninsm is
+         * not implemented.
+         */
+        ex.printStackTrace();
+
+        final var apiException = new ApiException(detail, INTERNAL_SYSTEM_ERROR, INTERNAL_SERVER_ERROR, request);
+        return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), INTERNAL_SERVER_ERROR, request);
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handlerNotFound(EntityNotFoundException ex, WebRequest request) {
         final var apiException = new ApiException(ex.getMessage(), RESOURCE_NOT_FOUND, NOT_FOUND, request);
