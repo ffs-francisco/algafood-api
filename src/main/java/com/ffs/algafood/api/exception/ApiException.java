@@ -19,20 +19,24 @@ public class ApiException {
     private final String detail;
     private final String path;
 
-    public ApiException(String detail, ApiExceptionType type, HttpStatus status, WebRequest request) {
+    private String userMessage;
+
+    public ApiException(String detail, String userMessage, ApiExceptionType type, HttpStatus status, WebRequest request) {
         this.status = status.value();
         this.type = (type == null) ? "" : type.getUri();
         this.title = (type == null) ? status.getReasonPhrase() : type.getTitle();
         this.detail = detail;
 
         this.path = request.getDescription(false).substring(4);
+
+        this.userMessage = userMessage;
     }
 
-    ApiException(HttpStatus status, WebRequest request) {
-        this(status.getReasonPhrase(), null, status, request);
+    ApiException(String userMessage, HttpStatus status, WebRequest request) {
+        this(status.getReasonPhrase(), userMessage, null, status, request);
     }
 
-    ApiException(String detail, HttpStatus status, WebRequest request) {
-        this(detail, null, status, request);
+    ApiException(String detail, String userMessage, HttpStatus status, WebRequest request) {
+        this(detail, userMessage, null, status, request);
     }
 }
