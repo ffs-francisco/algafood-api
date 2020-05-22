@@ -30,37 +30,33 @@ import static org.springframework.http.HttpStatus.*;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private final String MSG_FINAL_USER_GENERIC_ERROR
+            = "An unexpected internal system error has occurred. Try again and if the problem persists, contact your system administrator.";
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleUncaught(Exception ex, WebRequest request) {
-        final var detail = "An unexpected internal system error has occurred. "
-                + "Try again and if the problem persists, contact your system administrator.";
-
         /**
          * Print the Stack Trace on the console while a logginf mechaninsm is
          * not implemented.
          */
         ex.printStackTrace();
 
-        final var apiException = new ApiException(detail, INTERNAL_SYSTEM_ERROR, INTERNAL_SERVER_ERROR, request);
-        return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), INTERNAL_SERVER_ERROR, request);
+        return this.buildHandlerException(ex, this.MSG_FINAL_USER_GENERIC_ERROR, INTERNAL_SYSTEM_ERROR, new HttpHeaders(), INTERNAL_SERVER_ERROR, request);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handlerNotFound(EntityNotFoundException ex, WebRequest request) {
-        final var apiException = new ApiException(ex.getMessage(), RESOURCE_NOT_FOUND, NOT_FOUND, request);
-        return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), NOT_FOUND, request);
+        return this.buildHandlerException(ex, ex.getMessage(), RESOURCE_NOT_FOUND, new HttpHeaders(), NOT_FOUND, request);
     }
 
     @ExceptionHandler(EntityInUseException.class)
     public ResponseEntity<?> handlerEntityInUse(EntityInUseException ex, WebRequest request) {
-        final var apiException = new ApiException(ex.getMessage(), ENTITY_IN_USE, CONFLICT, request);
-        return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), CONFLICT, request);
+        return this.buildHandlerException(ex, ex.getMessage(), ENTITY_IN_USE, new HttpHeaders(), CONFLICT, request);
     }
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handlerBusiness(BusinessException ex, WebRequest request) {
-        final var apiException = new ApiException(ex.getMessage(), ERROR_BUSINESS, BAD_REQUEST, request);
-        return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), BAD_REQUEST, request);
+        return this.buildHandlerException(ex, ex.getMessage(), ERROR_BUSINESS, new HttpHeaders(), BAD_REQUEST, request);
     }
 
     @Override
@@ -94,8 +90,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             detail = this.detailPropertyBinding((PropertyBindingException) rootCause);
         }
 
-        final var apiException = new ApiException(detail, INCOMPREHENSIBLE_MESSAGE, BAD_REQUEST, request);
-        return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), BAD_REQUEST, request);
+        return this.buildHandlerException(ex, detail, INCOMPREHENSIBLE_MESSAGE, headers, status, request);
     }
 
     @Override
@@ -103,8 +98,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         final var detail = String.format("The resource '%s' requested, does not exist.",
                 ex.getRequestURL());
 
-        final var apiException = new ApiException(detail, RESOURCE_NOT_FOUND, NOT_FOUND, request);
-        return this.handleExceptionInternal(ex, apiException, new HttpHeaders(), NOT_FOUND, request);
+        final var apiException = new ApiException(detail, RESOURCE_NOT_FOUND, status, request);
+        return this.handleExceptionInternal(ex, apiException, headers, status, request);
+    }
+
+    private ResponseEntity<Object> buildHandlerException(Exception ex, String detail, ApiExceptionType type, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        final var apiException = new ApiException(detail, type, status, request);
+        return this.handleExceptionInternal(ex, apiException, headers, status, request);
     }
 
     private String detailInvalidFormat(InvalidFormatException ex) {
