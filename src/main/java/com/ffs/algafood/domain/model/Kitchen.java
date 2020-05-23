@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,7 +23,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Kitchen implements Serializable {
-
+    
+    @NotNull
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = IDENTITY)
