@@ -44,7 +44,7 @@ public class Restaurant implements Serializable {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Name is required")
     @Column(nullable = false)
     private String name;
 
