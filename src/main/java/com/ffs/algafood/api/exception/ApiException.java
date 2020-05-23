@@ -14,12 +14,13 @@ public class ApiException {
 
     private final LocalDateTime timestamp = LocalDateTime.now();
     private final Integer status;
-    private final String type;
     private final String title;
     private final String detail;
-    private final String path;
 
     private String userMessage;
+
+    private final String path;
+    private final String type;
 
     public ApiException(String detail, String userMessage, ApiExceptionType type, HttpStatus status, WebRequest request) {
         this.status = status.value();
