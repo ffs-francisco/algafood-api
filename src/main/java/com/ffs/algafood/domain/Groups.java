@@ -6,6 +6,6 @@ package com.ffs.algafood.domain;
  */
 public class Groups {
 
-    public interface RestaurantResgister {
+    public interface KitchenId {
     }
 }

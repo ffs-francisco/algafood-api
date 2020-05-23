@@ -21,6 +21,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -42,11 +44,11 @@ public class Restaurant implements Serializable {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NotBlank(groups = Groups.RestaurantResgister.class)
+    @NotBlank
     @Column(nullable = false)
     private String name;
 
-    @PositiveOrZero(groups = Groups.RestaurantResgister.class)
+    @PositiveOrZero
     @Column(name = "shipping_fee", nullable = false)
     private BigDecimal shippingFee;
 
@@ -56,6 +58,7 @@ public class Restaurant implements Serializable {
 
     @Valid
     @NotNull
+    @ConvertGroup(from = Default.class, to = Groups.KitchenId.class)
     @ManyToOne
     @JoinColumn(name = "kitchen_id", nullable = false)
     private Kitchen kitchen;

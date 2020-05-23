@@ -26,7 +26,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 public class Kitchen implements Serializable {
 
-    @NotNull(groups = Groups.RestaurantResgister.class)
+    @NotNull(groups = Groups.KitchenId.class)
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = IDENTITY)
