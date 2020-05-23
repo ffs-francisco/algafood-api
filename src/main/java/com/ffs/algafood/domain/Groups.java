@@ -8,4 +8,7 @@ public class Groups {
 
     public interface KitchenId {
     }
+
+    public interface StateId {
+    }
 }

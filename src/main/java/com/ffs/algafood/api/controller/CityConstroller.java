@@ -5,6 +5,7 @@ import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.model.City;
 import com.ffs.algafood.domain.service.CityService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,7 +45,7 @@ public class CityConstroller {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public City add(@RequestBody final City city) {
+    public City add(@RequestBody @Valid final City city) {
         try {
             return cityService.save(city);
         } catch (StateNotFoundException e) {
@@ -54,7 +55,7 @@ public class CityConstroller {
 
     @PutMapping("/{cityId}")
     @ResponseStatus(OK)
-    public City update(@PathVariable final Long cityId, @RequestBody City city) {
+    public City update(@PathVariable final Long cityId, @RequestBody @Valid City city) {
         final var citySaved = cityService.findById(cityId);
 
         try {
