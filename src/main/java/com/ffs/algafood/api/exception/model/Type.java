@@ -1,4 +1,4 @@
-package com.ffs.algafood.api.exception;
+package com.ffs.algafood.api.exception.model;
 
 import lombok.Getter;
 
@@ -7,7 +7,7 @@ import lombok.Getter;
  * @author francisco
  */
 @Getter
-public enum ApiExceptionType {
+public enum Type {
 
     INVALID_DATA("/invalid-data", "Invalid Data"),
     INVALID_PARAMETER("/invalid-path-parameter", "Invalid Path Parameter."),
@@ -20,7 +20,7 @@ public enum ApiExceptionType {
     private final String uri;
     private final String title;
 
-    private ApiExceptionType(String uri, String title) {
+    private Type(String uri, String title) {
         this.uri = "https://algafood.com.br" + uri;
         this.title = title;
     }

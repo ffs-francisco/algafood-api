@@ -3,9 +3,14 @@ package com.ffs.algafood.api.exception;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import com.ffs.algafood.api.exception.model.ApiException;
+import com.ffs.algafood.api.exception.model.Field;
+import com.ffs.algafood.api.exception.model.Type;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityInUseException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
@@ -21,7 +26,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import static com.ffs.algafood.api.exception.ApiExceptionType.*;
+import static com.ffs.algafood.api.exception.model.Type.*;
 import static org.springframework.http.HttpStatus.*;
 
 /**
@@ -105,16 +110,26 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         final var detail = "One or more fields are invalid. Do it the correct fill and try again.";
+        var problemFields = ex.getBindingResult().getFieldErrors().stream().
+                map(fieldError -> Field.builder()
+                    .name(fieldError.getField())
+                    .userMessage(fieldError.getDefaultMessage())
+                    .build())
+                .collect(Collectors.toList());
 
-        return this.buildHandlerException(ex, detail, detail, INVALID_DATA, headers, status, request);
+        return this.buildHandlerException(ex, detail, detail, problemFields, INVALID_DATA, headers, status, request);
     }
 
-    private ResponseEntity<Object> buildHandlerException(Exception ex, String detail, String message, ApiExceptionType type, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        final var apiException = new ApiException(detail, message, type, status, request);
+    private ResponseEntity<Object> buildHandlerException(Exception ex, String detail, String message, List<Field> fields, Type type, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        final var apiException = new ApiException(detail, message, fields, type, status, request);
         return this.handleExceptionInternal(ex, apiException, headers, status, request);
     }
 
-    private ResponseEntity<Object> buildHandlerException(Exception ex, String detail, String message, ApiExceptionType type, HttpStatus status, WebRequest request) {
+    private ResponseEntity<Object> buildHandlerException(Exception ex, String detail, String message, Type type, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return this.buildHandlerException(ex, detail, message, new ArrayList<>(), type, headers, status, request);
+    }
+
+    private ResponseEntity<Object> buildHandlerException(Exception ex, String detail, String message, Type type, HttpStatus status, WebRequest request) {
         return this.buildHandlerException(ex, detail, message, type, new HttpHeaders(), status, request);
     }
 
