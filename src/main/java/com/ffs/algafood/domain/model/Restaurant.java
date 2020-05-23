@@ -1,6 +1,7 @@
 package com.ffs.algafood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ffs.algafood.domain.Groups;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -41,18 +42,18 @@ public class Restaurant implements Serializable {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(groups = Groups.RestaurantResgister.class)
     @Column(nullable = false)
     private String name;
 
-    @PositiveOrZero
+    @PositiveOrZero(groups = Groups.RestaurantResgister.class)
     @Column(name = "shipping_fee", nullable = false)
     private BigDecimal shippingFee;
 
     @JsonIgnore
     @Embedded
     private Address address;
-    
+
     @Valid
     @NotNull
     @ManyToOne

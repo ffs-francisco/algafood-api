@@ -3,6 +3,7 @@ package com.ffs.algafood.api.controller;
 import com.ffs.algafood.domain.model.Kitchen;
 import com.ffs.algafood.domain.service.KitchenService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,7 +45,7 @@ public class KitchenController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Kitchen add(@RequestBody Kitchen kitchen) {
+    public Kitchen add(@RequestBody @Valid final Kitchen kitchen) {
         return this.kitchenService.save(kitchen);
     }
 

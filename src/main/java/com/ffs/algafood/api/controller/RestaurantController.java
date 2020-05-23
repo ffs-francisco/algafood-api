@@ -1,6 +1,7 @@
 package com.ffs.algafood.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ffs.algafood.domain.Groups;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.Restaurant;
@@ -9,13 +10,13 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,7 +57,7 @@ public class RestaurantController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Restaurant add(@RequestBody @Valid final Restaurant restaurant) {
+    public Restaurant add(@RequestBody @Validated(Groups.RestaurantResgister.class) final Restaurant restaurant) {
         try {
             return restaurantService.save(restaurant);
         } catch (EntityNotFoundException e) {
