@@ -51,7 +51,7 @@ public class KitchenController {
 
     @PutMapping("/{kitchenId}")
     @ResponseStatus(OK)
-    public Kitchen update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchenParam) {
+    public Kitchen update(@PathVariable final Long kitchenId, @RequestBody @Valid final Kitchen kitchenParam) {
         var kitchen = this.kitchenService.findById(kitchenId);
 
         BeanUtils.copyProperties(kitchenParam, kitchen, "id");

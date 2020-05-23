@@ -66,7 +66,7 @@ public class RestaurantController {
 
     @PutMapping("/{restaurantId}")
     @ResponseStatus(OK)
-    public Restaurant update(@PathVariable final Long restaurantId, @RequestBody final Restaurant restaurant) {
+    public Restaurant update(@PathVariable final Long restaurantId, @RequestBody @Valid final Restaurant restaurant) {
         var restaurantSaved = restaurantService.findById(restaurantId);
 
         try {
