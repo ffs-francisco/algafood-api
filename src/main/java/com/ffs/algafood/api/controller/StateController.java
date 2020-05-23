@@ -3,6 +3,7 @@ package com.ffs.algafood.api.controller;
 import com.ffs.algafood.domain.model.State;
 import com.ffs.algafood.domain.service.StateService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,13 +43,13 @@ public class StateController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public State add(@RequestBody final State state) {
+    public State add(@RequestBody @Valid final State state) {
         return stateService.save(state);
     }
 
     @PutMapping("/{stateId}")
     @ResponseStatus(OK)
-    public State update(@PathVariable final Long stateId, @RequestBody final State state) {
+    public State update(@PathVariable final Long stateId, @RequestBody @Valid final State state) {
         final var stateSaved = stateService.findById(stateId);
 
         BeanUtils.copyProperties(state, stateSaved, "id");
