@@ -2,7 +2,7 @@ package com.ffs.algafood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ffs.algafood.core.validation.Groups;
-import com.ffs.algafood.core.validation.annotation.Multiple;
+import com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import lombok.Data;
@@ -34,6 +35,11 @@ import static javax.persistence.GenerationType.IDENTITY;
  *
  * @author francisco
  */
+@ZeroValueIncludeDescription(
+        fieldValue = "shippingFee",
+        fieldDescription = "name",
+        requiredDescription = "Frete Grátis"
+)
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -48,7 +54,7 @@ public class Restaurant implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @Multiple(number = 5)
+    @PositiveOrZero
     @Column(name = "shipping_fee", nullable = false)
     private BigDecimal shippingFee;
 
