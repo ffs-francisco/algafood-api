@@ -2,7 +2,7 @@ package com.ffs.algafood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ffs.algafood.core.validation.Groups;
-import com.ffs.algafood.core.validation.annotation.ShippingFee;
+import com.ffs.algafood.core.validation.annotation.Multiple;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -48,7 +48,7 @@ public class Restaurant implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @ShippingFee
+    @Multiple(number = 5)
     @Column(name = "shipping_fee", nullable = false)
     private BigDecimal shippingFee;
 
