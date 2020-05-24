@@ -1,7 +1,7 @@
 package com.ffs.algafood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ffs.algafood.domain.Groups;
+import com.ffs.algafood.core.validation.Groups;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

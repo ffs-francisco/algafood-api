@@ -1,4 +1,4 @@
-package com.ffs.algafood.domain;
+package com.ffs.algafood.core.validation;
 
 /**
  *
