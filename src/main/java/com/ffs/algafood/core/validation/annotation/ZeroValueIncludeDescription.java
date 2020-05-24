@@ -18,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = {ZeroValueIncludeDescriptionValidator.class})
 public @interface ZeroValueIncludeDescription {
 
-    String message() default "{api.validation.constraints.ZeroValueIncludeDescription.message}";
+    String message() default "{ZeroValueIncludeDescription}";
 
     Class<?>[] groups() default {};
 

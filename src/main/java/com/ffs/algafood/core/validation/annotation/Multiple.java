@@ -18,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = {MultiploValidator.class})
 public @interface Multiple {
 
-    String message() default "{api.validation.constraints.Multuple.message}";
+    String message() default "{Multiple}";
 
     Class<?>[] groups() default {};
 

@@ -20,19 +20,19 @@ public class ApiException {
     private final String detail;
 
     private final String userMessage;
-    private final List<Field> fields;
+    private final List<ObjectError> objects;
 
     private final String path;
     private final String type;
 
-    public ApiException(String detail, String userMessage, List<Field> fields, Type type, HttpStatus status, WebRequest request) {
+    public ApiException(String detail, String userMessage, List<ObjectError> errors, Type type, HttpStatus status, WebRequest request) {
         this.timestamp = LocalDateTime.now();
         this.status = status.value();
         this.title = (type == null) ? status.getReasonPhrase() : type.getTitle();
         this.detail = detail;
 
         this.userMessage = userMessage;
-        this.fields = (fields == null) ? new ArrayList<>() : fields;
+        this.objects = (errors == null) ? new ArrayList<>() : errors;
 
         this.type = (type == null) ? "" : type.getUri();
         this.path = request.getDescription(false).substring(4);

@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 @Getter
 @Builder
-public class Field {
+public class ObjectError {
 
     private final String name;
     private final String userMessage;

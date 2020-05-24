@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.ffs.algafood.api.exception.model.ApiException;
-import com.ffs.algafood.api.exception.model.Field;
+import com.ffs.algafood.api.exception.model.ObjectError;
 import com.ffs.algafood.api.exception.model.Type;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityInUseException;
@@ -20,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -117,12 +118,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         final var detail = messageSource.getMessage("method-argument-not-valid", null, request.getLocale());
-        final var problemFields = ex.getBindingResult().getFieldErrors().stream().
-                map(fieldError -> {
-                    final var message = messageSource.getMessage(fieldError, request.getLocale());
-                    return Field.builder()
-                            .name(fieldError.getField())
-                            .userMessage(message)
+        final var problemFields = ex.getBindingResult().getAllErrors().stream().
+                map(objectError -> {
+                    final var errorMessage = messageSource.getMessage(objectError, request.getLocale());
+                    var errorName = objectError.getObjectName();
+                    if (objectError instanceof FieldError) {
+                        errorName = ((FieldError) objectError).getField();
+                    }
+
+                    return ObjectError.builder()
+                            .name(errorName)
+                            .userMessage(errorMessage)
                             .build();
                 })
                 .collect(Collectors.toList());
@@ -130,7 +136,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return this.buildHandlerException(ex, detail, detail, problemFields, INVALID_DATA, headers, status, request);
     }
 
-    private ResponseEntity<Object> buildHandlerException(Exception ex, String detail, String message, List<Field> fields, Type type, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    private ResponseEntity<Object> buildHandlerException(Exception ex, String detail, String message, List<ObjectError> fields, Type type, HttpHeaders headers, HttpStatus status, WebRequest request) {
         final var apiException = new ApiException(detail, message, fields, type, status, request);
         return this.handleExceptionInternal(ex, apiException, headers, status, request);
     }

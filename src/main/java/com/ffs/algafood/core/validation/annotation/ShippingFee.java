@@ -21,7 +21,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface ShippingFee {
 
     @OverridesAttribute(constraint = PositiveOrZero.class, name = "message")
-    String message() default "{api.validation.constraints.ShippingFee.message}";
+    String message() default "{ShippingFee}";
 
     Class<?>[] groups() default {};
 
