@@ -27,7 +27,7 @@ public class StateService {
 
     public State findById(final Long stateId) throws EntityNotFoundException {
         return stateRepository.findById(stateId)
-                .orElseThrow(() -> new StateNotFoundException(stateId));
+                .orElseThrow(() -> new StateNotFoundException("id", stateId));
     }
 
     public State save(final State state) {
@@ -38,7 +38,7 @@ public class StateService {
         try {
             stateRepository.deleteById(stateId);
         } catch (EmptyResultDataAccessException e) {
-            throw new StateNotFoundException(stateId);
+            throw new StateNotFoundException("id", stateId);
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(stateId, State.class);
         }

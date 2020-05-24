@@ -9,11 +9,7 @@ import com.ffs.algafood.domain.model.City;
  */
 public class CityNotFoundException extends EntityNotFoundException {
 
-    public CityNotFoundException(String reason) {
-        super(reason);
-    }
-
-    public CityNotFoundException(Long cityId) {
-        super(cityId, City.class);
+    public CityNotFoundException(String fieldName, Object value) {
+        super(City.class, fieldName, value);
     }
 }

@@ -9,11 +9,7 @@ import com.ffs.algafood.domain.model.Restaurant;
  */
 public class RestaurantNotFoundException extends EntityNotFoundException {
 
-    public RestaurantNotFoundException(String reason) {
-        super(reason);
-    }
-
-    public RestaurantNotFoundException(Long restaurantId) {
-        super(restaurantId, Restaurant.class);
+    public RestaurantNotFoundException(String fieldName, Object value) {
+        super(Restaurant.class, fieldName, value);
     }
 }

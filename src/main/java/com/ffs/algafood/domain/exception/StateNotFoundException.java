@@ -9,11 +9,7 @@ import com.ffs.algafood.domain.model.State;
  */
 public class StateNotFoundException extends EntityNotFoundException {
 
-    public StateNotFoundException(String reason) {
-        super(reason);
-    }
-
-    public StateNotFoundException(Long stateId) {
-        super(stateId, State.class);
+    public StateNotFoundException(String fieldName, Object value) {
+        super(State.class, fieldName, value);
     }
 }

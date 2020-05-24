@@ -30,7 +30,7 @@ public class CityService {
 
     public City findById(Long cityId) throws CityNotFoundException {
         return cityRepository.findById(cityId)
-                .orElseThrow(() -> new CityNotFoundException(cityId));
+                .orElseThrow(() -> new CityNotFoundException("id", cityId));
     }
 
     public City save(final City city) throws StateNotFoundException {
@@ -44,7 +44,7 @@ public class CityService {
         try {
             cityRepository.deleteById(cityId);
         } catch (EmptyResultDataAccessException ex) {
-            throw new CityNotFoundException(cityId);
+            throw new CityNotFoundException("id", cityId);
         } catch (DataIntegrityViolationException ex) {
             throw new EntityInUseException(cityId, City.class);
         }

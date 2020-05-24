@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,18 +38,20 @@ import static org.springframework.http.HttpStatus.*;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private final String MSG_USER_GENERIC_ERROR
-            = "An unexpected internal system error has occurred. Try again and if the problem persists, contact your system administrator.";
+    @Autowired
+    private MessageSource messageSource;
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleUncaught(Exception ex, WebRequest request) {
+        final var message = messageSource.getMessage("default", null, request.getLocale());
+
         /**
          * Print the Stack Trace on the console while a logginf mechaninsm is
          * not implemented.
          */
         ex.printStackTrace();
 
-        return this.buildHandlerException(ex, this.MSG_USER_GENERIC_ERROR, this.MSG_USER_GENERIC_ERROR, INTERNAL_SYSTEM_ERROR, INTERNAL_SERVER_ERROR, request);
+        return this.buildHandlerException(ex, message, message, INTERNAL_SYSTEM_ERROR, INTERNAL_SERVER_ERROR, request);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
@@ -67,10 +71,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        final var message = messageSource.getMessage("default", null, request.getLocale());
+
         if (body == null) {
-            body = new ApiException(this.MSG_USER_GENERIC_ERROR, status, request);
+            body = new ApiException(message, status, request);
         } else if (body instanceof String) {
-            body = new ApiException((String) body, this.MSG_USER_GENERIC_ERROR, status, request);
+            body = new ApiException((String) body, message, status, request);
         }
 
         return super.handleExceptionInternal(ex, body, headers, status, request);
@@ -87,34 +93,38 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        var detail = "The request body is invalid. Verify syntax errors.";
+        final var message = messageSource.getMessage("default", null, request.getLocale());
+        var detail = messageSource.getMessage("http-message-not-readable", null, request.getLocale());
 
         Throwable rootCause = ExceptionUtils.getRootCause(ex);
         if (rootCause instanceof InvalidFormatException) {
-            detail = this.detailInvalidFormat((InvalidFormatException) rootCause);
+            detail = this.detailInvalidFormat((InvalidFormatException) rootCause, request);
         } else if (rootCause instanceof PropertyBindingException) {
-            detail = this.detailPropertyBinding((PropertyBindingException) rootCause);
+            detail = this.detailPropertyBinding((PropertyBindingException) rootCause, request);
         }
 
-        return this.buildHandlerException(ex, detail, this.MSG_USER_GENERIC_ERROR, INCOMPREHENSIBLE_MESSAGE, headers, status, request);
+        return this.buildHandlerException(ex, detail, message, INCOMPREHENSIBLE_MESSAGE, headers, status, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        final var detail = String.format("The resource '%s' requested, does not exist.",
-                ex.getRequestURL());
+        final var args = new Object[]{ex.getRequestURL()};
+        final var detail = messageSource.getMessage("no-handler-found", args, request.getLocale());
 
         return this.buildHandlerException(ex, detail, detail, RESOURCE_NOT_FOUND, headers, status, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        final var detail = "One or more fields are invalid. Do it the correct fill and try again.";
-        var problemFields = ex.getBindingResult().getFieldErrors().stream().
-                map(fieldError -> Field.builder()
-                    .name(fieldError.getField())
-                    .userMessage(fieldError.getDefaultMessage())
-                    .build())
+        final var detail = messageSource.getMessage("method-argument-not-valid", null, request.getLocale());
+        final var problemFields = ex.getBindingResult().getFieldErrors().stream().
+                map(fieldError -> {
+                    final var message = messageSource.getMessage(fieldError, request.getLocale());
+                    return Field.builder()
+                            .name(fieldError.getField())
+                            .userMessage(message)
+                            .build();
+                })
                 .collect(Collectors.toList());
 
         return this.buildHandlerException(ex, detail, detail, problemFields, INVALID_DATA, headers, status, request);
@@ -134,20 +144,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, HttpHeaders headers, WebRequest request) {
-        final var detail = String.format("The URL parameter '%s' received a value of '%s', which is of type invalid. Enter a '%s' type value.",
-                ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
+        final var args = new Object[]{ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()};
+        final var detail = messageSource.getMessage("method-argument-type-mismatch", args, request.getLocale());
+        final var message = messageSource.getMessage("default", null, request.getLocale());
 
-        return this.buildHandlerException(ex, detail, this.MSG_USER_GENERIC_ERROR, INVALID_PARAMETER, headers, BAD_REQUEST, request);
+        return this.buildHandlerException(ex, detail, message, INVALID_PARAMETER, headers, BAD_REQUEST, request);
     }
 
-    private String detailInvalidFormat(InvalidFormatException ex) {
-        return String.format("The property '%s' received a value of '%s', which is of type invalid. Enter a '%s' type value.",
-                this.joinPath(ex), ex.getValue(), ex.getTargetType().getSimpleName());
+    private String detailInvalidFormat(InvalidFormatException ex, WebRequest request) {
+        final var args = new Object[]{this.joinPath(ex), ex.getValue(), ex.getTargetType().getSimpleName()};
+        return messageSource.getMessage("invalid-format", args, request.getLocale());
     }
 
-    private String detailPropertyBinding(PropertyBindingException ex) {
-        return String.format("The property '%s' not exist. Correct or remove it and try again.",
-                this.joinPath(ex));
+    private String detailPropertyBinding(PropertyBindingException ex, WebRequest request) {
+        final var args = new Object[]{this.joinPath(ex)};
+        return messageSource.getMessage("property-binding", args, request.getLocale());
     }
 
     private String joinPath(MismatchedInputException ex) {

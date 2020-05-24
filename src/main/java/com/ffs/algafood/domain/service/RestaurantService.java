@@ -28,7 +28,7 @@ public class RestaurantService {
 
     public Restaurant findById(Long restaurantId) throws RestaurantNotFoundException {
         return restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+                .orElseThrow(() -> new RestaurantNotFoundException("id", restaurantId));
     }
 
     @Transactional

@@ -22,7 +22,7 @@ public class KitchenService {
 
     public Kitchen findById(final Long kitchenId) throws KitchenNotFoundException {
         return kitchenRepository.findById(kitchenId)
-                .orElseThrow(() -> new KitchenNotFoundException(kitchenId));
+                .orElseThrow(() -> new KitchenNotFoundException("id", kitchenId));
     }
 
     public List<Kitchen> findAll() {
@@ -37,7 +37,7 @@ public class KitchenService {
         try {
             kitchenRepository.deleteById(kitchenId);
         } catch (EmptyResultDataAccessException ex) {
-            throw new KitchenNotFoundException(kitchenId);
+            throw new KitchenNotFoundException("id", kitchenId);
         } catch (DataIntegrityViolationException ex) {
             throw new EntityInUseException(kitchenId, Kitchen.class);
         }
