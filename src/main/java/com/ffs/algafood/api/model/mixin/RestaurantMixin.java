@@ -7,7 +7,7 @@ import com.ffs.algafood.domain.model.FormPayment;
 import com.ffs.algafood.domain.model.Kitchen;
 import com.ffs.algafood.domain.model.Product;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -35,8 +35,8 @@ public abstract class RestaurantMixin {
     private List<FormPayment> formPayments;
 
     @JsonIgnore
-    private LocalDateTime dateRegister;
+    private OffsetDateTime dateRegister;
 
     @JsonIgnore
-    private LocalDateTime dateUpdate;
+    private OffsetDateTime dateUpdate;
 }

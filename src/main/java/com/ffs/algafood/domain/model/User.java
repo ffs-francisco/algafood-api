@@ -2,7 +2,7 @@ package com.ffs.algafood.domain.model;
 
 import java.io.Serializable;
 import javax.persistence.Column;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,5 +46,5 @@ public class User implements Serializable {
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
-    private LocalDateTime dateRegister;
+    private OffsetDateTime dateRegister;
 }

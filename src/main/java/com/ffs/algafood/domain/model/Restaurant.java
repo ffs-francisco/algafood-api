@@ -5,7 +5,7 @@ import com.ffs.algafood.core.validation.annotation.Multiple;
 import com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -80,9 +80,9 @@ public class Restaurant implements Serializable {
 
     @CreationTimestamp
     @Column(nullable = false)
-    private LocalDateTime dateRegister;
+    private OffsetDateTime dateRegister;
 
     @UpdateTimestamp
     @Column(nullable = false)
-    private LocalDateTime dateUpdate;
+    private OffsetDateTime dateUpdate;
 }

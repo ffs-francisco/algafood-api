@@ -1,6 +1,6 @@
 package com.ffs.algafood.api.exception.model;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 @Getter
 public class ApiException {
 
-    private final LocalDateTime timestamp;
+    private final OffsetDateTime timestamp;
     private final Integer status;
     private final String title;
     private final String detail;
@@ -26,7 +26,7 @@ public class ApiException {
     private final String type;
 
     public ApiException(String detail, String userMessage, List<ObjectError> errors, Type type, HttpStatus status, WebRequest request) {
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = OffsetDateTime.now();
         this.status = status.value();
         this.title = (type == null) ? status.getReasonPhrase() : type.getTitle();
         this.detail = detail;

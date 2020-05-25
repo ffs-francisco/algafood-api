@@ -6,7 +6,7 @@ import com.ffs.algafood.domain.model.Restaurant;
 import com.ffs.algafood.domain.model.User;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Embedded;
@@ -49,10 +49,10 @@ public class Order implements Serializable {
     private Address addressDelivery;
 
     @CreationTimestamp
-    private LocalDateTime dateRegister;
-    private LocalDateTime dateConfirmation;
-    private LocalDateTime dateCancellation;
-    private LocalDateTime dateDelivery;
+    private OffsetDateTime dateRegister;
+    private OffsetDateTime dateConfirmation;
+    private OffsetDateTime dateCancellation;
+    private OffsetDateTime dateDelivery;
 
     @ManyToOne
     @JoinColumn(nullable = false)
