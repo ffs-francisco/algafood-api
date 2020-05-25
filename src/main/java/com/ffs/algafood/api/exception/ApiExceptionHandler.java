@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 import com.ffs.algafood.api.exception.model.ApiException;
 import com.ffs.algafood.api.exception.model.ObjectError;
 import com.ffs.algafood.api.exception.model.Type;
+import com.ffs.algafood.core.validation.ValidationException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityInUseException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
@@ -16,10 +17,12 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -70,17 +73,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return this.buildHandlerException(ex, ex.getMessage(), ex.getMessage(), ERROR_BUSINESS, BAD_REQUEST, request);
     }
 
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<Object> handleValidationInternal(ValidationException ex, WebRequest request) {
+        return handlerArgumentNotValid(ex, ex.getBindingResult(), new HttpHeaders(), BAD_REQUEST, request);
+    }
+
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        final var message = messageSource.getMessage("default", null, request.getLocale());
-
-        if (body == null) {
-            body = new ApiException(message, status, request);
-        } else if (body instanceof String) {
-            body = new ApiException((String) body, message, status, request);
-        }
-
-        return super.handleExceptionInternal(ex, body, headers, status, request);
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return handlerArgumentNotValid(ex, ex.getBindingResult(), headers, status, request);
     }
 
     @Override
@@ -116,9 +116,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        final var message = messageSource.getMessage("default", null, request.getLocale());
+
+        if (body == null) {
+            body = new ApiException(message, status, request);
+        } else if (body instanceof String) {
+            body = new ApiException((String) body, message, status, request);
+        }
+
+        return super.handleExceptionInternal(ex, body, headers, status, request);
+    }
+
+    private ResponseEntity<Object> handlerArgumentNotValid(Exception ex, BindingResult bindingResult, HttpHeaders headers, HttpStatus status, WebRequest request) throws NoSuchMessageException {
         final var detail = messageSource.getMessage("method-argument-not-valid", null, request.getLocale());
-        final var problemFields = ex.getBindingResult().getAllErrors().stream().
+        final var problemObjects = bindingResult.getAllErrors().stream().
                 map(objectError -> {
                     final var errorMessage = messageSource.getMessage(objectError, request.getLocale());
                     var errorName = objectError.getObjectName();
@@ -133,7 +145,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 })
                 .collect(Collectors.toList());
 
-        return this.buildHandlerException(ex, detail, detail, problemFields, INVALID_DATA, headers, status, request);
+        return this.buildHandlerException(ex, detail, detail, problemObjects, INVALID_DATA, headers, status, request);
     }
 
     private ResponseEntity<Object> buildHandlerException(Exception ex, String detail, String message, List<ObjectError> fields, Type type, HttpHeaders headers, HttpStatus status, WebRequest request) {

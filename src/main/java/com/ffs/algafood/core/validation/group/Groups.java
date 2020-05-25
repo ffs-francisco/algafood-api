@@ -1,4 +1,4 @@
-package com.ffs.algafood.core.validation;
+package com.ffs.algafood.core.validation.group;
 
 /**
  *

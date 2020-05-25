@@ -1,6 +1,6 @@
 package com.ffs.algafood.domain.model;
 
-import com.ffs.algafood.core.validation.Groups;
+import com.ffs.algafood.core.validation.group.Groups;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;

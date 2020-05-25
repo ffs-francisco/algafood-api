@@ -1,6 +1,7 @@
 package com.ffs.algafood.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ffs.algafood.core.validation.ValidationException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.Restaurant;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +44,9 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
+
+    @Autowired
+    private SmartValidator smartValidator;
 
     @GetMapping
     @ResponseStatus(OK)
@@ -83,7 +89,8 @@ public class RestaurantController {
     public Restaurant update(@PathVariable final Long restaurantId, @RequestBody Map<String, Object> fields, HttpServletRequest request) {
         var restaurantSaved = restaurantService.findById(restaurantId);
 
-        merge(fields, restaurantSaved, request);
+        this.merge(fields, restaurantSaved, request);
+        this.validate(restaurantSaved, "restaurant");
         return this.update(restaurantId, restaurantSaved);
     }
 
@@ -107,6 +114,15 @@ public class RestaurantController {
             var servletRequest = new ServletServerHttpRequest(request);
 
             throw new HttpMessageNotReadableException(ex.getMessage(), rootCouse, servletRequest);
+        }
+    }
+
+    private void validate(Restaurant restaurant, String objectName) {
+        var bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
+
+        this.smartValidator.validate(restaurant, bindingResult);
+        if (bindingResult.hasErrors()) {
+            throw new ValidationException(bindingResult);
         }
     }
 }
