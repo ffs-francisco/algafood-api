@@ -1,6 +1,7 @@
 package com.ffs.algafood.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ffs.algafood.api.model.response.RestaurantResponse;
 import com.ffs.algafood.core.validation.ValidationException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
@@ -41,85 +42,85 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/restaurants")
 public class RestaurantController {
-
+    
     @Autowired
     private RestaurantService restaurantService;
-
+    
     @Autowired
     private SmartValidator smartValidator;
-
+    
     @GetMapping
     @ResponseStatus(OK)
-    public List<Restaurant> listAll() {
-        return restaurantService.findAll();
+    public List<RestaurantResponse> listAll() {
+        return RestaurantResponse.fromList(restaurantService.findAll());
     }
-
+    
     @GetMapping("/{restaurantId}")
     @ResponseStatus(OK)
-    public Restaurant getById(@PathVariable Long restaurantId) {
-        return restaurantService.findById(restaurantId);
+    public RestaurantResponse getById(@PathVariable Long restaurantId) {
+        return RestaurantResponse.from(restaurantService.findById(restaurantId));
     }
-
+    
     @PostMapping
     @ResponseStatus(CREATED)
-    public Restaurant add(@RequestBody @Valid final Restaurant restaurant) {
+    public RestaurantResponse add(@RequestBody @Valid final Restaurant restaurant) {
         try {
-            return restaurantService.save(restaurant);
+            return RestaurantResponse.from(restaurantService.save(restaurant));
         } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
-
+    
     @PutMapping("/{restaurantId}")
     @ResponseStatus(OK)
-    public Restaurant update(@PathVariable final Long restaurantId, @RequestBody @Valid final Restaurant restaurant) {
+    public RestaurantResponse update(@PathVariable final Long restaurantId, @RequestBody @Valid final Restaurant restaurant) {
         var restaurantSaved = restaurantService.findById(restaurantId);
-
+        
         try {
             BeanUtils.copyProperties(restaurant, restaurantSaved,
                     "id", "formPayments", "address", "dateRegister", "products");
-            return restaurantService.save(restaurantSaved);
+            return RestaurantResponse.from(restaurantService.save(restaurantSaved));
         } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
-
+    
     @PatchMapping("/{restaurantId}")
     @ResponseStatus(OK)
-    public Restaurant update(@PathVariable final Long restaurantId, @RequestBody Map<String, Object> fields, HttpServletRequest request) {
+    public RestaurantResponse update(@PathVariable final Long restaurantId, @RequestBody Map<String, Object> fields, HttpServletRequest request) {
         var restaurantSaved = restaurantService.findById(restaurantId);
-
+        
         this.merge(fields, restaurantSaved, request);
         this.validate(restaurantSaved, "restaurant");
         return this.update(restaurantId, restaurantSaved);
     }
-
+    
     private void merge(Map<String, Object> dataOrigin, Restaurant restaurantDestination, HttpServletRequest request) {
         try {
-
+            
             var objectMapper = new ObjectMapper();
             objectMapper.configure(FAIL_ON_IGNORED_PROPERTIES, true);
             objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, true);
-
+            
             Restaurant restaurantOrigin = objectMapper.convertValue(dataOrigin, Restaurant.class);
             dataOrigin.forEach((namePropertie, valPropertie) -> {
                 Field field = ReflectionUtils.findField(Restaurant.class, namePropertie);
                 field.setAccessible(true);
-
+                
                 Object newValue = ReflectionUtils.getField(field, restaurantOrigin);
                 ReflectionUtils.setField(field, restaurantDestination, newValue);
             });
         } catch (IllegalArgumentException ex) {
             var rootCouse = ExceptionUtils.getRootCause(ex);
             var servletRequest = new ServletServerHttpRequest(request);
-
+            
             throw new HttpMessageNotReadableException(ex.getMessage(), rootCouse, servletRequest);
         }
     }
-
+    
     private void validate(Restaurant restaurant, String objectName) {
         var bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
-
+        
         this.smartValidator.validate(restaurant, bindingResult);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult);
