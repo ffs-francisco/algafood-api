@@ -1,6 +1,5 @@
 package com.ffs.algafood.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ffs.algafood.core.validation.group.Groups;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,7 +35,6 @@ public class Kitchen implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "kitchen")
     private List<Restaurant> restaurants = new ArrayList<>();
 }

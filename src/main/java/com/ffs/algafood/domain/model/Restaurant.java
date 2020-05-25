@@ -1,7 +1,5 @@
 package com.ffs.algafood.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ffs.algafood.core.validation.group.Groups;
 import com.ffs.algafood.core.validation.annotation.Multiple;
 import com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
@@ -61,11 +59,9 @@ public class Restaurant implements Serializable {
     @Column(name = "shipping_fee", nullable = false)
     private BigDecimal shippingFee;
 
-    @JsonIgnore
     @Embedded
     private Address address;
 
-    @JsonIgnoreProperties(value = "name", allowGetters = true)
     @Valid
     @NotNull
     @ConvertGroup(from = Default.class, to = Groups.KitchenId.class)
@@ -73,23 +69,19 @@ public class Restaurant implements Serializable {
     @JoinColumn(name = "kitchen_id", nullable = false)
     private Kitchen kitchen;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "restaurant")
     private List<Product> products = new ArrayList<>();
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurant_form_payment",
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "form_payment_id"))
     private List<FormPayment> formPayments = new ArrayList<>();
 
-    @JsonIgnore
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime dateRegister;
 
-    @JsonIgnore
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime dateUpdate;
