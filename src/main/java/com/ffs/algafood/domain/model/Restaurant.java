@@ -1,6 +1,7 @@
 package com.ffs.algafood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ffs.algafood.core.validation.group.Groups;
 import com.ffs.algafood.core.validation.annotation.Multiple;
 import com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
@@ -64,6 +65,7 @@ public class Restaurant implements Serializable {
     @Embedded
     private Address address;
 
+    @JsonIgnoreProperties(value = "name", allowGetters = true)
     @Valid
     @NotNull
     @ConvertGroup(from = Default.class, to = Groups.KitchenId.class)
