@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -29,10 +30,12 @@ public class KitchenService {
         return kitchenRepository.findAll();
     }
 
+    @Transactional
     public Kitchen save(final Kitchen kitchen) {
         return kitchenRepository.save(kitchen);
     }
 
+    @Transactional
     public void deleteById(final Long kitchenId) throws EntityInUseException, KitchenNotFoundException {
         try {
             kitchenRepository.deleteById(kitchenId);

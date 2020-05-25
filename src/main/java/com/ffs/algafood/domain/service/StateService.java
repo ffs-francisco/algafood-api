@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -30,10 +31,12 @@ public class StateService {
                 .orElseThrow(() -> new StateNotFoundException("id", stateId));
     }
 
+    @Transactional
     public State save(final State state) {
         return stateRepository.save(state);
     }
 
+    @Transactional
     public void delete(final Long stateId) throws EntityInUseException, EntityNotFoundException {
         try {
             stateRepository.deleteById(stateId);

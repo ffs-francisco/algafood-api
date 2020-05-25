@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -33,6 +34,7 @@ public class CityService {
                 .orElseThrow(() -> new CityNotFoundException("id", cityId));
     }
 
+    @Transactional
     public City save(final City city) throws StateNotFoundException {
         final var state = stateService.findById(city.getState().getId());
 
@@ -40,6 +42,7 @@ public class CityService {
         return cityRepository.save(city);
     }
 
+    @Transactional
     public void delete(final Long cityId) throws EntityInUseException, CityNotFoundException {
         try {
             cityRepository.deleteById(cityId);
