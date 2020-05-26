@@ -5,29 +5,25 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+import org.modelmapper.ModelMapper;
 
 /**
  *
  * @author francisco
  */
 @Getter
-@Builder
+@Setter
 public class RestaurantResponse implements Serializable {
 
-    private final Long id;
-    private final String name;
-    private final BigDecimal shippingFee;
-    private final KitichenResponse kitichen;
+    private Long id;
+    private String name;
+    private BigDecimal shippingFee;
+    private KitchenResponse kitchen;
 
     public static RestaurantResponse from(final Restaurant restaurant) {
-        return RestaurantResponse.builder()
-                .id(restaurant.getId())
-                .name(restaurant.getName())
-                .shippingFee(restaurant.getShippingFee())
-                .kitichen(KitichenResponse.from(restaurant.getKitchen()))
-                .build();
+        return new ModelMapper().map(restaurant, RestaurantResponse.class);
     }
 
     public static List<RestaurantResponse> fromList(final List<Restaurant> restaurants) {

@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
+import org.modelmapper.ModelMapper;
 
 /**
  *
@@ -36,11 +37,6 @@ public class RestaurantRequest {
     private KitchenIdRequest kitchen;
 
     public Restaurant toModel() {
-        var restaurant = new Restaurant();
-        restaurant.setName(this.name);
-        restaurant.setShippingFee(this.shippingFee);
-        restaurant.setKitchen(this.kitchen.toModel());
-
-        return restaurant;
+        return new ModelMapper().map(this, Restaurant.class);
     }
 }

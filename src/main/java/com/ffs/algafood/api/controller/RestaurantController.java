@@ -1,13 +1,11 @@
 package com.ffs.algafood.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ffs.algafood.api.model.request.KitchenIdRequest;
 import com.ffs.algafood.api.model.request.RestaurantRequest;
 import com.ffs.algafood.api.model.response.RestaurantResponse;
 import com.ffs.algafood.core.validation.ValidationException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
-import com.ffs.algafood.domain.model.Restaurant;
 import com.ffs.algafood.domain.service.RestaurantService;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -15,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -90,23 +89,12 @@ public class RestaurantController {
     @PatchMapping("/{restaurantId}")
     @ResponseStatus(OK)
     public RestaurantResponse update(@PathVariable final Long restaurantId, @RequestBody Map<String, Object> fieldsRequest, HttpServletRequest request) {
-        var restaurantRequestSaved = this.toRequestModel(restaurantService.findById(restaurantId));
+        var restaurantRequestSaved = new ModelMapper()
+                .map(restaurantService.findById(restaurantId), RestaurantRequest.class);
 
         this.merge(fieldsRequest, restaurantRequestSaved, request);
         this.validate(restaurantRequestSaved, "restaurant");
         return this.update(restaurantId, restaurantRequestSaved);
-    }
-
-    private RestaurantRequest toRequestModel(final Restaurant restaurant) {
-        var kitchenRequest = new KitchenIdRequest();
-        kitchenRequest.setId(restaurant.getKitchen().getId());
-
-        var restaurantRequest = new RestaurantRequest();
-        restaurantRequest.setName(restaurant.getName());
-        restaurantRequest.setShippingFee(restaurant.getShippingFee());
-        restaurantRequest.setKitchen(kitchenRequest);
-
-        return restaurantRequest;
     }
 
     private void merge(Map<String, Object> dataOrigin, Object dataDestination, HttpServletRequest request) throws HttpMessageNotReadableException {
