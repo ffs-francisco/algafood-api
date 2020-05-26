@@ -1,6 +1,8 @@
 package com.ffs.algafood.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ffs.algafood.api.model.request.KitchenIdRequest;
+import com.ffs.algafood.api.model.request.RestaurantRequest;
 import com.ffs.algafood.api.model.response.RestaurantResponse;
 import com.ffs.algafood.core.validation.ValidationException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
@@ -42,85 +44,96 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/restaurants")
 public class RestaurantController {
-    
+
     @Autowired
     private RestaurantService restaurantService;
-    
+
     @Autowired
     private SmartValidator smartValidator;
-    
+
     @GetMapping
     @ResponseStatus(OK)
     public List<RestaurantResponse> listAll() {
         return RestaurantResponse.fromList(restaurantService.findAll());
     }
-    
+
     @GetMapping("/{restaurantId}")
     @ResponseStatus(OK)
     public RestaurantResponse getById(@PathVariable Long restaurantId) {
         return RestaurantResponse.from(restaurantService.findById(restaurantId));
     }
-    
+
     @PostMapping
     @ResponseStatus(CREATED)
-    public RestaurantResponse add(@RequestBody @Valid final Restaurant restaurant) {
+    public RestaurantResponse add(@RequestBody @Valid final RestaurantRequest restaurant) {
         try {
-            return RestaurantResponse.from(restaurantService.save(restaurant));
+            return RestaurantResponse.from(restaurantService.save(restaurant.toModel()));
         } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
-    
+
     @PutMapping("/{restaurantId}")
     @ResponseStatus(OK)
-    public RestaurantResponse update(@PathVariable final Long restaurantId, @RequestBody @Valid final Restaurant restaurant) {
+    public RestaurantResponse update(@PathVariable final Long restaurantId, @RequestBody @Valid final RestaurantRequest restaurant) {
         var restaurantSaved = restaurantService.findById(restaurantId);
-        
+
         try {
-            BeanUtils.copyProperties(restaurant, restaurantSaved,
+            BeanUtils.copyProperties(restaurant.toModel(), restaurantSaved,
                     "id", "formPayments", "address", "dateRegister", "products");
             return RestaurantResponse.from(restaurantService.save(restaurantSaved));
         } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
-    
+
     @PatchMapping("/{restaurantId}")
     @ResponseStatus(OK)
-    public RestaurantResponse update(@PathVariable final Long restaurantId, @RequestBody Map<String, Object> fields, HttpServletRequest request) {
-        var restaurantSaved = restaurantService.findById(restaurantId);
-        
-        this.merge(fields, restaurantSaved, request);
-        this.validate(restaurantSaved, "restaurant");
-        return this.update(restaurantId, restaurantSaved);
+    public RestaurantResponse update(@PathVariable final Long restaurantId, @RequestBody Map<String, Object> fieldsRequest, HttpServletRequest request) {
+        var restaurantRequestSaved = this.toRequestModel(restaurantService.findById(restaurantId));
+
+        this.merge(fieldsRequest, restaurantRequestSaved, request);
+        this.validate(restaurantRequestSaved, "restaurant");
+        return this.update(restaurantId, restaurantRequestSaved);
     }
-    
-    private void merge(Map<String, Object> dataOrigin, Restaurant restaurantDestination, HttpServletRequest request) {
+
+    private RestaurantRequest toRequestModel(final Restaurant restaurant) {
+        var kitchenRequest = new KitchenIdRequest();
+        kitchenRequest.setId(restaurant.getKitchen().getId());
+
+        var restaurantRequest = new RestaurantRequest();
+        restaurantRequest.setName(restaurant.getName());
+        restaurantRequest.setShippingFee(restaurant.getShippingFee());
+        restaurantRequest.setKitchen(kitchenRequest);
+
+        return restaurantRequest;
+    }
+
+    private void merge(Map<String, Object> dataOrigin, Object dataDestination, HttpServletRequest request) throws HttpMessageNotReadableException {
         try {
-            
             var objectMapper = new ObjectMapper();
             objectMapper.configure(FAIL_ON_IGNORED_PROPERTIES, true);
             objectMapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, true);
-            
-            Restaurant restaurantOrigin = objectMapper.convertValue(dataOrigin, Restaurant.class);
+
+            var objectOrigin = objectMapper.convertValue(dataOrigin, dataDestination.getClass());
             dataOrigin.forEach((namePropertie, valPropertie) -> {
-                Field field = ReflectionUtils.findField(Restaurant.class, namePropertie);
+                Field field = ReflectionUtils.findField(dataDestination.getClass(), namePropertie);
                 field.setAccessible(true);
-                
-                Object newValue = ReflectionUtils.getField(field, restaurantOrigin);
-                ReflectionUtils.setField(field, restaurantDestination, newValue);
+
+                Object newValue = ReflectionUtils.getField(field, objectOrigin);
+                ReflectionUtils.setField(field, dataDestination, newValue);
             });
         } catch (IllegalArgumentException ex) {
             var rootCouse = ExceptionUtils.getRootCause(ex);
             var servletRequest = new ServletServerHttpRequest(request);
-            
+
             throw new HttpMessageNotReadableException(ex.getMessage(), rootCouse, servletRequest);
         }
     }
-    
-    private void validate(Restaurant restaurant, String objectName) {
+
+    private void validate(RestaurantRequest restaurant, String objectName) throws ValidationException {
         var bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
-        
+
         this.smartValidator.validate(restaurant, bindingResult);
         if (bindingResult.hasErrors()) {
             throw new ValidationException(bindingResult);
