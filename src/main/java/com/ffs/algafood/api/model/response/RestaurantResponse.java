@@ -19,11 +19,15 @@ public class RestaurantResponse implements Serializable {
 
     private Long id;
     private String name;
-    private BigDecimal shippingFee;
+    private BigDecimal priceFee;
     private KitchenResponse kitchen;
 
     public static RestaurantResponse from(final Restaurant restaurant) {
-        return new ModelMapper().map(restaurant, RestaurantResponse.class);
+        var modelMapper = new ModelMapper();
+        modelMapper.createTypeMap(Restaurant.class, RestaurantResponse.class)
+                .addMapping(Restaurant::getShippingFee, RestaurantResponse::setPriceFee);
+
+        return modelMapper.map(restaurant, RestaurantResponse.class);
     }
 
     public static List<RestaurantResponse> fromList(final List<Restaurant> restaurants) {
