@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -74,13 +73,12 @@ public class RestaurantController {
 
     @PutMapping("/{restaurantId}")
     @ResponseStatus(OK)
-    public RestaurantResponse update(@PathVariable final Long restaurantId, @RequestBody @Valid final RestaurantRequest restaurant) {
-        var restaurantSaved = restaurantService.findById(restaurantId);
+    public RestaurantResponse update(@PathVariable final Long restaurantId, @RequestBody @Valid final RestaurantRequest restaurantRequest) {
+        var restaurant = restaurantService.findById(restaurantId);
 
         try {
-            BeanUtils.copyProperties(restaurant.toModel(), restaurantSaved,
-                    "id", "formPayments", "address", "dateRegister", "products");
-            return RestaurantResponse.from(restaurantService.save(restaurantSaved));
+            restaurantRequest.copyPropertiesTo(restaurant);
+            return RestaurantResponse.from(restaurantService.save(restaurant));
         } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }

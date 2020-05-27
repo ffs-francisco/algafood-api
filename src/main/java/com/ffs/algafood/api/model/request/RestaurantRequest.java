@@ -2,6 +2,7 @@ package com.ffs.algafood.api.model.request;
 
 import com.ffs.algafood.core.validation.annotation.Multiple;
 import com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
+import com.ffs.algafood.domain.model.Kitchen;
 import com.ffs.algafood.domain.model.Restaurant;
 import java.math.BigDecimal;
 import javax.validation.Valid;
@@ -38,5 +39,16 @@ public class RestaurantRequest {
 
     public Restaurant toModel() {
         return new ModelMapper().map(this, Restaurant.class);
+    }
+
+    public void copyPropertiesTo(Restaurant restaurant) {
+        /**
+         * To avoid the Hibernate a exception when trying to change the entity ID.
+         * 
+         * org.hibernate.HibernateException: identifier of an instance of com.domain.Entity was altered from 1 to 2
+         */
+        restaurant.setKitchen(new Kitchen());
+
+        new ModelMapper().map(this, restaurant);
     }
 }
