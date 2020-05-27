@@ -46,6 +46,7 @@ public class CityService {
     public void delete(final Long cityId) throws EntityInUseException, CityNotFoundException {
         try {
             cityRepository.deleteById(cityId);
+            cityRepository.flush();
         } catch (EmptyResultDataAccessException ex) {
             throw new CityNotFoundException("id", cityId);
         } catch (DataIntegrityViolationException ex) {

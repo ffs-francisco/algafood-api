@@ -1,4 +1,4 @@
-package com.ffs.algafood.api.model.request;
+package com.ffs.algafood.api.model.request.restaurant;
 
 import com.ffs.algafood.core.validation.annotation.Multiple;
 import com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
@@ -43,9 +43,10 @@ public class RestaurantRequest {
 
     public void copyPropertiesTo(Restaurant restaurant) {
         /**
-         * To avoid the Hibernate a exception when trying to change the entity ID.
-         * 
-         * org.hibernate.HibernateException: identifier of an instance of com.domain.Entity was altered from 1 to 2
+         * To avoid the a exception when trying to change the entity ID.
+         *
+         * org.hibernate.HibernateException: identifier of an instance of
+         * com.domain.Entity was altered from 1 to 2
          */
         restaurant.setKitchen(new Kitchen());
 

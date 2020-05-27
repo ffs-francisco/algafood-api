@@ -40,6 +40,7 @@ public class StateService {
     public void delete(final Long stateId) throws EntityInUseException, EntityNotFoundException {
         try {
             stateRepository.deleteById(stateId);
+            stateRepository.flush();
         } catch (EmptyResultDataAccessException e) {
             throw new StateNotFoundException("id", stateId);
         } catch (DataIntegrityViolationException e) {

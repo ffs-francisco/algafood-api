@@ -1,10 +1,10 @@
 package com.ffs.algafood.api.controller;
 
-import com.ffs.algafood.domain.model.Kitchen;
+import com.ffs.algafood.api.model.request.kitchen.KitchenRequest;
+import com.ffs.algafood.api.model.response.kitchen.KitchenResponse;
 import com.ffs.algafood.domain.service.KitchenService;
 import java.util.List;
 import javax.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,29 +33,29 @@ public class KitchenController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<Kitchen> listAll() {
-        return this.kitchenService.findAll();
+    public List<KitchenResponse> listAll() {
+        return KitchenResponse.fromList(this.kitchenService.findAll());
     }
 
     @GetMapping("/{kitchenId}")
     @ResponseStatus(OK)
-    public Kitchen findById(@PathVariable Long kitchenId) {
-        return kitchenService.findById(kitchenId);
+    public KitchenResponse findById(@PathVariable Long kitchenId) {
+        return KitchenResponse.from(kitchenService.findById(kitchenId));
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Kitchen add(@RequestBody @Valid final Kitchen kitchen) {
-        return this.kitchenService.save(kitchen);
+    public KitchenResponse add(@RequestBody @Valid final KitchenRequest kitchen) {
+        return KitchenResponse.from(this.kitchenService.save(kitchen.toModel()));
     }
 
     @PutMapping("/{kitchenId}")
     @ResponseStatus(OK)
-    public Kitchen update(@PathVariable final Long kitchenId, @RequestBody @Valid final Kitchen kitchenParam) {
+    public KitchenResponse update(@PathVariable final Long kitchenId, @RequestBody @Valid final KitchenRequest kitchenRequest) {
         var kitchen = this.kitchenService.findById(kitchenId);
 
-        BeanUtils.copyProperties(kitchenParam, kitchen, "id");
-        return this.kitchenService.save(kitchen);
+        kitchenRequest.copyPropertiesTo(kitchen);
+        return KitchenResponse.from(this.kitchenService.save(kitchen));
     }
 
     @DeleteMapping("/{kitchenId}")

@@ -1,12 +1,12 @@
 package com.ffs.algafood.api.controller;
 
+import com.ffs.algafood.api.model.request.city.CityRequest;
+import com.ffs.algafood.api.model.response.city.CityResponse;
 import com.ffs.algafood.domain.exception.StateNotFoundException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
-import com.ffs.algafood.domain.model.City;
 import com.ffs.algafood.domain.service.CityService;
 import java.util.List;
 import javax.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,21 +33,21 @@ public class CityConstroller {
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<City> listAll() {
-        return cityService.findAll();
+    public List<CityResponse> listAll() {
+        return CityResponse.fromList(cityService.findAll());
     }
 
     @GetMapping("/{cityId}")
     @ResponseStatus(OK)
-    public City gitById(@PathVariable final Long cityId) {
-        return cityService.findById(cityId);
+    public CityResponse gitById(@PathVariable final Long cityId) {
+        return CityResponse.from(cityService.findById(cityId));
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public City add(@RequestBody @Valid final City city) {
+    public CityResponse add(@RequestBody @Valid final CityRequest cityRequest) {
         try {
-            return cityService.save(city);
+            return CityResponse.from(cityService.save(cityRequest.toModel()));
         } catch (StateNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -55,12 +55,12 @@ public class CityConstroller {
 
     @PutMapping("/{cityId}")
     @ResponseStatus(OK)
-    public City update(@PathVariable final Long cityId, @RequestBody @Valid City city) {
-        final var citySaved = cityService.findById(cityId);
+    public CityResponse update(@PathVariable final Long cityId, @RequestBody @Valid CityRequest cityRequest) {
+        final var city = cityService.findById(cityId);
 
         try {
-            BeanUtils.copyProperties(city, citySaved, "id");
-            return cityService.save(citySaved);
+            cityRequest.copyPropertiesTo(city);
+            return CityResponse.from(cityService.save(city));
         } catch (StateNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }

@@ -1,10 +1,11 @@
 package com.ffs.algafood.api.controller;
 
+import com.ffs.algafood.api.model.request.state.StateRequest;
+import com.ffs.algafood.api.model.response.state.StateResponse;
 import com.ffs.algafood.domain.model.State;
 import com.ffs.algafood.domain.service.StateService;
 import java.util.List;
 import javax.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,28 +32,28 @@ public class StateController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<State> listAll() {
-        return this.stateService.findAll();
+    public List<StateResponse> listAll() {
+        return StateResponse.fromList(this.stateService.findAll());
     }
 
     @GetMapping("/{stateId}")
     @ResponseStatus(OK)
-    public State getById(@PathVariable final Long stateId) {
-        return stateService.findById(stateId);
+    public StateResponse getById(@PathVariable final Long stateId) {
+        return StateResponse.from(stateService.findById(stateId));
     }
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public State add(@RequestBody @Valid final State state) {
-        return stateService.save(state);
+    public StateResponse add(@RequestBody @Valid final StateRequest stateRequest) {
+        return StateResponse.from(stateService.save(stateRequest.toModel()));
     }
 
     @PutMapping("/{stateId}")
     @ResponseStatus(OK)
-    public State update(@PathVariable final Long stateId, @RequestBody @Valid final State state) {
+    public State update(@PathVariable final Long stateId, @RequestBody @Valid final StateRequest stateRequest) {
         final var stateSaved = stateService.findById(stateId);
 
-        BeanUtils.copyProperties(state, stateSaved, "id");
+        stateRequest.copyPropertiesTo(stateSaved);
         return stateService.save(stateSaved);
     }
 

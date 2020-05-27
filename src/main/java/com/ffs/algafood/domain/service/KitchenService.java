@@ -39,6 +39,7 @@ public class KitchenService {
     public void deleteById(final Long kitchenId) throws EntityInUseException, KitchenNotFoundException {
         try {
             kitchenRepository.deleteById(kitchenId);
+            kitchenRepository.flush();
         } catch (EmptyResultDataAccessException ex) {
             throw new KitchenNotFoundException("id", kitchenId);
         } catch (DataIntegrityViolationException ex) {

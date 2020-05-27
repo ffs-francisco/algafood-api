@@ -1,5 +1,6 @@
-package com.ffs.algafood.api.model.response;
+package com.ffs.algafood.api.model.response.restaurant;
 
+import com.ffs.algafood.api.model.response.kitchen.KitchenResponse;
 import com.ffs.algafood.domain.model.Restaurant;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,15 +20,11 @@ public class RestaurantResponse implements Serializable {
 
     private Long id;
     private String name;
-    private BigDecimal priceFee;
+    private BigDecimal shippingFee;
     private KitchenResponse kitchen;
 
     public static RestaurantResponse from(final Restaurant restaurant) {
-        var modelMapper = new ModelMapper();
-        modelMapper.createTypeMap(Restaurant.class, RestaurantResponse.class)
-                .addMapping(Restaurant::getShippingFee, RestaurantResponse::setPriceFee);
-
-        return modelMapper.map(restaurant, RestaurantResponse.class);
+        return new ModelMapper().map(restaurant, RestaurantResponse.class);
     }
 
     public static List<RestaurantResponse> fromList(final List<Restaurant> restaurants) {
