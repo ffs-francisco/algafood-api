@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/fsilvafrancisco16/algafood-api.svg?branch=master)](https://travis-ci.com/fsilvafrancisco16/algafood-api)
+
 # API AlgaFood
 
  Projeto criado para o treinamento Especialista Spring REST na AlgaWorks
