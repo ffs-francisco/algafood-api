@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -83,5 +85,17 @@ public class RestaurantController {
         updateUtils.merge(fieldsRequest, restaurantRequestSaved, request);
         updateUtils.validate(restaurantRequestSaved, "restaurant");
         return this.update(restaurantId, restaurantRequestSaved);
+    }
+
+    @PutMapping("/{restaurantId}/active")
+    @ResponseStatus(NO_CONTENT)
+    public void active(@PathVariable final Long restaurantId) {
+        restaurantService.activate(restaurantId);
+    }
+
+    @DeleteMapping("/{restaurantId}/inactive")
+    @ResponseStatus(NO_CONTENT)
+    public void inactive(@PathVariable final Long restaurantId) {
+        restaurantService.inactivate(restaurantId);
     }
 }
