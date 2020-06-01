@@ -9,7 +9,6 @@ import java.util.TimeZone;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.util.SocketUtils;
@@ -20,9 +19,8 @@ import java.util.concurrent.TimeUnit;
 import static com.wix.mysql.config.Charset.UTF8;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public abstract class ApiApplicationContextTest {
+public abstract class ApplicationContextIntegrationTest extends ApplicationWebContextIntegrationTest {
 
     private static EmbeddedMysql embeddedMysql;
 
