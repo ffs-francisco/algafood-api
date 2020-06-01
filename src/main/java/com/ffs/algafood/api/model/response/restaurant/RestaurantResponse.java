@@ -21,6 +21,7 @@ public class RestaurantResponse implements Serializable {
     private Long id;
     private String name;
     private BigDecimal shippingFee;
+    private Boolean active;
     private KitchenResponse kitchen;
 
     public static RestaurantResponse from(final Restaurant restaurant) {

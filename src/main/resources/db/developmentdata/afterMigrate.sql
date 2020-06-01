@@ -42,12 +42,12 @@ INSERT INTO city (id, name, state_id) VALUES (3, 'São Paulo', 2);
 INSERT INTO city (id, name, state_id) VALUES (4, 'Campinas', 2);
 INSERT INTO city (id, name, state_id) VALUES (5, 'Fortaleza', 3);
 
-INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, date_register, date_update, address_city_id, address_cep, address_street, address_number, address_district) VALUES (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
-INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, date_register, date_update) VALUES (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp);
-INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, date_register, date_update) VALUES (3, 'Tuk Tuk Comida Indiana', 15, 2, utc_timestamp, utc_timestamp);
-INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, date_register, date_update) VALUES (4, 'Java Steakhouse', 12, 3, utc_timestamp, utc_timestamp);
-INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, date_register, date_update) VALUES (5, 'Lanchonete do Tio Sam', 11, 4, utc_timestamp, utc_timestamp);
-INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, date_register, date_update) VALUES (6, 'Bar da Maria', 6, 4, utc_timestamp, utc_timestamp);
+INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, date_register, date_update, address_city_id, address_cep, address_street, address_number, address_district) VALUES (1, 'Thai Gourmet', 10, 1, true, utc_timestamp, utc_timestamp, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
+INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, date_register, date_update) VALUES (2, 'Thai Delivery', 9.50, 1, true, utc_timestamp, utc_timestamp);
+INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, date_register, date_update) VALUES (3, 'Tuk Tuk Comida Indiana', 15, 2, true, utc_timestamp, utc_timestamp);
+INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, date_register, date_update) VALUES (4, 'Java Steakhouse', 12, 3, false, utc_timestamp, utc_timestamp);
+INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, date_register, date_update) VALUES (5, 'Lanchonete do Tio Sam', 11, 4, true, utc_timestamp, utc_timestamp);
+INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, date_register, date_update) VALUES (6, 'Bar da Maria', 6, 4, false, utc_timestamp, utc_timestamp);
 
 INSERT INTO form_payment (id, description) VALUES (1, 'Cartão de crédito');
 INSERT INTO form_payment (id, description) VALUES (2, 'Cartão de débito');

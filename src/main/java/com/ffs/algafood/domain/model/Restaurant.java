@@ -39,8 +39,10 @@ public class Restaurant implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "shipping_fee", nullable = false)
+    @Column(nullable = false)
     private BigDecimal shippingFee;
+
+    private Boolean active = true;
 
     @Embedded
     private Address address;
