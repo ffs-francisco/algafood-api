@@ -39,6 +39,7 @@ public class PaymentMethodService {
     public void delete(final Long paymentId) {
         try {
             paymentMethodRepository.deleteById(paymentId);
+            paymentMethodRepository.flush();
         } catch (EmptyResultDataAccessException ex) {
             throw new PaymentMethodNotFoundException("id", paymentId);
         } catch (DataIntegrityViolationException ex) {
