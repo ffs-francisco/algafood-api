@@ -19,6 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 public class FormPayment implements Serializable {
 
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
