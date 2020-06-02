@@ -25,7 +25,7 @@ public class KitchenResponse implements Serializable {
 
     public static List<KitchenResponse> fromList(List<Kitchen> kitchens) {
         return kitchens.stream()
-                .map(kitchen -> from(kitchen))
+                .map(KitchenResponse::from)
                 .collect(Collectors.toList());
     }
 }

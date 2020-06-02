@@ -25,7 +25,7 @@ import static org.springframework.http.HttpStatus.*;
  * @author francisco
  */
 @RestController
-@RequestMapping("/citys")
+@RequestMapping("/cities")
 public class CityConstroller {
 
     @Autowired

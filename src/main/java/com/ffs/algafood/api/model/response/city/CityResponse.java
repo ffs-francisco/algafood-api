@@ -25,9 +25,9 @@ public class CityResponse implements Serializable {
         return new ModelMapper().map(city, CityResponse.class);
     }
 
-    public static List<CityResponse> fromList(List<City> citys) {
-        return citys.stream()
-                .map(city -> from(city))
+    public static List<CityResponse> fromList(List<City> cities) {
+        return cities.stream()
+                .map(CityResponse::from)
                 .collect(Collectors.toList());
     }
 }

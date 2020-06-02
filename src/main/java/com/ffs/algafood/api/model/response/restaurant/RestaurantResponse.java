@@ -30,7 +30,7 @@ public class RestaurantResponse implements Serializable {
 
     public static List<RestaurantResponse> fromList(final List<Restaurant> restaurants) {
         return restaurants.stream()
-                .map(restaurant -> from(restaurant))
+                .map(RestaurantResponse::from)
                 .collect(Collectors.toList());
     }
 }

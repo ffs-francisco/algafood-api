@@ -25,7 +25,7 @@ public class StateResponse implements Serializable {
 
     public static List<StateResponse> fromList(List<State> states) {
         return states.stream()
-                .map(state -> from(state))
+                .map(StateResponse::from)
                 .collect(Collectors.toList());
     }
 }
