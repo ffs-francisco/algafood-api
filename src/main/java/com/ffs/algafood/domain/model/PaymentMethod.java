@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class FormPayment implements Serializable {
+public class PaymentMethod implements Serializable {
 
     @EqualsAndHashCode.Include
     @Id

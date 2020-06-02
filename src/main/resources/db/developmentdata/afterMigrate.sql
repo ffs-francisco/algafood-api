@@ -2,7 +2,7 @@
 SET foreign_key_checks = 0;
 
 DELETE FROM city;
-DELETE FROM form_payment;
+DELETE FROM payment_method;
 DELETE FROM `group`;
 DELETE FROM group_permission;
 DELETE FROM group_user;
@@ -10,21 +10,21 @@ DELETE FROM kitchen;
 DELETE FROM `permission`;
 DELETE FROM product;
 DELETE FROM restaurant;
-DELETE FROM restaurant_form_payment;
+DELETE FROM restaurant_payment_method;
 DELETE FROM `state`;
 DELETE FROM `user`;
 
 SET foreign_key_checks = 1;
 
-ALTER TABLE city          AUTO_INCREMENT = 1;
-ALTER TABLE form_payment  AUTO_INCREMENT = 1;
-ALTER TABLE `group`       AUTO_INCREMENT = 1;
-ALTER TABLE kitchen       AUTO_INCREMENT = 1;
-ALTER TABLE `permission`  AUTO_INCREMENT = 1;
-ALTER TABLE product       AUTO_INCREMENT = 1;
-ALTER TABLE restaurant    AUTO_INCREMENT = 1;
-ALTER TABLE `state`       AUTO_INCREMENT = 1;
-ALTER TABLE `user`        AUTO_INCREMENT = 1;
+ALTER TABLE city            AUTO_INCREMENT = 1;
+ALTER TABLE payment_method  AUTO_INCREMENT = 1;
+ALTER TABLE `group`         AUTO_INCREMENT = 1;
+ALTER TABLE kitchen         AUTO_INCREMENT = 1;
+ALTER TABLE `permission`    AUTO_INCREMENT = 1;
+ALTER TABLE product         AUTO_INCREMENT = 1;
+ALTER TABLE restaurant      AUTO_INCREMENT = 1;
+ALTER TABLE `state`         AUTO_INCREMENT = 1;
+ALTER TABLE `user`          AUTO_INCREMENT = 1;
 
 
 INSERT INTO kitchen(id, name) VALUES (1, 'Tailandesa');
@@ -49,14 +49,14 @@ INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, date_registe
 INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, date_register, date_update) VALUES (5, 'Lanchonete do Tio Sam', 11, 4, true, utc_timestamp, utc_timestamp);
 INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, date_register, date_update) VALUES (6, 'Bar da Maria', 6, 4, false, utc_timestamp, utc_timestamp);
 
-INSERT INTO form_payment (id, description) VALUES (1, 'Cartão de crédito');
-INSERT INTO form_payment (id, description) VALUES (2, 'Cartão de débito');
-INSERT INTO form_payment (id, description) VALUES (3, 'Dinheiro');
+INSERT INTO payment_method (id, description) VALUES (1, 'Cartão de crédito');
+INSERT INTO payment_method (id, description) VALUES (2, 'Cartão de débito');
+INSERT INTO payment_method (id, description) VALUES (3, 'Dinheiro');
 
 INSERT INTO permission (id, name, description) VALUES (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
 INSERT INTO permission (id, name, description) VALUES (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
 
-INSERT INTO restaurant_form_payment (restaurant_id, form_payment_id) VALUES (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3), (4, 1), (4, 2), (5, 1), (5, 2), (6, 3);
+INSERT INTO restaurant_payment_method (restaurant_id, payment_method_id) VALUES (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3), (4, 1), (4, 2), (5, 1), (5, 2), (6, 3);
 
 INSERT INTO product (name, description, price, active, restaurant_id) VALUES ('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 1);
 INSERT INTO product (name, description, price, active, restaurant_id) VALUES ('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 1);

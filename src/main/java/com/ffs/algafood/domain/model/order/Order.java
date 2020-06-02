@@ -1,7 +1,7 @@
 package com.ffs.algafood.domain.model.order;
 
 import com.ffs.algafood.domain.model.Address;
-import com.ffs.algafood.domain.model.FormPayment;
+import com.ffs.algafood.domain.model.PaymentMethod;
 import com.ffs.algafood.domain.model.Restaurant;
 import com.ffs.algafood.domain.model.User;
 import java.io.Serializable;
@@ -56,7 +56,7 @@ public class Order implements Serializable {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private FormPayment formPayment;
+    private PaymentMethod formPayment;
 
     @ManyToOne
     @JoinColumn(nullable = false)

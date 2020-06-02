@@ -18,12 +18,12 @@ CREATE TABLE IF NOT EXISTS `order` (
     date_cancellation  DATETIME NULL,
     date_delivery      DATETIME NULL,
 
-    restaurant_id     BIGINT NOT NULL,
-    form_payment_id   BIGINT NOT NULL,
-    customer_user_id  BIGINT NOT NULL,
+    restaurant_id       BIGINT NOT NULL,
+    payment_method_id   BIGINT NOT NULL,
+    customer_user_id    BIGINT NOT NULL,
          
   PRIMARY KEY (id),
-  constraint fk_o_restaurant    foreign key (restaurant_id) references restaurant (id),
-  constraint fk_o_form_payment  foreign key (form_payment_id) references form_payment (id),
+  constraint fk_o_restaurant foreign key (restaurant_id) references restaurant (id),
+  constraint fk_o_payment_method foreign key (payment_method_id) references payment_method (id),
   constraint fk_o_customer_user foreign key (customer_user_id) references user (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

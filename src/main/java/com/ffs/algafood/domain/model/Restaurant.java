@@ -55,10 +55,10 @@ public class Restaurant implements Serializable {
     private List<Product> products = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(name = "restaurant_form_payment",
+    @JoinTable(name = "restaurant_payment_method",
             joinColumns = @JoinColumn(name = "restaurant_id"),
-            inverseJoinColumns = @JoinColumn(name = "form_payment_id"))
-    private List<FormPayment> formPayments = new ArrayList<>();
+            inverseJoinColumns = @JoinColumn(name = "payment_method_id"))
+    private List<PaymentMethod> paymentMethods = new ArrayList<>();
 
     @CreationTimestamp
     @Column(nullable = false)
