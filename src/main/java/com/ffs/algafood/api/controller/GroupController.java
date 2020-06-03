@@ -6,6 +6,7 @@ import com.ffs.algafood.domain.service.GroupService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.*;
 
 /**
  *
@@ -57,5 +57,11 @@ public class GroupController {
 
         groupRequest.copyPropertiesTo(groupSaved);
         return GroupResponse.from(groupService.save(groupSaved));
+    }
+
+    @DeleteMapping("/{groupId}")
+    @ResponseStatus(NO_CONTENT)
+    public void delete(@PathVariable final Long groupId) {
+        groupService.delete(groupId);
     }
 }
