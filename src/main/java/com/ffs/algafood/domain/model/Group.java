@@ -23,9 +23,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 public class Group implements Serializable {
 
-    @ManyToMany(mappedBy = "groups")
-    private List<User> users;
-
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
