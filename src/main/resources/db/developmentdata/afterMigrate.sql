@@ -67,3 +67,5 @@ INSERT INTO product (name, description, price, active, restaurant_id) VALUES ('B
 INSERT INTO product (name, description, price, active, restaurant_id) VALUES ('T-Bone', 'Corte muito saboroso, com um osso em formato de T, sendo de um lado o contrafilé e do outro o filé mignon', 89, 1, 4);
 INSERT INTO product (name, description, price, active, restaurant_id) VALUES ('Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, 1, 5);
 INSERT INTO product (name, description, price, active, restaurant_id) VALUES ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
+
+INSERT INTO `group` (name) VALUES ('Gerente'), ('Vendedor'), ('Secretária'), ('Cadastrador');

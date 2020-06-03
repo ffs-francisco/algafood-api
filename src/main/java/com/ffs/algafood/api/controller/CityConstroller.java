@@ -39,7 +39,7 @@ public class CityConstroller {
 
     @GetMapping("/{cityId}")
     @ResponseStatus(OK)
-    public CityResponse gitById(@PathVariable final Long cityId) {
+    public CityResponse getById(@PathVariable final Long cityId) {
         return CityResponse.from(cityService.findById(cityId));
     }
 
