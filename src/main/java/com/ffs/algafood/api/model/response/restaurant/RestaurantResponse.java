@@ -1,6 +1,7 @@
 package com.ffs.algafood.api.model.response.restaurant;
 
 import com.ffs.algafood.api.model.response.kitchen.KitchenResponse;
+import com.ffs.algafood.domain.model.Address;
 import com.ffs.algafood.domain.model.Restaurant;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -22,10 +23,18 @@ public class RestaurantResponse implements Serializable {
     private String name;
     private BigDecimal shippingFee;
     private Boolean active;
+    private AddressResponse address;
     private KitchenResponse kitchen;
 
     public static RestaurantResponse from(final Restaurant restaurant) {
-        return new ModelMapper().map(restaurant, RestaurantResponse.class);
+        final var modelMapepr = new ModelMapper();
+        final var mapping = modelMapepr.createTypeMap(Address.class, AddressResponse.class);
+        mapping.<String>addMapping(
+                (addressSrc) -> addressSrc.getCity().getState().getName(),
+                (addressDest, value) -> addressDest.getCity().setState(value)
+        );
+
+        return modelMapepr.map(restaurant, RestaurantResponse.class);
     }
 
     public static List<RestaurantResponse> fromList(final List<Restaurant> restaurants) {
