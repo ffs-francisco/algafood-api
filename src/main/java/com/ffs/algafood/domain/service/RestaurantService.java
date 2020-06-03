@@ -2,6 +2,7 @@ package com.ffs.algafood.domain.service;
 
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.exception.RestaurantNotFoundException;
+import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.model.Restaurant;
 import com.ffs.algafood.domain.repository.RestaurantRepository;
 import java.util.List;
@@ -21,6 +22,8 @@ public class RestaurantService {
 
     @Autowired
     private KitchenService kitchenService;
+    @Autowired
+    private CityService cityService;
 
     public List<Restaurant> findAll() {
         return restaurantRepository.findAll();
@@ -42,10 +45,17 @@ public class RestaurantService {
     }
 
     @Transactional
-    public Restaurant save(final Restaurant restaurant) throws EntityNotFoundException {
-        final var kitchen = kitchenService.findById(restaurant.getKitchen().getId());
+    public Restaurant save(final Restaurant restaurant) throws BusinessException {
+        try {
+            final var kitchen = kitchenService.findById(restaurant.getKitchen().getId());
+            final var city = cityService.findById(restaurant.getAddress().getCity().getId());
 
-        restaurant.setKitchen(kitchen);
+            restaurant.setKitchen(kitchen);
+            restaurant.getAddress().setCity(city);
+        } catch (EntityNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+
         return restaurantRepository.save(restaurant);
     }
 }

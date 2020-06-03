@@ -3,8 +3,6 @@ package com.ffs.algafood.api.controller;
 import com.ffs.algafood.api.model.request.restaurant.RestaurantRequest;
 import com.ffs.algafood.api.model.response.restaurant.RestaurantResponse;
 import com.ffs.algafood.api.ultil.ApiUpdateUtils;
-import com.ffs.algafood.domain.exception.base.BusinessException;
-import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.service.RestaurantService;
 import java.util.List;
 import java.util.Map;
@@ -56,11 +54,7 @@ public class RestaurantController {
     @PostMapping
     @ResponseStatus(CREATED)
     public RestaurantResponse add(@RequestBody @Valid final RestaurantRequest restaurant) {
-        try {
-            return RestaurantResponse.from(restaurantService.save(restaurant.toModel()));
-        } catch (EntityNotFoundException e) {
-            throw new BusinessException(e.getMessage(), e);
-        }
+        return RestaurantResponse.from(restaurantService.save(restaurant.toModel()));
     }
 
     @PutMapping("/{restaurantId}")
@@ -68,12 +62,8 @@ public class RestaurantController {
     public RestaurantResponse update(@PathVariable final Long restaurantId, @RequestBody @Valid final RestaurantRequest restaurantRequest) {
         var restaurant = restaurantService.findById(restaurantId);
 
-        try {
-            restaurantRequest.copyPropertiesTo(restaurant);
-            return RestaurantResponse.from(restaurantService.save(restaurant));
-        } catch (EntityNotFoundException e) {
-            throw new BusinessException(e.getMessage(), e);
-        }
+        restaurantRequest.copyPropertiesTo(restaurant);
+        return RestaurantResponse.from(restaurantService.save(restaurant));
     }
 
     @PatchMapping("/{restaurantId}")

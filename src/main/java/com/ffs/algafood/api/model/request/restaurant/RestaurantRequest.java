@@ -2,6 +2,7 @@ package com.ffs.algafood.api.model.request.restaurant;
 
 import com.ffs.algafood.core.validation.annotation.Multiple;
 import com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
+import com.ffs.algafood.domain.model.City;
 import com.ffs.algafood.domain.model.Kitchen;
 import com.ffs.algafood.domain.model.Restaurant;
 import java.math.BigDecimal;
@@ -25,22 +26,26 @@ import org.modelmapper.ModelMapper;
 @Getter
 @Setter
 public class RestaurantRequest {
-
+    
     @NotBlank
     private String name;
-
+    
     @PositiveOrZero
     @Multiple(number = 5)
     private BigDecimal shippingFee;
-
+    
+    @Valid
+    @NotNull
+    private AddressRequest address;
+    
     @Valid
     @NotNull
     private KitchenIdRequest kitchen;
-
+    
     public Restaurant toModel() {
         return new ModelMapper().map(this, Restaurant.class);
     }
-
+    
     public void copyPropertiesTo(Restaurant restaurant) {
         /**
          * To avoid the a exception when trying to change the entity ID.
@@ -49,7 +54,10 @@ public class RestaurantRequest {
          * com.domain.Entity was altered from 1 to 2
          */
         restaurant.setKitchen(new Kitchen());
-
+        if (restaurant.getAddress() != null) {
+            restaurant.getAddress().setCity(new City());
+        }
+        
         new ModelMapper().map(this, restaurant);
     }
 }
