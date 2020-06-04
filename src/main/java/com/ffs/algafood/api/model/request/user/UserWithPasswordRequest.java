@@ -12,7 +12,7 @@ import org.modelmapper.ModelMapper;
  */
 @Getter
 @Setter
-public class UserWithPasswordRequest extends UseRequest {
+public class UserWithPasswordRequest extends UserRequest {
 
     @NotBlank
     private String password;

@@ -1,5 +1,6 @@
 package com.ffs.algafood.api.controller;
 
+import com.ffs.algafood.api.model.request.user.UserRequest;
 import com.ffs.algafood.api.model.request.user.UserWithPasswordRequest;
 import com.ffs.algafood.api.model.response.user.UserResponse;
 import com.ffs.algafood.domain.service.UserService;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -45,5 +47,17 @@ public class UserController {
     public UserResponse add(@RequestBody @Valid UserWithPasswordRequest userRequest) {
         var user = userRequest.toModel();
         return UserResponse.from(userService.save(user));
+    }
+
+    @PutMapping("/{userId}")
+    @ResponseStatus(CREATED)
+    public UserResponse update(
+            @PathVariable final Long userId,
+            @RequestBody @Valid UserRequest userRequest
+    ) {
+        var userSaved = userService.findById(userId);
+
+        userRequest.copyPropertiesTo(userSaved);
+        return UserResponse.from(userService.save(userSaved));
     }
 }
