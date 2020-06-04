@@ -34,7 +34,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateSenha(final Long userId, final String currentPassword, final String newPassword) {
+    public void updatePassword(final Long userId, final String currentPassword, final String newPassword) {
         final var user = this.findById(userId);
 
         checkCurrentPassword(user, currentPassword);
@@ -43,7 +43,7 @@ public class UserService {
 
     private void checkCurrentPassword(final User user, final String currentPassword) throws BusinessException {
         if (!user.getPassword().equals(currentPassword)) {
-            throw new BusinessException("Informed password is invalid for this user.");
+            throw new BusinessException("The current password informe is invalid for this user.");
         }
     }
 }

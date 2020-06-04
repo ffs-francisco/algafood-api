@@ -1,5 +1,6 @@
 package com.ffs.algafood.api.controller;
 
+import com.ffs.algafood.api.model.request.user.PasswordRequest;
 import com.ffs.algafood.api.model.request.user.UserRequest;
 import com.ffs.algafood.api.model.request.user.UserWithPasswordRequest;
 import com.ffs.algafood.api.model.response.user.UserResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 /**
@@ -59,5 +61,14 @@ public class UserController {
 
         userRequest.copyPropertiesTo(userSaved);
         return UserResponse.from(userService.save(userSaved));
+    }
+
+    @PutMapping("/{userId}/password")
+    @ResponseStatus(NO_CONTENT)
+    public void updatePassword(
+            @PathVariable final Long userId,
+            @RequestBody @Valid PasswordRequest passwordRequest
+    ) {
+        userService.updatePassword(userId, passwordRequest.getCurrentPassword(), passwordRequest.getNewPassword());
     }
 }
