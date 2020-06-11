@@ -30,6 +30,9 @@ public class UserService {
 
     @Transactional
     public User save(final User user) {
+        userRepository.detach(user);
+
+        this.checkEmailIsInUse(user);
         return userRepository.save(user);
     }
 
@@ -39,6 +42,15 @@ public class UserService {
 
         checkCurrentPassword(user, currentPassword);
         user.setPassword(newPassword);
+    }
+
+    private void checkEmailIsInUse(final User user) throws BusinessException {
+        userRepository.findByEmail(user.getEmail())
+                .ifPresent(userSaved -> {
+                    if (!userSaved.equals(user)) {
+                        throw new BusinessException(String.format("Already exist a user with the e-mail %s", user.getEmail()));
+                    }
+                });
     }
 
     private void checkCurrentPassword(final User user, final String currentPassword) throws BusinessException {

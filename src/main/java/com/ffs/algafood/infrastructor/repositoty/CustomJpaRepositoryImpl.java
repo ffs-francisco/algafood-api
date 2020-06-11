@@ -1,12 +1,9 @@
 package com.ffs.algafood.infrastructor.repositoty;
 
 import com.ffs.algafood.domain.repository.CustomJpaRepository;
-import java.util.Optional;
 import javax.persistence.EntityManager;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
-
-import static java.util.Optional.ofNullable;
 
 /**
  *
@@ -23,14 +20,7 @@ public class CustomJpaRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> i
     }
 
     @Override
-    public Optional<T> findFirst() {
-        final var jpql = "FROM " + getDomainClass().getName();
-
-        T entity = entityManager.createQuery(jpql, getDomainClass())
-                .setMaxResults(1)
-                .getSingleResult();
-
-        return ofNullable(entity);
+    public void detach(T entity) {
+        entityManager.detach(entity);
     }
-
 }
