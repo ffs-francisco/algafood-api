@@ -7,6 +7,7 @@ import com.ffs.algafood.api.exception.model.ApiException;
 import com.ffs.algafood.api.exception.model.ObjectError;
 import com.ffs.algafood.api.exception.model.Type;
 import com.ffs.algafood.core.validation.ValidationException;
+import com.ffs.algafood.domain.exception.base.AttributeInUseException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityInUseException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
@@ -50,8 +51,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         final var message = messageSource.getMessage("default", null, request.getLocale());
 
         /**
-         * Print the Stack Trace on the console while a logginf mechaninsm is
-         * not implemented.
+         * Print the Stack Trace on the console while a logginf mechaninsm is not implemented.
          */
         ex.printStackTrace();
 
@@ -65,6 +65,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityInUseException.class)
     public ResponseEntity<?> handlerEntityInUse(EntityInUseException ex, WebRequest request) {
+        return this.buildHandlerException(ex, ex.getMessage(), ex.getMessage(), ENTITY_IN_USE, CONFLICT, request);
+    }
+
+    @ExceptionHandler(AttributeInUseException.class)
+    public ResponseEntity<?> handlerEntityInUse(AttributeInUseException ex, WebRequest request) {
         return this.buildHandlerException(ex, ex.getMessage(), ex.getMessage(), ENTITY_IN_USE, CONFLICT, request);
     }
 

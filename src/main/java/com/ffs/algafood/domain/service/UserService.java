@@ -1,6 +1,7 @@
 package com.ffs.algafood.domain.service;
 
 import com.ffs.algafood.domain.exception.UserNotFoundException;
+import com.ffs.algafood.domain.exception.base.AttributeInUseException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.model.User;
 import com.ffs.algafood.domain.repository.UserRepository;
@@ -44,11 +45,11 @@ public class UserService {
         user.setPassword(newPassword);
     }
 
-    private void checkEmailIsInUse(final User user) throws BusinessException {
+    private void checkEmailIsInUse(final User user) throws AttributeInUseException {
         userRepository.findByEmail(user.getEmail())
                 .ifPresent(userSaved -> {
                     if (!userSaved.equals(user)) {
-                        throw new BusinessException(String.format("Already exist a user with the e-mail %s", user.getEmail()));
+                        throw new AttributeInUseException(User.class, "email", user.getEmail());
                     }
                 });
     }
