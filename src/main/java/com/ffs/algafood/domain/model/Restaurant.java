@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -58,7 +60,7 @@ public class Restaurant implements Serializable {
     @JoinTable(name = "restaurant_payment_method",
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "payment_method_id"))
-    private List<PaymentMethod> paymentMethods = new ArrayList<>();
+    private Set<PaymentMethod> paymentMethods = new HashSet<>();
 
     @CreationTimestamp
     @Column(nullable = false)

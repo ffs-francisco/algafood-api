@@ -1,8 +1,8 @@
 package com.ffs.algafood.domain.service;
 
-import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.exception.RestaurantNotFoundException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
+import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.Restaurant;
 import com.ffs.algafood.domain.repository.RestaurantRepository;
 import java.util.List;
@@ -24,6 +24,8 @@ public class RestaurantService {
     private KitchenService kitchenService;
     @Autowired
     private CityService cityService;
+    @Autowired
+    private PaymentMethodService paymentMethodService;
 
     public List<Restaurant> findAll() {
         return restaurantRepository.findAll();
@@ -32,16 +34,6 @@ public class RestaurantService {
     public Restaurant findById(final Long restaurantId) throws RestaurantNotFoundException {
         return restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RestaurantNotFoundException("id", restaurantId));
-    }
-
-    @Transactional
-    public void activate(final Long restauranteId) {
-        this.findById(restauranteId).setActive(Boolean.TRUE);
-    }
-
-    @Transactional
-    public void inactivate(final Long restauranteId) {
-        this.findById(restauranteId).setActive(Boolean.FALSE);
     }
 
     @Transactional
@@ -57,5 +49,31 @@ public class RestaurantService {
         }
 
         return restaurantRepository.save(restaurant);
+    }
+
+    @Transactional
+    public void activate(final Long restauranteId) {
+        this.findById(restauranteId).setActive(Boolean.TRUE);
+    }
+
+    @Transactional
+    public void inactivate(final Long restauranteId) {
+        this.findById(restauranteId).setActive(Boolean.FALSE);
+    }
+
+    @Transactional
+    public void unlinkPaymentMethod(final Long restaurantId, final Long paymentMethodId) {
+        final var restaurant = this.findById(restaurantId);
+        final var paymentMethod = paymentMethodService.findById(paymentMethodId);
+
+        restaurant.getPaymentMethods().remove(paymentMethod);
+    }
+
+    @Transactional
+    public void linkPaymentMethod(final Long restaurantId, final Long paymentMethodId) {
+        final var restaurant = this.findById(restaurantId);
+        final var paymentMethod = paymentMethodService.findById(paymentMethodId);
+
+        restaurant.getPaymentMethods().add(paymentMethod);
     }
 }
