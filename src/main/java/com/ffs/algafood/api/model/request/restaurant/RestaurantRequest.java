@@ -4,7 +4,7 @@ import com.ffs.algafood.core.validation.annotation.Multiple;
 import com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
 import com.ffs.algafood.domain.model.City;
 import com.ffs.algafood.domain.model.Kitchen;
-import com.ffs.algafood.domain.model.Restaurant;
+import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import java.math.BigDecimal;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;

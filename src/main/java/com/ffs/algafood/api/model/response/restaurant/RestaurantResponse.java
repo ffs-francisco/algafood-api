@@ -2,7 +2,7 @@ package com.ffs.algafood.api.model.response.restaurant;
 
 import com.ffs.algafood.api.model.response.kitchen.KitchenResponse;
 import com.ffs.algafood.domain.model.Address;
-import com.ffs.algafood.domain.model.Restaurant;
+import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;

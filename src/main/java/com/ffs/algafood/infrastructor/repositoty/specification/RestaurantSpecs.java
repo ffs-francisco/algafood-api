@@ -1,6 +1,6 @@
 package com.ffs.algafood.infrastructor.repositoty.specification;
 
-import com.ffs.algafood.domain.model.Restaurant;
+import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import java.math.BigDecimal;
 import org.springframework.data.jpa.domain.Specification;
 

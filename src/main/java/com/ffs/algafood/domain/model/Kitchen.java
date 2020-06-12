@@ -1,5 +1,6 @@
 package com.ffs.algafood.domain.model;
 
+import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

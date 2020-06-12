@@ -1,6 +1,6 @@
 package com.ffs.algafood.domain.model.order;
 
-import com.ffs.algafood.domain.model.Product;
+import com.ffs.algafood.domain.model.restaurant.Product;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.persistence.Entity;

@@ -1,9 +1,9 @@
-package com.ffs.algafood.api.controller;
+package com.ffs.algafood.api.controller.restaurant;
 
 import com.ffs.algafood.api.model.request.restaurant.RestaurantRequest;
 import com.ffs.algafood.api.model.response.restaurant.RestaurantResponse;
 import com.ffs.algafood.api.ultil.ApiUpdateUtils;
-import com.ffs.algafood.domain.service.RestaurantService;
+import com.ffs.algafood.domain.service.restaurant.RestaurantService;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;

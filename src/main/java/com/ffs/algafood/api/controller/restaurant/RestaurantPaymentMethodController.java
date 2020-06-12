@@ -1,7 +1,7 @@
-package com.ffs.algafood.api.controller;
+package com.ffs.algafood.api.controller.restaurant;
 
 import com.ffs.algafood.api.model.response.payment.method.PaymentMethodResponse;
-import com.ffs.algafood.domain.service.RestaurantService;
+import com.ffs.algafood.domain.service.restaurant.RestaurantService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

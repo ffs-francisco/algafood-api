@@ -1,8 +1,8 @@
 package com.ffs.algafood.infrastructor.repositoty;
 
-import com.ffs.algafood.domain.repository.RestaurantRepositoryCustom;
-import com.ffs.algafood.domain.model.Restaurant;
-import com.ffs.algafood.domain.repository.RestaurantRepository;
+import com.ffs.algafood.domain.repository.restaurant.RestaurantRepositoryCustom;
+import com.ffs.algafood.domain.model.restaurant.Restaurant;
+import com.ffs.algafood.domain.repository.restaurant.RestaurantRepository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
