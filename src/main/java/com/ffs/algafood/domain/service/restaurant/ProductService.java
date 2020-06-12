@@ -1,5 +1,6 @@
 package com.ffs.algafood.domain.service.restaurant;
 
+import com.ffs.algafood.domain.exception.ProductNotFoundException;
 import com.ffs.algafood.domain.exception.RestaurantNotFoundException;
 import com.ffs.algafood.domain.model.restaurant.Product;
 import com.ffs.algafood.domain.repository.restaurant.ProductRepository;
@@ -22,5 +23,10 @@ public class ProductService {
 
     public List<Product> findAllByRestaurant(final Long restaurantId) throws RestaurantNotFoundException {
         return productRepository.findAllByRestaurant(restaurantService.findById(restaurantId));
+    }
+
+    public Product findAByRestaurant(final Long restaurantId, final Long productId) throws ProductNotFoundException {
+        return productRepository.findByRestaurantAndId(restaurantService.findById(restaurantId), productId)
+                .orElseThrow(() -> new ProductNotFoundException("id", restaurantId));
     }
 }

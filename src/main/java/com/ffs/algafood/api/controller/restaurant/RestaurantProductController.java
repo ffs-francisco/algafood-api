@@ -28,4 +28,10 @@ public class RestaurantProductController {
     public List<ProductResponse> listAll(@PathVariable final Long restaurantId) {
         return ProductResponse.fromList(productService.findAllByRestaurant(restaurantId));
     }
+
+    @GetMapping("/{productId}")
+    @ResponseStatus(OK)
+    public ProductResponse getById(@PathVariable final Long restaurantId, @PathVariable final Long productId) {
+        return ProductResponse.from(productService.findAByRestaurant(restaurantId, productId));
+    }
 }
