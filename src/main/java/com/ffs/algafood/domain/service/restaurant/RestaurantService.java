@@ -65,6 +65,16 @@ public class RestaurantService {
     }
 
     @Transactional
+    public void opening(final Long restauranteId) {
+        this.findById(restauranteId).setOpen(Boolean.TRUE);
+    }
+
+    @Transactional
+    public void closing(final Long restauranteId) {
+        this.findById(restauranteId).setOpen(Boolean.FALSE);
+    }
+
+    @Transactional
     public void unlinkPaymentMethod(final Long restaurantId, final Long paymentMethodId) {
         final var restaurant = this.findById(restaurantId);
         final var paymentMethod = paymentMethodService.findById(paymentMethodId);

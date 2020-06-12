@@ -27,14 +27,14 @@ ALTER TABLE `state`         AUTO_INCREMENT = 1;
 ALTER TABLE `user`          AUTO_INCREMENT = 1;
 
 
-INSERT INTO kitchen(id, name) VALUES 
+INSERT INTO kitchen(id, name) VALUES
 (1, 'Tailandesa'),
 (2, 'Indiana'),
 (3, 'Argentina'),
 (4, 'Brasileira')
 ;
 
-INSERT INTO state (id, name) VALUES 
+INSERT INTO state (id, name) VALUES
 (1, 'Minas Gerais'),
 (2, 'São Paulo'),
 (3, 'Ceará')
@@ -48,22 +48,22 @@ INSERT INTO city (id, name, state_id) VALUES
 (5, 'Fortaleza', 3)
 ;
 
-INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, date_register, date_update, address_city_id, address_cep, address_street, address_number, address_district) VALUES 
-(1, 'Thai Gourmet', 10, 1, true, utc_timestamp, utc_timestamp, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro'),
-(2, 'Thai Delivery', 9.50, 1, true, utc_timestamp, utc_timestamp, null, null, null, null, null),
-(3, 'Tuk Tuk Comida Indiana', 15, 2, true, utc_timestamp, utc_timestamp, null, null, null, null, null),
-(4, 'Java Steakhouse', 12, 3, false, utc_timestamp, utc_timestamp, null, null, null, null, null),
-(5, 'Lanchonete do Tio Sam', 11, 4, true, utc_timestamp, utc_timestamp, null, null, null, null, null),
-(6, 'Bar da Maria', 6, 4, false, utc_timestamp, utc_timestamp, null, null, null, null, null)
+INSERT INTO restaurant (id, name, shipping_fee, kitchen_id, active, open, date_register, date_update, address_city_id, address_cep, address_street, address_number, address_district) VALUES
+(1, 'Thai Gourmet', 10, 1, true, true, utc_timestamp, utc_timestamp, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro'),
+(2, 'Thai Delivery', 9.50, 1, true, true, utc_timestamp, utc_timestamp, null, null, null, null, null),
+(3, 'Tuk Tuk Comida Indiana', 15, 2, true, false, utc_timestamp, utc_timestamp, null, null, null, null, null),
+(4, 'Java Steakhouse', 12, 3, false, false, utc_timestamp, utc_timestamp, null, null, null, null, null),
+(5, 'Lanchonete do Tio Sam', 11, 4, true, true, utc_timestamp, utc_timestamp, null, null, null, null, null),
+(6, 'Bar da Maria', 6, 4, false, false, utc_timestamp, utc_timestamp, null, null, null, null, null)
 ;
 
-INSERT INTO payment_method (id, description) VALUES 
+INSERT INTO payment_method (id, description) VALUES
 (1, 'Cartão de crédito'),
 (2, 'Cartão de débito'),
 (3, 'Dinheiro')
 ;
 
-INSERT INTO permission (id, name, description) VALUES 
+INSERT INTO permission (id, name, description) VALUES
 (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas'),
 (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
 
@@ -71,7 +71,7 @@ INSERT INTO restaurant_payment_method (restaurant_id, payment_method_id) VALUES
 (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3), (4, 1), (4, 2), (5, 1), (5, 2), (6, 3)
 ;
 
-INSERT INTO product (name, description, price, active, restaurant_id) VALUES 
+INSERT INTO product (name, description, price, active, restaurant_id) VALUES
 ('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 1),
 ('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 1),
 ('Salada picante com carne grelhada', 'Salada de folhas com cortes finos de carne bovina grelhada e nosso molho especial de pimenta vermelha', 87.20, 1, 2),
@@ -83,8 +83,8 @@ INSERT INTO product (name, description, price, active, restaurant_id) VALUES
 ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6)
 ;
 
-INSERT INTO `group` (name) VALUES 
-('Gerente'), 
+INSERT INTO `group` (name) VALUES
+('Gerente'),
 ('Vendedor'),
 ('Secretária'),
 ('Cadastrador')

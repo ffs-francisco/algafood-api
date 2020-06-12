@@ -23,6 +23,7 @@ public class RestaurantResponse implements Serializable {
     private String name;
     private BigDecimal shippingFee;
     private Boolean active;
+    private Boolean open;
     private AddressResponse address;
     private KitchenResponse kitchen;
 

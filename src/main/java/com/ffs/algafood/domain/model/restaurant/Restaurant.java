@@ -25,6 +25,8 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 import static javax.persistence.GenerationType.IDENTITY;
 
 /**
@@ -47,7 +49,9 @@ public class Restaurant implements Serializable {
     @Column(nullable = false)
     private BigDecimal shippingFee;
 
-    private Boolean active = true;
+    private Boolean active = TRUE;
+
+    private Boolean open = FALSE;
 
     @Embedded
     private Address address;
