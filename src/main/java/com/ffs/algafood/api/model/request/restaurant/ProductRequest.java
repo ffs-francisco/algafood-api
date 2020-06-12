@@ -41,4 +41,8 @@ public class ProductRequest implements Serializable {
 
         return product;
     }
+
+    public void copyPropertiesTo(final Product product) {
+        new ModelMapper().map(this, product);
+    }
 }

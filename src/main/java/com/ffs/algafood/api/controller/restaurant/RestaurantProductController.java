@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -42,7 +43,23 @@ public class RestaurantProductController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public ProductResponse add(@PathVariable final Long restaurantId, @RequestBody @Valid final ProductRequest productRequest) {
+    public ProductResponse add(
+            @PathVariable final Long restaurantId,
+            @RequestBody @Valid final ProductRequest productRequest
+    ) {
         return ProductResponse.from(productService.save(productRequest.toModel(restaurantId)));
+    }
+
+    @PutMapping("/{productId}")
+    @ResponseStatus(OK)
+    public ProductResponse update(
+            @PathVariable final Long restaurantId,
+            @PathVariable final Long productId,
+            @RequestBody @Valid final ProductRequest productRequest
+    ) {
+        final var product = productService.findAByRestaurant(restaurantId, productId);
+
+        productRequest.copyPropertiesTo(product);
+        return ProductResponse.from(productService.save(product));
     }
 }
