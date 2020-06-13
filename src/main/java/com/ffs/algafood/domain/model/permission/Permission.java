@@ -19,6 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 public class Permission implements Serializable {
 
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;

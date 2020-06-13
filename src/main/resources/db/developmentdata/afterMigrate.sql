@@ -83,11 +83,15 @@ INSERT INTO product (name, description, price, active, restaurant_id) VALUES
 ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6)
 ;
 
-INSERT INTO `group` (name) VALUES
-('Gerente'),
-('Vendedor'),
-('Secretária'),
-('Cadastrador')
+INSERT INTO `group` (id, name) VALUES
+(1, 'Gerente'),
+(2, 'Vendedor'),
+(3, 'Secretária'),
+(4, 'Cadastrador')
+;
+
+INSERT INTO group_permission (group_id, permission_id) VALUES
+(1, 1), (1, 2), (2, 1), (2, 2), (3, 1)
 ;
 
 INSERT INTO user (id, name, email, password, date_register) VALUES

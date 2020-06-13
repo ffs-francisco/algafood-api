@@ -1,8 +1,8 @@
-package com.ffs.algafood.api.controller;
+package com.ffs.algafood.api.controller.permission;
 
 import com.ffs.algafood.api.model.request.group.GroupRequest;
-import com.ffs.algafood.api.model.response.group.GroupResponse;
-import com.ffs.algafood.domain.service.GroupService;
+import com.ffs.algafood.api.model.response.permission.GroupResponse;
+import com.ffs.algafood.domain.service.permission.GroupService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

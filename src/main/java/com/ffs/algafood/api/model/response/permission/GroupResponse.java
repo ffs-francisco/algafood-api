@@ -1,4 +1,4 @@
-package com.ffs.algafood.api.model.response.group;
+package com.ffs.algafood.api.model.response.permission;
 
 import com.ffs.algafood.domain.model.permission.Group;
 import java.util.List;

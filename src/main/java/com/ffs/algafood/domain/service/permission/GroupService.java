@@ -1,4 +1,4 @@
-package com.ffs.algafood.domain.service;
+package com.ffs.algafood.domain.service.permission;
 
 import com.ffs.algafood.domain.exception.GroupNotFoundException;
 import com.ffs.algafood.domain.exception.base.EntityInUseException;
