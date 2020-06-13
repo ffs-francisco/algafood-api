@@ -2,9 +2,10 @@ package com.ffs.algafood.domain.model;
 
 import com.ffs.algafood.domain.model.permission.Group;
 import java.io.Serializable;
-import javax.persistence.Column;
 import java.time.OffsetDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,7 +44,7 @@ public class User implements Serializable {
     @JoinTable(name = "group_user",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private List<Group> groups;
+    private Set<Group> groups = new HashSet<>();
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")

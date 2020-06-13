@@ -100,3 +100,7 @@ INSERT INTO user (id, name, email, password, date_register) VALUES
 (3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp)
 ;
+
+INSERT INTO group_user (group_id, user_id) VALUES
+(1, 1), (2, 1), (2, 2)
+;

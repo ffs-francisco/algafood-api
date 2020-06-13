@@ -1,4 +1,4 @@
-package com.ffs.algafood.api.controller;
+package com.ffs.algafood.api.controller.user;
 
 import com.ffs.algafood.api.model.request.user.PasswordRequest;
 import com.ffs.algafood.api.model.request.user.UserRequest;
