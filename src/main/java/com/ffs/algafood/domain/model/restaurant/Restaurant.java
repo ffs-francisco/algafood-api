@@ -2,6 +2,7 @@ package com.ffs.algafood.domain.model.restaurant;
 
 import com.ffs.algafood.domain.model.Address;
 import com.ffs.algafood.domain.model.Kitchen;
+import com.ffs.algafood.domain.model.User;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -67,6 +68,12 @@ public class Restaurant implements Serializable {
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "payment_method_id"))
     private Set<PaymentMethod> paymentMethods = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "restaurant_uer_responsible",
+            joinColumns = @JoinColumn(name = "restaurant_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> responsibles = new HashSet<>();
 
     @CreationTimestamp
     @Column(nullable = false)

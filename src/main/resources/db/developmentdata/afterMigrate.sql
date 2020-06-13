@@ -98,9 +98,14 @@ INSERT INTO user (id, name, email, password, date_register) VALUES
 (1, 'João da Silva', 'joao.ger@algafood.com', '123', utc_timestamp),
 (2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', utc_timestamp),
 (3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
-(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp)
+(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp),
+(5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp);
 ;
 
 INSERT INTO group_user (group_id, user_id) VALUES
 (1, 1), (2, 1), (2, 2)
+;
+
+INSERT INTO restaurant_user_responsible (user_id, restaurant_id) VALUES
+(5, 1), (5, 3)
 ;
