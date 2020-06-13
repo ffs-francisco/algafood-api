@@ -7,6 +7,7 @@ import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import com.ffs.algafood.domain.repository.restaurant.RestaurantRepository;
 import com.ffs.algafood.domain.service.CityService;
 import com.ffs.algafood.domain.service.KitchenService;
+import com.ffs.algafood.domain.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,11 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
 
     @Autowired
-    private KitchenService kitchenService;
-    @Autowired
     private CityService cityService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private KitchenService kitchenService;
     @Autowired
     private PaymentMethodService paymentMethodService;
 
@@ -74,7 +77,7 @@ public class RestaurantService {
     }
 
     @Transactional
-    public void unlinkPaymentMethod(final Long restaurantId, final Long paymentMethodId) {
+    public void unlinkPaymentMethod(final Long restaurantId, final Long paymentMethodId) throws EntityNotFoundException {
         final var restaurant = this.findById(restaurantId);
         final var paymentMethod = paymentMethodService.findById(paymentMethodId);
 
@@ -82,10 +85,26 @@ public class RestaurantService {
     }
 
     @Transactional
-    public void linkPaymentMethod(final Long restaurantId, final Long paymentMethodId) {
+    public void linkPaymentMethod(final Long restaurantId, final Long paymentMethodId) throws EntityNotFoundException {
         final var restaurant = this.findById(restaurantId);
         final var paymentMethod = paymentMethodService.findById(paymentMethodId);
 
         restaurant.getPaymentMethods().add(paymentMethod);
+    }
+
+    @Transactional
+    public void associateResponsible(final Long restaurantId, final Long userId) throws EntityNotFoundException {
+        final var restaurant = this.findById(restaurantId);
+        final var user = userService.findById(userId);
+
+        restaurant.getResponsibles().add(user);
+    }
+
+    @Transactional
+    public void unassociateResponsible(final Long restaurantId, final Long userId) throws EntityNotFoundException {
+        final var restaurant = this.findById(restaurantId);
+        final var user = userService.findById(userId);
+
+        restaurant.getResponsibles().remove(user);
     }
 }

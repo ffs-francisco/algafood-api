@@ -11,6 +11,7 @@ DELETE FROM `permission`;
 DELETE FROM product;
 DELETE FROM restaurant;
 DELETE FROM restaurant_payment_method;
+DELETE FROM restaurant_user_responsible;
 DELETE FROM `state`;
 DELETE FROM `user`;
 

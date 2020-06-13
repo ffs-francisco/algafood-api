@@ -1,6 +1,6 @@
 package com.ffs.algafood.api.controller.restaurant;
 
-import com.ffs.algafood.api.model.response.payment.method.PaymentMethodResponse;
+import com.ffs.algafood.api.model.response.user.UserResponse;
 import com.ffs.algafood.domain.service.restaurant.RestaurantService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,29 +20,29 @@ import static org.springframework.http.HttpStatus.OK;
  * @author francisco
  */
 @RestController
-@RequestMapping("/restaurants/{restaurantId}/payment-methods")
-public class RestaurantPaymentMethodController {
+@RequestMapping("/restaurants/{restaurantId}/responsibles")
+public class RestaurantUserResponsibleMethodController {
 
     @Autowired
     private RestaurantService restaurantService;
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<PaymentMethodResponse> listAll(@PathVariable final Long restaurantId) {
-        return PaymentMethodResponse.fromList(
-                restaurantService.findById(restaurantId).getPaymentMethods()
+    public List<UserResponse> listAll(@PathVariable final Long restaurantId) {
+        return UserResponse.fromList(
+                restaurantService.findById(restaurantId).getResponsibles()
         );
     }
 
-    @PutMapping("/{paymentMethodId}")
+    @PutMapping("/{userId}")
     @ResponseStatus(NO_CONTENT)
-    public void link(@PathVariable final Long restaurantId, @PathVariable final Long paymentMethodId) {
-        restaurantService.linkPaymentMethod(restaurantId, paymentMethodId);
+    public void associate(@PathVariable final Long restaurantId, @PathVariable final Long userId) {
+        restaurantService.associateResponsible(restaurantId, userId);
     }
 
-    @DeleteMapping("/{paymentMethodId}")
+    @DeleteMapping("/{userId}")
     @ResponseStatus(NO_CONTENT)
-    public void unlink(@PathVariable final Long restaurantId, @PathVariable final Long paymentMethodId) {
-        restaurantService.unlinkPaymentMethod(restaurantId, paymentMethodId);
+    public void unassociate(@PathVariable final Long restaurantId, @PathVariable final Long userId) {
+        restaurantService.unassociateResponsible(restaurantId, userId);
     }
 }

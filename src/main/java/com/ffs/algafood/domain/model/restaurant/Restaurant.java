@@ -70,7 +70,7 @@ public class Restaurant implements Serializable {
     private Set<PaymentMethod> paymentMethods = new HashSet<>();
 
     @ManyToMany
-    @JoinTable(name = "restaurant_uer_responsible",
+    @JoinTable(name = "restaurant_user_responsible",
             joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> responsibles = new HashSet<>();
