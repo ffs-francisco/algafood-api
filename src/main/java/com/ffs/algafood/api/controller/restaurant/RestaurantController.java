@@ -3,6 +3,8 @@ package com.ffs.algafood.api.controller.restaurant;
 import com.ffs.algafood.api.model.request.restaurant.RestaurantRequest;
 import com.ffs.algafood.api.model.response.restaurant.RestaurantResponse;
 import com.ffs.algafood.api.ultil.ApiUpdateUtils;
+import com.ffs.algafood.domain.exception.RestaurantNotFoundException;
+import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.service.restaurant.RestaurantService;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +87,26 @@ public class RestaurantController {
     @ResponseStatus(NO_CONTENT)
     public void inactive(@PathVariable final Long restaurantId) {
         restaurantService.inactivate(restaurantId);
+    }
+
+    @PutMapping("/activations")
+    @ResponseStatus(NO_CONTENT)
+    public void activeMany(@RequestBody final List<Long> restaurantIds) {
+        try {
+            restaurantService.activate(restaurantIds);
+        } catch (RestaurantNotFoundException ex) {
+            throw new BusinessException(ex.getMessage());
+        }
+    }
+
+    @DeleteMapping("/inactivations")
+    @ResponseStatus(NO_CONTENT)
+    public void inactiveMany(@RequestBody final List<Long> restaurantIds) {
+        try {
+            restaurantService.inactivate(restaurantIds);
+        } catch (RestaurantNotFoundException ex) {
+            throw new BusinessException(ex.getMessage());
+        }
     }
 
     @PutMapping("/{restaurantId}/opening")
