@@ -7,7 +7,6 @@ import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import com.ffs.algafood.domain.repository.restaurant.RestaurantRepository;
 import com.ffs.algafood.domain.service.CityService;
 import com.ffs.algafood.domain.service.KitchenService;
-import com.ffs.algafood.domain.service.PaymentMethodService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,6 @@ package com.ffs.algafood.domain.model.restaurant;
 
 import com.ffs.algafood.domain.model.Address;
 import com.ffs.algafood.domain.model.Kitchen;
-import com.ffs.algafood.domain.model.PaymentMethod;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

@@ -1,4 +1,4 @@
-package com.ffs.algafood.domain.model;
+package com.ffs.algafood.domain.model.permission;
 
 import java.io.Serializable;
 import javax.persistence.Column;

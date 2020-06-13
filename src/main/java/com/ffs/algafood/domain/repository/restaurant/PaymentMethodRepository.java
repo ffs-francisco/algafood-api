@@ -1,6 +1,6 @@
-package com.ffs.algafood.domain.repository;
+package com.ffs.algafood.domain.repository.restaurant;
 
-import com.ffs.algafood.domain.model.PaymentMethod;
+import com.ffs.algafood.domain.model.restaurant.PaymentMethod;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

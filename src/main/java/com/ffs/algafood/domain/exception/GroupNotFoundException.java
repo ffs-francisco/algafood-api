@@ -1,7 +1,7 @@
 package com.ffs.algafood.domain.exception;
 
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
-import com.ffs.algafood.domain.model.Group;
+import com.ffs.algafood.domain.model.permission.Group;
 
 /**
  *

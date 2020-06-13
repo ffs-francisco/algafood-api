@@ -2,7 +2,7 @@ package com.ffs.algafood.api.controller;
 
 import com.ffs.algafood.api.model.request.payment.method.PaymentMethodRequest;
 import com.ffs.algafood.api.model.response.payment.method.PaymentMethodResponse;
-import com.ffs.algafood.domain.service.PaymentMethodService;
+import com.ffs.algafood.domain.service.restaurant.PaymentMethodService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
 package com.ffs.algafood.domain.model;
 
+import com.ffs.algafood.domain.model.permission.Group;
 import java.io.Serializable;
 import javax.persistence.Column;
 import java.time.OffsetDateTime;

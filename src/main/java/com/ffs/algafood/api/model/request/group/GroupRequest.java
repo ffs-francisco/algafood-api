@@ -1,6 +1,6 @@
 package com.ffs.algafood.api.model.request.group;
 
-import com.ffs.algafood.domain.model.Group;
+import com.ffs.algafood.domain.model.permission.Group;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;

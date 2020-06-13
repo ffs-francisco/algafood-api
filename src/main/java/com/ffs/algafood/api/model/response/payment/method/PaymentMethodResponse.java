@@ -1,6 +1,6 @@
 package com.ffs.algafood.api.model.response.payment.method;
 
-import com.ffs.algafood.domain.model.PaymentMethod;
+import com.ffs.algafood.domain.model.restaurant.PaymentMethod;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,7 +1,7 @@
 package com.ffs.algafood.domain.exception;
 
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
-import com.ffs.algafood.domain.model.PaymentMethod;
+import com.ffs.algafood.domain.model.restaurant.PaymentMethod;
 
 /**
  *

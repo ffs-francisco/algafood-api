@@ -1,15 +1,15 @@
-package com.ffs.algafood.domain.service;
+package com.ffs.algafood.domain.service.restaurant;
 
 import com.ffs.algafood.domain.exception.PaymentMethodNotFoundException;
 import com.ffs.algafood.domain.exception.base.EntityInUseException;
-import com.ffs.algafood.domain.model.PaymentMethod;
+import com.ffs.algafood.domain.model.restaurant.PaymentMethod;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.ffs.algafood.domain.repository.PaymentMethodRepository;
+import com.ffs.algafood.domain.repository.restaurant.PaymentMethodRepository;
 
 /**
  *

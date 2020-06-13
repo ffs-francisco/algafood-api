@@ -1,7 +1,7 @@
 package com.ffs.algafood.domain.model.order;
 
 import com.ffs.algafood.domain.model.Address;
-import com.ffs.algafood.domain.model.PaymentMethod;
+import com.ffs.algafood.domain.model.restaurant.PaymentMethod;
 import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import com.ffs.algafood.domain.model.User;
 import java.io.Serializable;

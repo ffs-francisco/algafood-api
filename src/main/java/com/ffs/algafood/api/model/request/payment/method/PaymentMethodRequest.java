@@ -1,6 +1,6 @@
 package com.ffs.algafood.api.model.request.payment.method;
 
-import com.ffs.algafood.domain.model.PaymentMethod;
+import com.ffs.algafood.domain.model.restaurant.PaymentMethod;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
