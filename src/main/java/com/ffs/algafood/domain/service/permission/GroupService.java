@@ -2,6 +2,7 @@ package com.ffs.algafood.domain.service.permission;
 
 import com.ffs.algafood.domain.exception.GroupNotFoundException;
 import com.ffs.algafood.domain.exception.base.EntityInUseException;
+import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.permission.Group;
 import com.ffs.algafood.domain.repository.permission.GroupRepository;
 import java.util.List;
@@ -20,6 +21,8 @@ public class GroupService {
 
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private PermissionService permissionService;
 
     public List<Group> findAll() {
         return groupRepository.findAll();
@@ -45,5 +48,21 @@ public class GroupService {
         } catch (DataIntegrityViolationException ex) {
             throw new EntityInUseException(groupId, Group.class);
         }
+    }
+
+    @Transactional
+    public void linkPermission(final Long groupId, final Long permissionId) throws EntityNotFoundException {
+        final var group = this.findById(groupId);
+        final var permission = permissionService.findById(permissionId);
+
+        group.getPermissions().add(permission);
+    }
+
+    @Transactional
+    public void unlinkPermission(final Long groupId, final Long permissionId) throws EntityNotFoundException {
+        final var group = this.findById(groupId);
+        final var permission = permissionService.findById(permissionId);
+
+        group.getPermissions().remove(permission);
     }
 }
