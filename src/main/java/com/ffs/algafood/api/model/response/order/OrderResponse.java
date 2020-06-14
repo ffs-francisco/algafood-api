@@ -42,7 +42,10 @@ public class OrderResponse {
     private List<OrderItemResponse> itens;
 
     public static OrderResponse from(final Order order) {
-        return new ModelMapper().map(order, OrderResponse.class);
+        final var orderResponse = new ModelMapper().map(order, OrderResponse.class);
+        orderResponse.setAddressDelivery(AddressResponse.from(order.getAddressDelivery()));
+
+        return orderResponse;
     }
 
     public static List<OrderResponse> fromList(final List<Order> orders) {

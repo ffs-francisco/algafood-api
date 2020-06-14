@@ -28,6 +28,8 @@ ALTER TABLE product         AUTO_INCREMENT = 1;
 ALTER TABLE restaurant      AUTO_INCREMENT = 1;
 ALTER TABLE `state`         AUTO_INCREMENT = 1;
 ALTER TABLE `user`          AUTO_INCREMENT = 1;
+ALTER TABLE `order`         AUTO_INCREMENT = 1;
+ALTER TABLE `order_item`    AUTO_INCREMENT = 1;
 
 
 INSERT INTO kitchen(id, name) VALUES

@@ -20,7 +20,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-class OrderItem implements Serializable {
+public class OrderItem implements Serializable {
 
     @EqualsAndHashCode.Include
     @Id

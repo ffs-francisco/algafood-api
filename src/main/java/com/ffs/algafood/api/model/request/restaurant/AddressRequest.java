@@ -13,7 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-class AddressRequest {
+public class AddressRequest {
 
     @NotBlank
     @Pattern(regexp = "^\\d{5}[-]\\d{3}$")

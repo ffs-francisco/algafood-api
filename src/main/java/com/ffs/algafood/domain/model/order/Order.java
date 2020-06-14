@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 
 import static com.ffs.algafood.domain.model.order.StatusOrderEnum.CREATED;
-import static java.math.BigDecimal.ZERO;
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -70,22 +70,6 @@ public class Order implements Serializable {
     @JoinColumn(nullable = false)
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = ALL)
     private List<OrderItem> itens = new ArrayList<>();
-
-    public void calculateTotalValue() {
-        this.subTotal = this.getItens().stream()
-                .map(item -> item.getPriceAmount())
-                .reduce(ZERO, BigDecimal::add);
-
-        this.amount = this.subTotal.add(this.shippingFee);
-    }
-
-    public void setShippingFeeValue() {
-        setShippingFee(getRestaurant().getShippingFee());
-    }
-
-    public void setItemsIntoOrder() {
-        getItens().forEach(item -> item.setOrder(this));
-    }
 }
