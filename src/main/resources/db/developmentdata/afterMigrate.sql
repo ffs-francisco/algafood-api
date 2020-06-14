@@ -14,6 +14,8 @@ DELETE FROM restaurant_payment_method;
 DELETE FROM restaurant_user_responsible;
 DELETE FROM `state`;
 DELETE FROM `user`;
+DELETE FROM `order`;
+DELETE FROM `order_item`;
 
 SET foreign_key_checks = 1;
 
@@ -109,4 +111,17 @@ INSERT INTO group_user (group_id, user_id) VALUES
 
 INSERT INTO restaurant_user_responsible (user_id, restaurant_id) VALUES
 (5, 1), (5, 3)
+;
+
+INSERT INTO `order` (id, restaurant_id, customer_user_id, payment_method_id,
+address_city_id, address_cep, address_street, address_number, address_complement, address_district,
+status, date_register, sub_total, shipping_fee, amount) VALUES
+(1, 1, 1, 1, 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil', 'CREATED', utc_timestamp, 298.90, 10, 308.90),
+(2, 4, 1, 2, 1, '38400-111', 'Rua Acre Rio Brancco', '300', 'Casa 200', 'Centro', 'CREATED', utc_timestamp, 79, 0, 79)
+;
+
+INSERT INTO order_item (id, order_id, product_id, quantity, price_amount, price_unit, observation) values
+(1, 1, 1, 1, 78.9, 78.9, null),
+(2, 1, 2, 2, 110, 220, 'Menos picante, por favor'),
+(3, 2, 6, 1, 79, 79, 'Ao ponto')
 ;
