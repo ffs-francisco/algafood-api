@@ -1,6 +1,5 @@
-package com.ffs.algafood.domain.service;
+package com.ffs.algafood.domain.service.order;
 
-import com.ffs.algafood.domain.exception.OrderNotFoundException;
 import com.ffs.algafood.domain.exception.ProductNotFoundException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
@@ -8,15 +7,14 @@ import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.model.order.OrderItem;
 import com.ffs.algafood.domain.model.restaurant.PaymentMethod;
 import com.ffs.algafood.domain.model.restaurant.Restaurant;
-import com.ffs.algafood.domain.repository.OrderRepository;
+import com.ffs.algafood.domain.service.CityService;
+import com.ffs.algafood.domain.service.UserService;
 import com.ffs.algafood.domain.service.restaurant.PaymentMethodService;
 import com.ffs.algafood.domain.service.restaurant.ProductService;
 import com.ffs.algafood.domain.service.restaurant.RestaurantService;
 import java.math.BigDecimal;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
 import static java.lang.String.format;
 import static java.math.BigDecimal.ZERO;
@@ -25,11 +23,8 @@ import static java.math.BigDecimal.ZERO;
  *
  * @author francisco
  */
-@Service
-public class OrderService {
-
-    @Autowired
-    private OrderRepository orderRepository;
+@Component
+class OrderCreateUtil {
 
     @Autowired
     private CityService cityService;
@@ -42,24 +37,14 @@ public class OrderService {
     @Autowired
     private PaymentMethodService paymentMethodService;
 
-    public List<Order> findAll() {
-        return orderRepository.findAll();
-    }
-
-    public Order findById(final Long orderId) throws OrderNotFoundException {
-        return orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("id", orderId));
-    }
-
-    @Transactional
-    public Order issue(final Order order) throws EntityNotFoundException, BusinessException {
+    public Order create(final Order order) throws EntityNotFoundException, BusinessException {
         this.validate(order);
         this.validateItens(order);
 
         order.setShippingFee(order.getRestaurant().getShippingFee());
         this.calculateTotalValues(order);
 
-        return orderRepository.save(order);
+        return order;
     }
 
     private void validate(final Order order) throws EntityNotFoundException, BusinessException {
@@ -103,7 +88,7 @@ public class OrderService {
         order.setAmount(subTotal.add(order.getShippingFee()));
     }
 
-    void calculateTotalItemPrice(final OrderItem item) {
+    private void calculateTotalItemPrice(final OrderItem item) {
         final var priceUnit = (item.getPriceUnit() == null) ? ZERO : item.getPriceUnit();
         final var quantity = (item.getQuantity() == null) ? 0 : item.getQuantity();
 

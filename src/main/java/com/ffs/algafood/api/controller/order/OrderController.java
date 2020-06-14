@@ -1,4 +1,4 @@
-package com.ffs.algafood.api.controller;
+package com.ffs.algafood.api.controller.order;
 
 import com.ffs.algafood.api.model.request.order.OrderRequest;
 import com.ffs.algafood.api.model.response.order.OrderResponse;
@@ -6,7 +6,7 @@ import com.ffs.algafood.api.model.response.order.OrderSummaryResponse;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.User;
-import com.ffs.algafood.domain.service.OrderService;
+import com.ffs.algafood.domain.service.order.OrderService;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
