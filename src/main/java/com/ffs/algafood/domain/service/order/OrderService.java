@@ -22,8 +22,6 @@ public class OrderService {
 
     @Autowired
     private OrderCreateUtil orderCreteUtil;
-    @Autowired
-    private OrderStatusFlowUtil statusFlowUtil;
 
     public List<Order> findAll() {
         return orderRepository.findAll();
@@ -41,16 +39,16 @@ public class OrderService {
 
     @Transactional
     public void confirm(final Long orderId) {
-        statusFlowUtil.confirm(this.findById(orderId));
+        this.findById(orderId).confirm();
     }
 
     @Transactional
     public void cancel(final Long orderId) {
-        statusFlowUtil.cancel(this.findById(orderId));
+        this.findById(orderId).cancel();
     }
 
     @Transactional
     public void delivered(final Long orderId) {
-        statusFlowUtil.delivered(this.findById(orderId));
+        this.findById(orderId).delivered();
     }
 }

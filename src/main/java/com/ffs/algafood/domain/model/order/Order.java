@@ -1,5 +1,6 @@
 package com.ffs.algafood.domain.model.order;
 
+import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.model.Address;
 import com.ffs.algafood.domain.model.User;
 import com.ffs.algafood.domain.model.restaurant.PaymentMethod;
@@ -22,7 +23,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 
-import static com.ffs.algafood.domain.model.order.StatusOrderEnum.CREATED;
+import static com.ffs.algafood.domain.model.order.StatusOrderEnum.*;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -72,4 +73,28 @@ public class Order implements Serializable {
 
     @OneToMany(mappedBy = "order", cascade = ALL)
     private List<OrderItem> itens = new ArrayList<>();
+
+    public void confirm() {
+        setStatus(CONFIRMED);
+        setDateConfirmation(OffsetDateTime.now());
+    }
+
+    public void cancel() {
+        setStatus(CANCELED);
+        setDateCancellation(OffsetDateTime.now());
+    }
+
+    public void delivered() {
+        setStatus(DELIVERED);
+        setDateDelivery(OffsetDateTime.now());
+    }
+
+    private void setStatus(final StatusOrderEnum status) {
+        if (!getStatus().isValidStatusChanging(status)) {
+            throw new BusinessException(
+                    String.format("Order %d status can no longer be %s", getId(), status.getDescription()));
+        }
+
+        this.status = status;
+    }
 }
