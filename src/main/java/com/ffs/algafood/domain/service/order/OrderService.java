@@ -27,9 +27,9 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Order findById(final Long orderId) throws OrderNotFoundException {
-        return orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("id", orderId));
+    public Order findByCode(final String orderCode) throws OrderNotFoundException {
+        return orderRepository.findByCode(orderCode)
+                .orElseThrow(() -> new OrderNotFoundException("code", orderCode));
     }
 
     @Transactional
@@ -38,17 +38,17 @@ public class OrderService {
     }
 
     @Transactional
-    public void confirm(final Long orderId) {
-        this.findById(orderId).confirm();
+    public void confirm(final String orderCode) {
+        this.findByCode(orderCode).confirm();
     }
 
     @Transactional
-    public void cancel(final Long orderId) {
-        this.findById(orderId).cancel();
+    public void cancel(final String orderCode) {
+        this.findByCode(orderCode).cancel();
     }
 
     @Transactional
-    public void delivered(final Long orderId) {
-        this.findById(orderId).delivered();
+    public void delivered(final String orderCode) {
+        this.findByCode(orderCode).delivered();
     }
 }

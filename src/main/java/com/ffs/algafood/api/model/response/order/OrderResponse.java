@@ -21,7 +21,7 @@ import org.modelmapper.ModelMapper;
 @Getter
 public class OrderResponse {
 
-    private Long id;
+    private String code;
 
     private BigDecimal subTotal;
     private BigDecimal shippingFee;

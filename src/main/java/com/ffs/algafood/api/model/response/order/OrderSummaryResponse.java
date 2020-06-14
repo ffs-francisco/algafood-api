@@ -19,7 +19,7 @@ import org.modelmapper.ModelMapper;
 @Getter
 public class OrderSummaryResponse {
 
-    private Long id;
+    private String code;
 
     private BigDecimal subTotal;
     private BigDecimal shippingFee;

@@ -40,10 +40,10 @@ public class OrderController {
         return fromList(orderService.findAll());
     }
 
-    @GetMapping("/{orderId}")
+    @GetMapping("/{orderCode}")
     @ResponseStatus(OK)
-    public OrderResponse getById(@PathVariable final Long orderId) {
-        return from(orderService.findById(orderId));
+    public OrderResponse getById(@PathVariable final String orderCode) {
+        return from(orderService.findByCode(orderCode));
     }
 
     @PostMapping

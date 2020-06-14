@@ -1,0 +1,1 @@
+ALTER TABLE `order` ADD code VARCHAR(36) NOT NULL AFTER id;

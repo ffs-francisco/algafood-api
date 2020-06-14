@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
  * @author francisco
  */
 @RestController
-@RequestMapping("/orders/{orderId}")
+@RequestMapping("/orders/{orderCode}")
 public class OrderFlowController {
 
     @Autowired
@@ -23,19 +23,19 @@ public class OrderFlowController {
 
     @PutMapping("/confimation")
     @ResponseStatus(NO_CONTENT)
-    public void confirm(@PathVariable final Long orderId) {
-        orderService.confirm(orderId);
+    public void confirm(@PathVariable final String orderCode) {
+        orderService.confirm(orderCode);
     }
 
     @PutMapping("/cancelation")
     @ResponseStatus(NO_CONTENT)
-    public void cancel(@PathVariable final Long orderId) {
-        orderService.cancel(orderId);
+    public void cancel(@PathVariable final String orderCode) {
+        orderService.cancel(orderCode);
     }
 
     @PutMapping("/delivered")
     @ResponseStatus(NO_CONTENT)
-    public void delivered(@PathVariable final Long orderId) {
-        orderService.delivered(orderId);
+    public void delivered(@PathVariable final String orderCode) {
+        orderService.delivered(orderCode);
     }
 }
