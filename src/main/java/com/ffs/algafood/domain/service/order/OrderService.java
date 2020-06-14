@@ -5,14 +5,10 @@ import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.repository.OrderRepository;
-import java.time.OffsetDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.ffs.algafood.domain.model.order.StatusOrderEnum.CONFIRMED;
-import static com.ffs.algafood.domain.model.order.StatusOrderEnum.CREATED;
 
 /**
  *
@@ -26,6 +22,8 @@ public class OrderService {
 
     @Autowired
     private OrderCreateUtil orderCreteUtil;
+    @Autowired
+    private OrderStatusFlowUtil statusFlowUtil;
 
     public List<Order> findAll() {
         return orderRepository.findAll();
@@ -43,15 +41,16 @@ public class OrderService {
 
     @Transactional
     public void confirm(final Long orderId) {
-        final var order = this.findById(orderId);
-
-        if (!order.getStatus().equals(CREATED)) {
-            throw new BusinessException(String.format("Order status %d cannot be changed from %s to %s",
-                    order.getId(), order.getStatus().getDescription(), CONFIRMED.getDescription()));
-        }
-
-        order.setStatus(CONFIRMED);
-        order.setDateConfirmation(OffsetDateTime.now());
+        statusFlowUtil.confirm(this.findById(orderId));
     }
 
+    @Transactional
+    public void cancel(final Long orderId) {
+        statusFlowUtil.cancel(this.findById(orderId));
+    }
+
+    @Transactional
+    public void delivered(final Long orderId) {
+        statusFlowUtil.delivered(this.findById(orderId));
+    }
 }
