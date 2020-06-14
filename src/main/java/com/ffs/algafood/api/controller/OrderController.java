@@ -1,6 +1,7 @@
 package com.ffs.algafood.api.controller;
 
 import com.ffs.algafood.api.model.response.order.OrderResponse;
+import com.ffs.algafood.api.model.response.order.OrderSummaryResponse;
 import com.ffs.algafood.domain.service.OrderService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class OrderController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<OrderResponse> listAll() {
-        return OrderResponse.fromList(orderService.findAll());
+    public List<OrderSummaryResponse> listAll() {
+        return OrderSummaryResponse.fromList(orderService.findAll());
     }
 
     @GetMapping("/{orderId}")

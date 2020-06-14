@@ -82,10 +82,10 @@ public class Order implements Serializable {
     }
 
     public void setShippingFeeValue() {
-        this.setShippingFee(this.getRestaurant().getShippingFee());
+        setShippingFee(getRestaurant().getShippingFee());
     }
 
     public void setItemsIntoOrder() {
-        this.getItens().forEach(item -> item.setOrder(this));
+        getItens().forEach(item -> item.setOrder(this));
     }
 }

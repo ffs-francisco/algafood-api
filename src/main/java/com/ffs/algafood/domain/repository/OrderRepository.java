@@ -1,7 +1,9 @@
 package com.ffs.algafood.domain.repository;
 
 import com.ffs.algafood.domain.model.order.Order;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 /**
  *
@@ -9,4 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
+    @Query("FROM Order O JOIN FETCH O.customer JOIN FETCH O.restaurant R JOIN FETCH R.kitchen")
+    List<Order> findAll();
 }
