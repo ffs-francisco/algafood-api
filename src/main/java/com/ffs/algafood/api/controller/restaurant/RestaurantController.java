@@ -1,6 +1,5 @@
 package com.ffs.algafood.api.controller.restaurant;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.ffs.algafood.api.model.request.restaurant.RestaurantRequest;
 import com.ffs.algafood.api.model.request.view.RestaurantView;
 import com.ffs.algafood.api.model.response.restaurant.RestaurantResponse;
@@ -14,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -43,22 +44,18 @@ public class RestaurantController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<RestaurantResponse> listAll() {
-        return RestaurantResponse.fromList(restaurantService.findAll());
-    }
+    public MappingJacksonValue listAll(@RequestParam(required = false) final String projection) {
+        final var restaurants = RestaurantResponse.fromList(restaurantService.findAll());
+        final var restaurantsMapper = new MappingJacksonValue(restaurants);
 
-    @JsonView(RestaurantView.Sumary.class)
-    @GetMapping(params = "projection=sumary")
-    @ResponseStatus(OK)
-    public List<RestaurantResponse> listAllSumary() {
-        return this.listAll();
-    }
+        restaurantsMapper.setSerializationView(RestaurantView.Sumary.class);
+        if ("just-name".equals(projection)) {
+            restaurantsMapper.setSerializationView(RestaurantView.JustName.class);
+        } else if ("complete".equals(projection)) {
+            restaurantsMapper.setSerializationView(null);
+        }
 
-    @JsonView(RestaurantView.JustName.class)
-    @GetMapping(params = "projection=just-name")
-    @ResponseStatus(OK)
-    public List<RestaurantResponse> listAllJustName() {
-        return this.listAll();
+        return restaurantsMapper;
     }
 
     @GetMapping("/{restaurantId}")
