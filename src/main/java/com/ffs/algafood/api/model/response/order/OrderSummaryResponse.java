@@ -1,6 +1,5 @@
 package com.ffs.algafood.api.model.response.order;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.ffs.algafood.api.model.response.user.UserResponse;
 import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.model.order.StatusOrderEnum;
@@ -16,7 +15,6 @@ import org.modelmapper.ModelMapper;
  *
  * @author francisco
  */
-@JsonFilter("filterOrder")
 @Setter
 @Getter
 public class OrderSummaryResponse {

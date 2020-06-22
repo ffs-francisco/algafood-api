@@ -1,7 +1,6 @@
 package com.ffs.algafood.api.controller.restaurant;
 
 import com.ffs.algafood.api.model.request.restaurant.RestaurantRequest;
-import com.ffs.algafood.api.model.request.view.RestaurantView;
 import com.ffs.algafood.api.model.response.restaurant.RestaurantResponse;
 import com.ffs.algafood.api.ultil.ApiUpdateUtils;
 import com.ffs.algafood.domain.exception.RestaurantNotFoundException;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -44,18 +42,8 @@ public class RestaurantController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public MappingJacksonValue listAll(@RequestParam(required = false) final String projection) {
-        final var restaurants = RestaurantResponse.fromList(restaurantService.findAll());
-        final var restaurantsMapper = new MappingJacksonValue(restaurants);
-
-        restaurantsMapper.setSerializationView(RestaurantView.Sumary.class);
-        if ("just-name".equals(projection)) {
-            restaurantsMapper.setSerializationView(RestaurantView.JustName.class);
-        } else if ("complete".equals(projection)) {
-            restaurantsMapper.setSerializationView(null);
-        }
-
-        return restaurantsMapper;
+    public List<RestaurantResponse> listAll(@RequestParam(required = false) final String projection) {
+        return RestaurantResponse.fromList(restaurantService.findAll());
     }
 
     @GetMapping("/{restaurantId}")
