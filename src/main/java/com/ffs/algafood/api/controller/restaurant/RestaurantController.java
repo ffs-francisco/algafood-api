@@ -1,6 +1,8 @@
 package com.ffs.algafood.api.controller.restaurant;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.ffs.algafood.api.model.request.restaurant.RestaurantRequest;
+import com.ffs.algafood.api.model.request.view.RestaurantView;
 import com.ffs.algafood.api.model.response.restaurant.RestaurantResponse;
 import com.ffs.algafood.api.ultil.ApiUpdateUtils;
 import com.ffs.algafood.domain.exception.RestaurantNotFoundException;
@@ -43,6 +45,20 @@ public class RestaurantController {
     @ResponseStatus(OK)
     public List<RestaurantResponse> listAll() {
         return RestaurantResponse.fromList(restaurantService.findAll());
+    }
+
+    @JsonView(RestaurantView.Sumary.class)
+    @GetMapping(params = "projection=sumary")
+    @ResponseStatus(OK)
+    public List<RestaurantResponse> listAllSumary() {
+        return this.listAll();
+    }
+
+    @JsonView(RestaurantView.JustName.class)
+    @GetMapping(params = "projection=just-name")
+    @ResponseStatus(OK)
+    public List<RestaurantResponse> listAllJustName() {
+        return this.listAll();
     }
 
     @GetMapping("/{restaurantId}")
