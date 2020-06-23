@@ -23,8 +23,8 @@ public class ProductService {
     @Autowired
     private RestaurantService restaurantService;
 
-    public List<Product> findAllByRestaurant(final Long restaurantId) throws RestaurantNotFoundException {
-        return productRepository.findAllByRestaurant(restaurantService.findById(restaurantId));
+    public List<Product> findAllByRestaurant(final Long restaurantId, final boolean includeInactives) throws RestaurantNotFoundException {
+        return productRepository.findAllActiveByRestaurant(restaurantService.findById(restaurantId), includeInactives);
     }
 
     public Product findAByRestaurant(final Long restaurantId, final Long productId) throws ProductNotFoundException {
