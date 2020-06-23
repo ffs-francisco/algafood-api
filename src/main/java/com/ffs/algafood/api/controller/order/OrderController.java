@@ -6,6 +6,7 @@ import com.ffs.algafood.api.model.response.order.OrderSummaryResponse;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.User;
+import com.ffs.algafood.domain.repository.order.filter.OrderFilter;
 import com.ffs.algafood.domain.service.order.OrderService;
 import java.util.List;
 import javax.validation.Valid;
@@ -36,8 +37,8 @@ public class OrderController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<OrderSummaryResponse> listAll() {
-        return fromList(orderService.findAll());
+    public List<OrderSummaryResponse> searchBy(OrderFilter filter) {
+        return fromList(orderService.findAllByFilter(filter));
     }
 
     @GetMapping("/{orderCode}")

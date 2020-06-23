@@ -4,7 +4,9 @@ import com.ffs.algafood.domain.exception.OrderNotFoundException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.order.Order;
-import com.ffs.algafood.domain.repository.OrderRepository;
+import com.ffs.algafood.domain.repository.order.OrderRepository;
+import com.ffs.algafood.domain.repository.order.filter.OrderFilter;
+import com.ffs.algafood.infrastructor.repositoty.specification.OrderSpecs;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +25,8 @@ public class OrderService {
     @Autowired
     private OrderCreateUtil orderCreteUtil;
 
-    public List<Order> findAll() {
-        return orderRepository.findAll();
+    public List<Order> findAllByFilter(final OrderFilter filter) {
+        return orderRepository.findAll(OrderSpecs.whitFilter(filter));
     }
 
     public Order findByCode(final String orderCode) throws OrderNotFoundException {
