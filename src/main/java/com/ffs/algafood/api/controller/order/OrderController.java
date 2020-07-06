@@ -3,11 +3,13 @@ package com.ffs.algafood.api.controller.order;
 import com.ffs.algafood.api.model.request.order.OrderRequest;
 import com.ffs.algafood.api.model.response.order.OrderResponse;
 import com.ffs.algafood.api.model.response.order.OrderSummaryResponse;
+import com.ffs.algafood.core.PageablerTranslator;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.User;
 import com.ffs.algafood.domain.repository.order.filter.OrderFilter;
 import com.ffs.algafood.domain.service.order.OrderService;
+import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +42,7 @@ public class OrderController {
     @GetMapping
     @ResponseStatus(OK)
     public Page<OrderSummaryResponse> searchBy(@PageableDefault(size = 10) final Pageable pageable, final OrderFilter filter) {
-        return fromPage(orderService.findAllByFilter(filter, pageable));
+        return fromPage(orderService.findAllByFilter(filter, this.translatePageable(pageable)));
     }
 
     @GetMapping("/{orderCode}")
@@ -63,5 +65,17 @@ public class OrderController {
         } catch (EntityNotFoundException ex) {
             throw new BusinessException(ex.getMessage());
         }
+    }
+
+    private Pageable translatePageable(final Pageable pageable) {
+        var mapping = Map.of(
+                "code", "code",
+                "subTotal", "subTotal",
+                "shippingFee", "shippingFee",
+                "amount", "amount",
+                "nameCustomer", "customer.name"
+        );
+
+        return PageablerTranslator.translate(pageable, mapping);
     }
 }

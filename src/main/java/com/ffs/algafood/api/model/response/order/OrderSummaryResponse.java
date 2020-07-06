@@ -1,6 +1,5 @@
 package com.ffs.algafood.api.model.response.order;
 
-import com.ffs.algafood.api.model.response.user.UserResponse;
 import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.model.order.StatusOrderEnum;
 import java.math.BigDecimal;
@@ -30,7 +29,8 @@ public class OrderSummaryResponse {
 
     private OffsetDateTime dateRegister;
 
-    private UserResponse customer;
+//    private UserResponse customer;
+    private String nameCustomer;
     private RestaurantResponse restaurant;
 
     public static OrderSummaryResponse from(Order order) {
