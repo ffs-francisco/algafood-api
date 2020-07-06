@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 
 /**
  *
@@ -27,5 +28,9 @@ public class KitchenResponse implements Serializable {
         return kitchens.stream()
                 .map(KitchenResponse::from)
                 .collect(Collectors.toList());
+    }
+
+    public static Page<KitchenResponse> fromPage(Page<Kitchen> page) {
+        return page.map(KitchenResponse::from);
     }
 }

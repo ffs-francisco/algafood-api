@@ -1,13 +1,14 @@
 package com.ffs.algafood.domain.service;
 
-import com.ffs.algafood.domain.exception.base.EntityInUseException;
 import com.ffs.algafood.domain.exception.KitchenNotFoundException;
+import com.ffs.algafood.domain.exception.base.EntityInUseException;
 import com.ffs.algafood.domain.model.Kitchen;
 import com.ffs.algafood.domain.repository.KitchenRepository;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +27,8 @@ public class KitchenService {
                 .orElseThrow(() -> new KitchenNotFoundException("id", kitchenId));
     }
 
-    public List<Kitchen> findAll() {
-        return kitchenRepository.findAll();
+    public Page<Kitchen> findAll(final Pageable pageable) {
+        return kitchenRepository.findAll(pageable);
     }
 
     @Transactional
