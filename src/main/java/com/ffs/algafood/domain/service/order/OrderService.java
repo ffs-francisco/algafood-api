@@ -7,8 +7,9 @@ import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.repository.order.OrderRepository;
 import com.ffs.algafood.domain.repository.order.filter.OrderFilter;
 import com.ffs.algafood.infrastructor.repositoty.specification.OrderSpecs;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +26,8 @@ public class OrderService {
     @Autowired
     private OrderCreateUtil orderCreteUtil;
 
-    public List<Order> findAllByFilter(final OrderFilter filter) {
-        return orderRepository.findAll(OrderSpecs.whitFilter(filter));
+    public Page<Order> findAllByFilter(final OrderFilter filter, final Pageable pageable) {
+        return orderRepository.findAll(OrderSpecs.whitFilter(filter), pageable);
     }
 
     public Order findByCode(final String orderCode) throws OrderNotFoundException {

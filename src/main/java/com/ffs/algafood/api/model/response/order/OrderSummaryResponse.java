@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 
 /**
  *
@@ -42,4 +43,7 @@ public class OrderSummaryResponse {
                 .collect(Collectors.toList());
     }
 
+    public static Page<OrderSummaryResponse> fromPage(Page<Order> page) {
+        return page.map(OrderSummaryResponse::from);
+    }
 }

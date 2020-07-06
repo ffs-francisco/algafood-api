@@ -14,9 +14,11 @@ public class OrderSpecs {
 
     public static Specification<Order> whitFilter(OrderFilter filter) {
         return (root, query, builder) -> {
-            root.fetch("customer");
-            root.fetch("paymentMethod");
-            root.fetch("restaurant").fetch("kitchen");
+            if (query.getResultType().equals(Order.class)) {
+                root.fetch("customer");
+                root.fetch("paymentMethod");
+                root.fetch("restaurant").fetch("kitchen");
+            }
 
             final var predicates = new ArrayList<Predicate>();
             if (filter.getCustomerId() != null) {
