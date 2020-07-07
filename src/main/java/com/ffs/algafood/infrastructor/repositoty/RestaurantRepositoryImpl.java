@@ -1,8 +1,8 @@
 package com.ffs.algafood.infrastructor.repositoty;
 
-import com.ffs.algafood.domain.repository.restaurant.RestaurantRepositoryCustom;
 import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import com.ffs.algafood.domain.repository.restaurant.RestaurantRepository;
+import com.ffs.algafood.domain.repository.restaurant.RestaurantRepositoryCustom;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,6 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryCustom {
             predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("shippingFee"), shippingFeeInitial));
         }
         if (shippingFeeFinal != null) {
-
             predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("shippingFee"), shippingFeeFinal));
         }
 
