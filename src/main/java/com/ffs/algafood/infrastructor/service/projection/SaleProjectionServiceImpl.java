@@ -2,6 +2,7 @@ package com.ffs.algafood.infrastructor.service.projection;
 
 import com.ffs.algafood.domain.filter.DailySaleProjectionFilter;
 import com.ffs.algafood.domain.model.order.Order;
+import com.ffs.algafood.domain.model.order.StatusOrderEnum;
 import com.ffs.algafood.domain.model.projection.DailySaleProjection;
 import com.ffs.algafood.domain.service.projection.SaleProjectionService;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class SaleProjectionServiceImpl implements SaleProjectionService {
         if (filter.getDateRegisterEnd() != null) {
             predicates.add(builder.lessThanOrEqualTo(root.get("dateRegister"), filter.getDateRegisterEnd()));
         }
+        predicates.add(root.get("status").in(StatusOrderEnum.CONFIRMED, StatusOrderEnum.DELIVERED));
 
         return predicates.toArray(new Predicate[0]);
     }
