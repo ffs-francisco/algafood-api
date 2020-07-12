@@ -123,9 +123,9 @@ address_city_id, address_cep, address_street, address_number, address_complement
 date_register, date_confirmation, date_delivery, date_cancellation, sub_total, shipping_fee, amount) VALUES
 (1, '534b9fb8-ae76-11ea-b5b1-0242ac110002', 1, 1, 1, 'CREATED', 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil', utc_timestamp, null, null, null, 298.90, 10, 308.90),
 (2, '60b7b5fa-ae76-11ea-b5b1-0242ac110002', 4, 1, 2, 'CREATED', 1, '38400-111', 'Rua Acre Rio Brancco', '300', 'Casa 200', 'Centro', utc_timestamp, null, null, null, 79, 0, 79),
-(3, 'b5741512-8fbc-47fa-9ac1-b530354fc0ff', 1, 1, 1, 'DELIVERED', 1, '38400-222', 'Rua Natal Alamedao', '200', 'Apto 200', 'Brasil', '2019-10-30 21:10:00', '2019-10-30 21:10:45', '2019-10-30 21:55:44', null, 110, 10, 120),
-(4, '5c621c9a-ba61-4454-8631-8aabefe58dc2', 1, 2, 1, 'DELIVERED', 1, '38400-800', 'Rua Fortaleza Cear', '900', 'Apto 504', 'Centro', '2019-11-02 20:34:04', '2019-11-02 20:35:10', '2019-11-02 21:10:32', null, 174.4, 5, 179.4),
-(5, '5c621c9a-ba61-4454-8631-8aabefe58d32', 1, 2, 1, 'DELIVERED', 1, '38400-800', 'Rua Fortaleza Cear', '900', 'Apto 504', 'Centro', '2019-11-03 02:00:04', '2019-11-03 02:00:10', '2019-11-03 02:00:32', null, 174.4, 5, 179.4)
+(3, 'b5741512-8fbc-47fa-9ac1-b530354fc0ff', 1, 1, 1, 'DELIVERED', 1, '38400-222', 'Rua Natal Alamedao', '200', 'Apto 200', 'Brasil', '2020-06-30 21:10:00', '2020-06-30 21:10:45', '2020-06-30 21:55:44', null, 110, 10, 120),
+(4, '5c621c9a-ba61-4454-8631-8aabefe58dc2', 1, 2, 1, 'DELIVERED', 1, '38400-800', 'Rua Fortaleza Cear', '900', 'Apto 504', 'Centro', '2020-07-02 20:34:04', '2020-07-02 20:35:10', '2020-07-02 21:10:32', null, 174.4, 5, 179.4),
+(5, '5c621c9a-ba61-4454-8631-8aabefe58d32', 1, 2, 1, 'DELIVERED', 1, '38400-800', 'Rua Fortaleza Cear', '900', 'Apto 504', 'Centro', '2020-07-03 02:00:04', '2020-07-03 02:00:10', '2020-07-03 02:00:32', null, 174.4, 5, 179.4)
 ;
 
 INSERT INTO order_item (id, order_id, product_id, quantity, price_amount, price_unit, observation) values

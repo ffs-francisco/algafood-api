@@ -16,6 +16,6 @@ import lombok.Setter;
 public class DailySaleProjection {
 
     private Date date;
-    private Long totalSAles;
+    private Long totalSales;
     private BigDecimal totalBilled;
 }
