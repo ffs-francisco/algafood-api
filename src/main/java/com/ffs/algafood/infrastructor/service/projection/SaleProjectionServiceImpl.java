@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
@@ -26,22 +27,22 @@ public class SaleProjectionServiceImpl implements SaleProjectionService {
     private EntityManager manager;
 
     @Override
-    public List<DailySaleProjection> findByFilter(DailySaleProjectionFilter filter) {
+    public List<DailySaleProjection> findByFilter(DailySaleProjectionFilter filter, final String offSet) {
         final var builder = manager.getCriteriaBuilder();
         final var query = builder.createQuery(DailySaleProjection.class);
 
         final var root = query.from(Order.class);
 
-        final var dateFunction = builder.function("date", Date.class, root.get("dateRegister"));
+        final var dateExpression = this.getExpressionDate(builder, root, offSet);
         final var selection = builder.construct(DailySaleProjection.class,
-                dateFunction,
+                dateExpression,
                 builder.count(root.get("id")),
                 builder.sum(root.get("amount"))
         );
 
-        query.where(getPredicates(filter, builder, root));
+        query.where(this.getPredicates(filter, builder, root));
         query.select(selection);
-        query.groupBy(dateFunction);
+        query.groupBy(dateExpression);
 
         return manager.createQuery(query).getResultList();
     }
@@ -61,5 +62,11 @@ public class SaleProjectionServiceImpl implements SaleProjectionService {
         predicates.add(root.get("status").in(StatusOrderEnum.CONFIRMED, StatusOrderEnum.DELIVERED));
 
         return predicates.toArray(new Predicate[0]);
+    }
+
+    private Expression<Date> getExpressionDate(final CriteriaBuilder builder, final Root<Order> root, final String offSet) {
+        return builder.function("date", Date.class, builder.function(
+                "convert_tz", Date.class, root.get("dateRegister"), builder.literal("+00:00"), builder.literal(offSet)
+        ));
     }
 }

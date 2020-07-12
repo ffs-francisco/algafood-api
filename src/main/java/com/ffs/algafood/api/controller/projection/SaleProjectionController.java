@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -21,8 +22,11 @@ public class SaleProjectionController {
     private SaleProjectionService projectionService;
 
     @GetMapping("/daily-sales")
-    public List<DailySaleProjection> findDailySales(final DailySaleProjectionFilter filter) {
-        return projectionService.findByFilter(filter);
+    public List<DailySaleProjection> findDailySales(
+            final DailySaleProjectionFilter filter,
+            @RequestParam(required = false, defaultValue = "+00:00") final String offSet
+    ) {
+        return projectionService.findByFilter(filter, offSet);
     }
 
 }

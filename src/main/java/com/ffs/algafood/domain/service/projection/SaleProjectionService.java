@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface SaleProjectionService {
 
-    List<DailySaleProjection> findByFilter(final DailySaleProjectionFilter filter);
+    List<DailySaleProjection> findByFilter(final DailySaleProjectionFilter filter, final String offSet);
 }
