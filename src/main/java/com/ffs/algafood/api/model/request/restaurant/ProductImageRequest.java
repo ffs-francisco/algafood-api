@@ -1,5 +1,6 @@
 package com.ffs.algafood.api.model.request.restaurant;
 
+import com.ffs.algafood.core.validation.annotation.FileSize.FileSize;
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,5 +20,6 @@ public class ProductImageRequest implements Serializable {
     private String description;
 
     @NotNull
+    @FileSize(max = "500KB")
     private MultipartFile file;
 }
