@@ -1,12 +1,11 @@
-package com.ffs.algafood.core.validation.annotation;
+package com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
 
-import com.ffs.algafood.core.validation.annotation.validator.ZeroValueIncludeDescriptionValidator;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import static java.lang.annotation.ElementType.*;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**

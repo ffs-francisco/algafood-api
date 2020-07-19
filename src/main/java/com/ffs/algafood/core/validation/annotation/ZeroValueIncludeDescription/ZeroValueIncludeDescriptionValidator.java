@@ -1,6 +1,5 @@
-package com.ffs.algafood.core.validation.annotation.validator;
+package com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
 
-import com.ffs.algafood.core.validation.annotation.ZeroValueIncludeDescription;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import javax.validation.ConstraintValidator;
@@ -13,7 +12,7 @@ import org.springframework.beans.BeansException;
  *
  * @author francisco
  */
-public class ZeroValueIncludeDescriptionValidator implements ConstraintValidator<ZeroValueIncludeDescription, Object> {
+class ZeroValueIncludeDescriptionValidator implements ConstraintValidator<ZeroValueIncludeDescription, Object> {
 
     public String fieldValue;
     public String fieldDescription;

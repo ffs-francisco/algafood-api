@@ -1,6 +1,5 @@
-package com.ffs.algafood.core.validation.annotation;
+package com.ffs.algafood.core.validation.annotation.mutilple;
 
-import com.ffs.algafood.core.validation.annotation.validator.MultiploValidator;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.validation.Constraint;

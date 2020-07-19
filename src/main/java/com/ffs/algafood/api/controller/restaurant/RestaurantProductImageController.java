@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,7 +29,7 @@ public class RestaurantProductImageController {
     public void update(
             @PathVariable final Long restaurantId,
             @PathVariable final Long productId,
-            ProductImageRequest imageRequest
+            @Valid ProductImageRequest imageRequest
     ) {
         final var imageName = UUID.randomUUID().toString() + "_" + imageRequest.getFile().getOriginalFilename();
         final var path = Path.of("/home/francisco/catalog", imageName);

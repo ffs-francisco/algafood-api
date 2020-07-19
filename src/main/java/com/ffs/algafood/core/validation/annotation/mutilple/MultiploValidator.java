@@ -1,6 +1,5 @@
-package com.ffs.algafood.core.validation.annotation.validator;
+package com.ffs.algafood.core.validation.annotation.mutilple;
 
-import com.ffs.algafood.core.validation.annotation.Multiple;
 import java.math.BigDecimal;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -9,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
  *
  * @author francisco
  */
-public class MultiploValidator implements ConstraintValidator<Multiple, Number> {
+class MultiploValidator implements ConstraintValidator<Multiple, Number> {
 
     private BigDecimal multipleNumber;
 
