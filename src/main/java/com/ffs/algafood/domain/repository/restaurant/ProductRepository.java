@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
  *
  * @author francisco
  */
-public interface ProductRepository extends CustomJpaRepository<Product, Long> {
+public interface ProductRepository extends CustomJpaRepository<Product, Long>, ProductRepositoryCustom {
 
     public Optional<Product> findByRestaurantAndId(final Restaurant findById, final Long productId);
 

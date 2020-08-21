@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Getter
 @Setter
-public class ProductImageRequest implements Serializable {
+public class ProductPhotoRequest implements Serializable {
 
     @NotBlank
     private String description;
