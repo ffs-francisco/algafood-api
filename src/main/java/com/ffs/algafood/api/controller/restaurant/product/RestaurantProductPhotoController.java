@@ -1,18 +1,15 @@
-package com.ffs.algafood.api.controller.restaurant;
+package com.ffs.algafood.api.controller.restaurant.product;
 
 import com.ffs.algafood.api.model.request.restaurant.ProductPhotoRequest;
 import com.ffs.algafood.api.model.request.restaurant.ProductPhotoResponse;
 import com.ffs.algafood.domain.service.restaurant.ProductPhotoService;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 /**
  *
@@ -25,7 +22,7 @@ public class RestaurantProductPhotoController {
 
     private final ProductPhotoService photoService;
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(consumes = MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(OK)
     public ProductPhotoResponse update(
             @PathVariable final Long restaurantId,

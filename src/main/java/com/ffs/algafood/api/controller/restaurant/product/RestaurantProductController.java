@@ -1,4 +1,4 @@
-package com.ffs.algafood.api.controller.restaurant;
+package com.ffs.algafood.api.controller.restaurant.product;
 
 import com.ffs.algafood.api.model.request.restaurant.ProductRequest;
 import com.ffs.algafood.api.model.response.restaurant.ProductResponse;

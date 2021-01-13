@@ -1,4 +1,4 @@
-package com.ffs.algafood.api.controller.restaurant;
+package com.ffs.algafood.api.controller.restaurant.user;
 
 import com.ffs.algafood.api.model.response.user.UserResponse;
 import com.ffs.algafood.domain.service.restaurant.RestaurantService;
