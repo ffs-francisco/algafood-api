@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- *
  * @author francisco
  */
 @Service
@@ -26,11 +25,13 @@ public class ProductPhotoService {
     ) {
         final var product = this.productService.findAByRestaurant(restaurantId, productId);
 
+        this.productRepository.findPhotoById(restaurantId, productId).ifPresent(this.productRepository::delete);
+
         final var photo = new ProductPhoto();
         photo.setProduct(product);
         photo.setDescription(description);
-        photo.setContentType(filePhoto.getContentType());
         photo.setSize(filePhoto.getSize());
+        photo.setContentType(filePhoto.getContentType());
         photo.setFileName(filePhoto.getOriginalFilename());
 
         return this.productRepository.save(photo);
