@@ -43,11 +43,6 @@
 
         <!--PROJECTIONS-->
         <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
             <version>${jasperreports.version}</version>
