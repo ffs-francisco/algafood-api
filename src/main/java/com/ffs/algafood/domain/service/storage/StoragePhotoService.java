@@ -12,10 +12,12 @@ public interface StoragePhotoService {
 
     void remove(final String fileName);
 
+    InputStream recover(final String fileName);
+
     default void update(final String oldFileName, final NewPhoto newPhoto) {
         this.store(newPhoto);
 
-        if (oldFileName != null){
+        if (oldFileName != null) {
             this.remove(oldFileName);
         }
     }
