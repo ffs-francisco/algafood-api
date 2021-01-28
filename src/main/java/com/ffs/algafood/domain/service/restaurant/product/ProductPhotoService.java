@@ -1,5 +1,6 @@
 package com.ffs.algafood.domain.service.restaurant.product;
 
+import com.ffs.algafood.domain.exception.ProductPhotoNotFoundException;
 import com.ffs.algafood.domain.model.restaurant.ProductPhoto;
 import com.ffs.algafood.domain.repository.restaurant.ProductRepository;
 import com.ffs.algafood.domain.service.storage.StoragePhotoService;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -45,5 +47,16 @@ public class ProductPhotoService {
 
         this.storageService.update(oldFileName.get(), newPhoto);
         return productPhotoUpdated;
+    }
+
+    public ProductPhoto findByRestaurantAndProduct(final Long restaurantId, final Long productId) {
+        return this.productRepository.findPhotoById(restaurantId, productId)
+                .orElseThrow(() -> new ProductPhotoNotFoundException("id", restaurantId));
+    }
+
+    public InputStream findResourceByRestaurantAndProduct(final Long restaurantId, final Long productId) {
+        final var photo = this.findByRestaurantAndProduct(restaurantId, productId);
+
+        return this.storageService.recover(photo.getFileName());
     }
 }
