@@ -2,16 +2,18 @@ package com.ffs.algafood.api.model.request.restaurant;
 
 import com.ffs.algafood.core.validation.annotation.FileContentType.FileContentType;
 import com.ffs.algafood.core.validation.annotation.FileSize.FileSize;
-import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import com.ffs.algafood.domain.service.storage.StoragePhotoService.NewPhoto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.io.Serializable;
+
 /**
- *
  * @author francisco
  */
 @Getter
@@ -25,4 +27,14 @@ public class ProductPhotoRequest implements Serializable {
     @FileSize(max = "500KB")
     @FileContentType(allowed = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     private MultipartFile file;
+
+    public NewPhoto getPhoto() throws IOException {
+        return NewPhoto.builder()
+                .description(this.description)
+                .size(this.file.getSize())
+                .originalFileName(this.file.getOriginalFilename())
+                .contentType(this.file.getContentType())
+                .inputStream(this.file.getInputStream())
+                .build();
+    }
 }

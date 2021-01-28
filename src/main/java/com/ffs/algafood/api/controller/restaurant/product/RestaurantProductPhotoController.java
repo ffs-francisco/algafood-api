@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
@@ -27,9 +28,7 @@ public class RestaurantProductPhotoController {
             @PathVariable final Long restaurantId,
             @PathVariable final Long productId,
             @Valid ProductPhotoRequest photoRequest
-    ) {
-        return ProductPhotoResponse.fromModel(
-                this.photoService.save(restaurantId, productId, photoRequest.getDescription(), photoRequest.getFile())
-        );
+    ) throws IOException {
+        return ProductPhotoResponse.fromModel(this.photoService.save(restaurantId, productId, photoRequest.getPhoto()));
     }
 }
