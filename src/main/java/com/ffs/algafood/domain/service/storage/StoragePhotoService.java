@@ -10,6 +10,16 @@ public interface StoragePhotoService {
 
     void store(final NewPhoto newPhoto);
 
+    void remove(final String fileName);
+
+    default void update(final String oldFileName, final NewPhoto newPhoto) {
+        this.store(newPhoto);
+
+        if (oldFileName != null){
+            this.remove(oldFileName);
+        }
+    }
+
     @Getter
     class NewPhoto {
 

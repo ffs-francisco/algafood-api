@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * @author francisco
  */
@@ -23,7 +25,13 @@ public class ProductPhotoService {
     @Transactional
     public ProductPhoto save(final Long restaurantId, final Long productId, final NewPhoto newPhoto) {
         final var product = this.productService.findAByRestaurant(restaurantId, productId);
-        this.productRepository.findPhotoById(restaurantId, productId).ifPresent(this.productRepository::delete);
+
+        AtomicReference<String> oldFileName = new AtomicReference<>();
+        this.productRepository.findPhotoById(restaurantId, productId)
+                .ifPresent(photo -> {
+                    oldFileName.set(photo.getFileName());
+                    this.productRepository.delete(photo);
+                });
 
         final var photo = new ProductPhoto();
         photo.setProduct(product);
@@ -35,7 +43,7 @@ public class ProductPhotoService {
         final var productPhotoUpdated = this.productRepository.save(photo);
         this.productRepository.flush();
 
-        this.storageService.store(newPhoto);
+        this.storageService.update(oldFileName.get(), newPhoto);
         return productPhotoUpdated;
     }
 }
