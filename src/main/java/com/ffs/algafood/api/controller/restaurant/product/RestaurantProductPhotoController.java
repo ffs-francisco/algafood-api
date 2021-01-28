@@ -2,7 +2,7 @@ package com.ffs.algafood.api.controller.restaurant.product;
 
 import com.ffs.algafood.api.model.request.restaurant.ProductPhotoRequest;
 import com.ffs.algafood.api.model.request.restaurant.ProductPhotoResponse;
-import com.ffs.algafood.domain.service.restaurant.ProductPhotoService;
+import com.ffs.algafood.domain.service.restaurant.product.ProductPhotoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +12,6 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 /**
- *
  * @author francisco
  */
 @RestController
