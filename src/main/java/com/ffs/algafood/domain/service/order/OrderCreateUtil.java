@@ -10,7 +10,7 @@ import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import com.ffs.algafood.domain.service.CityService;
 import com.ffs.algafood.domain.service.UserService;
 import com.ffs.algafood.domain.service.restaurant.PaymentMethodService;
-import com.ffs.algafood.domain.service.restaurant.ProductService;
+import com.ffs.algafood.domain.service.restaurant.product.ProductService;
 import com.ffs.algafood.domain.service.restaurant.RestaurantService;
 import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.ffs.algafood.domain.service.restaurant;
+package com.ffs.algafood.domain.service.restaurant.product;
 
 import com.ffs.algafood.domain.model.restaurant.ProductPhoto;
 import com.ffs.algafood.domain.repository.restaurant.ProductRepository;
