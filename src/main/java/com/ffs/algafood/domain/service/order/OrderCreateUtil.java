@@ -10,11 +10,12 @@ import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import com.ffs.algafood.domain.service.CityService;
 import com.ffs.algafood.domain.service.UserService;
 import com.ffs.algafood.domain.service.restaurant.PaymentMethodService;
-import com.ffs.algafood.domain.service.restaurant.product.ProductService;
 import com.ffs.algafood.domain.service.restaurant.RestaurantService;
-import java.math.BigDecimal;
+import com.ffs.algafood.domain.service.restaurant.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 
 import static java.lang.String.format;
 import static java.math.BigDecimal.ZERO;

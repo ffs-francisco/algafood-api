@@ -1,12 +1,13 @@
 package com.ffs.algafood.api.model.response.state;
 
 import com.ffs.algafood.domain.model.State;
-import java.io.Serializable;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *

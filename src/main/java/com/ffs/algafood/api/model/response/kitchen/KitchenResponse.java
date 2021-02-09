@@ -1,13 +1,14 @@
 package com.ffs.algafood.api.model.response.kitchen;
 
 import com.ffs.algafood.domain.model.Kitchen;
-import java.io.Serializable;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *

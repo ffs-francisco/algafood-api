@@ -7,10 +7,11 @@ import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.User;
 import com.ffs.algafood.domain.repository.UserRepository;
 import com.ffs.algafood.domain.service.permission.GroupService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  *

@@ -4,7 +4,6 @@ import com.ffs.algafood.domain.filter.DailySaleProjectionFilter;
 import com.ffs.algafood.domain.model.projection.DailySaleProjection;
 import com.ffs.algafood.domain.service.projection.SaleProjectionReportService;
 import com.ffs.algafood.domain.service.projection.SaleProjectionService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_PDF;
 

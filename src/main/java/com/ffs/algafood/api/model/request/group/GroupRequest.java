@@ -1,10 +1,11 @@
 package com.ffs.algafood.api.model.request.group;
 
 import com.ffs.algafood.domain.model.permission.Group;
-import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  *

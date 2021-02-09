@@ -2,14 +2,15 @@ package com.ffs.algafood.api.model.request.restaurant;
 
 import com.ffs.algafood.domain.model.restaurant.Product;
 import com.ffs.algafood.domain.model.restaurant.Restaurant;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  *

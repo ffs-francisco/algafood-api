@@ -1,15 +1,12 @@
 package com.ffs.algafood.domain.model.order;
 
 import com.ffs.algafood.domain.model.restaurant.Product;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 import static javax.persistence.GenerationType.IDENTITY;
 

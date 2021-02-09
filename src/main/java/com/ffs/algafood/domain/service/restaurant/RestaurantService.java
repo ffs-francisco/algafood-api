@@ -8,10 +8,11 @@ import com.ffs.algafood.domain.repository.restaurant.RestaurantRepository;
 import com.ffs.algafood.domain.service.CityService;
 import com.ffs.algafood.domain.service.KitchenService;
 import com.ffs.algafood.domain.service.UserService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  *

@@ -1,8 +1,8 @@
 package com.ffs.algafood.core.validation.annotation.mutilple;
 
-import java.math.BigDecimal;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.math.BigDecimal;
 
 /**
  *

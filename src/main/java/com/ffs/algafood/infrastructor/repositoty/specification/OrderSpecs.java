@@ -2,9 +2,10 @@ package com.ffs.algafood.infrastructor.repositoty.specification;
 
 import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.repository.order.filter.OrderFilter;
-import java.util.ArrayList;
-import javax.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
+
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 
 /**
  *

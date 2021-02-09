@@ -1,11 +1,12 @@
 package com.ffs.algafood.domain.model;
 
-import java.io.Serializable;
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import lombok.Data;
+import java.io.Serializable;
 
 import static javax.persistence.FetchType.LAZY;
 

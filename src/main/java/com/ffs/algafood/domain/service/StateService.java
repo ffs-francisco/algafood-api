@@ -1,16 +1,17 @@
 package com.ffs.algafood.domain.service;
 
+import com.ffs.algafood.domain.exception.StateNotFoundException;
 import com.ffs.algafood.domain.exception.base.EntityInUseException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
-import com.ffs.algafood.domain.exception.StateNotFoundException;
 import com.ffs.algafood.domain.model.State;
 import com.ffs.algafood.domain.repository.StateRepository;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  *

@@ -1,10 +1,11 @@
 package com.ffs.algafood.core.validation.annotation.FileContentType;
 
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *

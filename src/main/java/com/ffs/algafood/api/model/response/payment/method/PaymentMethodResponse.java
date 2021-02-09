@@ -1,12 +1,13 @@
 package com.ffs.algafood.api.model.response.payment.method;
 
 import com.ffs.algafood.domain.model.restaurant.PaymentMethod;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *

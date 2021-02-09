@@ -2,14 +2,15 @@ package com.ffs.algafood.api.model.response.order;
 
 import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.model.order.StatusOrderEnum;
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *

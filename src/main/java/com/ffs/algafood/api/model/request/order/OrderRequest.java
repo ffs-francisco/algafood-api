@@ -3,13 +3,14 @@ package com.ffs.algafood.api.model.request.order;
 import com.ffs.algafood.api.model.request.restaurant.AddressRequest;
 import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.model.order.OrderItem;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  *

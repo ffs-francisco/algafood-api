@@ -1,9 +1,10 @@
 package com.ffs.algafood.core.validation.annotation.FileSize;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 import static org.springframework.util.unit.DataSize.parse;
 

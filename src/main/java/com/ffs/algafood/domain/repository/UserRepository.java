@@ -1,8 +1,9 @@
 package com.ffs.algafood.domain.repository;
 
 import com.ffs.algafood.domain.model.User;
-import java.util.Optional;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
  *

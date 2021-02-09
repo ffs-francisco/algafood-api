@@ -1,9 +1,10 @@
 package com.ffs.algafood.api.model.request.city;
 
-import java.io.Serializable;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  *

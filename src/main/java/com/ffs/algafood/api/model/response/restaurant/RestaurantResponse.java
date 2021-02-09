@@ -2,13 +2,14 @@ package com.ffs.algafood.api.model.response.restaurant;
 
 import com.ffs.algafood.api.model.response.kitchen.KitchenResponse;
 import com.ffs.algafood.domain.model.restaurant.Restaurant;
+import lombok.Getter;
+import lombok.Setter;
+import org.modelmapper.ModelMapper;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.Setter;
-import org.modelmapper.ModelMapper;
 
 /**
  *

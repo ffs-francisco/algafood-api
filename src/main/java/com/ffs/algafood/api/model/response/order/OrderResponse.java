@@ -5,13 +5,14 @@ import com.ffs.algafood.api.model.response.restaurant.AddressResponse;
 import com.ffs.algafood.api.model.response.user.UserResponse;
 import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.model.order.StatusOrderEnum;
+import lombok.Getter;
+import lombok.Setter;
+import org.modelmapper.ModelMapper;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.Setter;
-import org.modelmapper.ModelMapper;
 
 /**
  *

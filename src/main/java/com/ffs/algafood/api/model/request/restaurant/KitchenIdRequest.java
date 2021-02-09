@@ -2,11 +2,12 @@ package com.ffs.algafood.api.model.request.restaurant;
 
 
 import com.ffs.algafood.domain.model.Kitchen;
-import java.io.Serializable;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  *

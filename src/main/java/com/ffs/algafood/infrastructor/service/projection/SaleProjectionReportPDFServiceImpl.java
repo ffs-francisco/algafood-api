@@ -4,15 +4,16 @@ import com.ffs.algafood.domain.filter.DailySaleProjectionFilter;
 import com.ffs.algafood.domain.service.projection.SaleProjectionReportService;
 import com.ffs.algafood.domain.service.projection.SaleProjectionService;
 import com.ffs.algafood.infrastructor.service.projection.exception.ProjectionException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Locale;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Locale;
 
 /**
  *

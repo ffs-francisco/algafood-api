@@ -2,9 +2,6 @@ package com.ffs.algafood.api.ultil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ffs.algafood.core.validation.ValidationException;
-import java.lang.reflect.Field;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -13,6 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
+
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Field;
+import java.util.Map;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;

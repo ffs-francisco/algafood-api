@@ -5,16 +5,17 @@ import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.model.order.StatusOrderEnum;
 import com.ffs.algafood.domain.model.projection.DailySaleProjection;
 import com.ffs.algafood.domain.service.projection.SaleProjectionService;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.springframework.stereotype.Repository;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *

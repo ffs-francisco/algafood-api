@@ -1,10 +1,11 @@
 package com.ffs.algafood.core;
 
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *

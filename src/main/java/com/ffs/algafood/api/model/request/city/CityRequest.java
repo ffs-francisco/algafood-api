@@ -2,12 +2,13 @@ package com.ffs.algafood.api.model.request.city;
 
 import com.ffs.algafood.domain.model.City;
 import com.ffs.algafood.domain.model.State;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  *
