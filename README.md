@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/fsilvafrancisco16/algafood-api.svg?branch=master)](https://travis-ci.com/fsilvafrancisco16/algafood-api)
+[![Build Status](https://travis-ci.com/ffsfranciscosilva/algafood-api.svg?branch=master)](https://travis-ci.com/ffsfranciscosilva/algafood-api)
 
 # API AlgaFood
 
