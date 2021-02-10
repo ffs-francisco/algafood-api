@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -52,11 +51,5 @@ public class ProductPhotoService {
     public ProductPhoto findByRestaurantAndProduct(final Long restaurantId, final Long productId) {
         return this.productRepository.findPhotoById(restaurantId, productId)
                 .orElseThrow(() -> new ProductPhotoNotFoundException("id", restaurantId));
-    }
-
-    public InputStream findResourceByRestaurantAndProduct(final Long restaurantId, final Long productId) {
-        final var photo = this.findByRestaurantAndProduct(restaurantId, productId);
-
-        return this.storageService.recover(photo.getFileName());
     }
 }

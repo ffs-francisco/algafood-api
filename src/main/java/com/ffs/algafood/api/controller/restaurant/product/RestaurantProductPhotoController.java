@@ -4,16 +4,21 @@ import com.ffs.algafood.api.model.request.restaurant.ProductPhotoRequest;
 import com.ffs.algafood.api.model.request.restaurant.ProductPhotoResponse;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.service.restaurant.product.ProductPhotoService;
+import com.ffs.algafood.domain.service.storage.StoragePhotoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 /**
  * @author francisco
@@ -24,6 +29,7 @@ import static org.springframework.http.MediaType.*;
 public class RestaurantProductPhotoController {
 
     private final ProductPhotoService photoService;
+    private final StoragePhotoService storageService;
 
     @PutMapping(consumes = MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(OK)
@@ -44,20 +50,39 @@ public class RestaurantProductPhotoController {
         return ProductPhotoResponse.fromModel(this.photoService.findByRestaurantAndProduct(restaurantId, productId));
     }
 
-    @GetMapping(produces = IMAGE_JPEG_VALUE)
+    @GetMapping
     @ResponseStatus(OK)
     public ResponseEntity<InputStreamResource> findResourceByRestaurantAndProduct(
             @PathVariable final Long restaurantId,
-            @PathVariable final Long productId
-    ) {
+            @PathVariable final Long productId,
+            @RequestHeader(name = "accept") final String acceptHeader
+    ) throws HttpMediaTypeNotAcceptableException {
+        final var mediaTypeAccept = MediaType.parseMediaTypes(acceptHeader);
+
         try {
-            final var photoResource = this.photoService.findResourceByRestaurantAndProduct(restaurantId, productId);
+            final var photo = this.photoService.findByRestaurantAndProduct(restaurantId, productId);
+            final var mediaTypePhoto = MediaType.parseMediaType(photo.getContentType());
+
+            this.mediaTypeCompatibilityChecker(mediaTypeAccept, mediaTypePhoto);
+            final var photoResource = this.storageService.recover(photo.getFileName());
 
             return ResponseEntity.ok()
-                    .contentType(IMAGE_JPEG)
+                    .contentType(mediaTypePhoto)
                     .body(new InputStreamResource(photoResource));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    private void mediaTypeCompatibilityChecker(
+            final List<MediaType> mediaTypeAccept,
+            final MediaType mediaTypePhoto
+    ) throws HttpMediaTypeNotAcceptableException {
+        final var compatibility = mediaTypeAccept.stream()
+                .anyMatch(mediaType -> mediaType.isCompatibleWith(mediaTypePhoto));
+
+        if (!compatibility) {
+            throw new HttpMediaTypeNotAcceptableException(mediaTypeAccept);
         }
     }
 }
