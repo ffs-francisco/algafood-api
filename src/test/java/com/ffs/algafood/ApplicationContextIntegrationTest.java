@@ -6,7 +6,6 @@ import com.wix.mysql.config.SchemaConfig;
 import com.wix.mysql.distribution.Version;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.util.SocketUtils;
 
@@ -16,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 import static com.wix.mysql.config.Charset.UTF8;
 
-@SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public abstract class ApplicationContextIntegrationTest extends ApplicationWebContextIntegrationTest {
 
@@ -35,13 +33,15 @@ public abstract class ApplicationContextIntegrationTest extends ApplicationWebCo
 
     @AfterAll
     public static void teardown() {
-        embeddedMysql.stop();
+        if (embeddedMysql != null) {
+            embeddedMysql.stop();
+        }
     }
 
     private static void startEmbeddedMysql(final Integer port, final String schema) {
         embeddedMysql = EmbeddedMysql
                 .anEmbeddedMysql(MysqldConfig
-                        .aMysqldConfig(Version.v8_latest)
+                        .aMysqldConfig(Version.v5_7_latest)
                         .withTimeZone(TimeZone.getTimeZone("UTC"))
                         .withTimeout(2, TimeUnit.MINUTES)
                         .withCharset(UTF8)
