@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
@@ -72,6 +73,15 @@ public class RestaurantProductPhotoController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping
+    @ResponseStatus(NO_CONTENT)
+    public void deleteResourceByRestaurantAndProduct(
+            @PathVariable final Long restaurantId,
+            @PathVariable final Long productId
+    ) {
+        this.photoService.deleteByRestaurantAndProduct(restaurantId, productId);
     }
 
     private void mediaTypeCompatibilityChecker(

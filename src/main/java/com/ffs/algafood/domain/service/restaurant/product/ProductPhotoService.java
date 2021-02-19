@@ -52,4 +52,14 @@ public class ProductPhotoService {
         return this.productRepository.findPhotoById(restaurantId, productId)
                 .orElseThrow(() -> new ProductPhotoNotFoundException("id", restaurantId));
     }
+
+    @Transactional
+    public void deleteByRestaurantAndProduct(final Long restaurantId, final Long productId) {
+        final var photo = this.findByRestaurantAndProduct(restaurantId, productId);
+
+        this.productRepository.delete(photo);
+        this.productRepository.flush();
+
+        storageService.remove(photo.getFileName());
+    }
 }
