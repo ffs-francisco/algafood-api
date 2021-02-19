@@ -1,6 +1,7 @@
 package com.ffs.algafood.infrastructor.service.storage;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ffs.algafood.core.storage.StorageProperties;
@@ -40,7 +41,17 @@ public class S3StoragePhotoService implements StoragePhotoService {
     }
 
     @Override
-    public void remove(String fileName) {
+    public void remove(final String fileName) {
+        try {
+            final var deleteObjectRequest = new DeleteObjectRequest(
+                    properties.getS3().getBucket(),
+                    this.getFilePath(fileName)
+            );
+
+            this.amazonS3.deleteObject(deleteObjectRequest);
+        } catch (Exception ex) {
+            throw new StorageException("Could not remove the file in Amazon S3", ex);
+        }
 
     }
 
