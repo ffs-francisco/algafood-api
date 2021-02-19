@@ -1,5 +1,6 @@
 package com.ffs.algafood.api.exception;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
@@ -23,6 +24,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,13 +35,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.ffs.algafood.api.exception.model.Type.*;
 import static org.springframework.http.HttpStatus.*;
 
 /**
- *
  * @author francisco
  */
 @ControllerAdvice
@@ -53,7 +55,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         final var message = messageSource.getMessage("default", null, request.getLocale());
 
         /**
-         * Print the Stack Trace on the console while a logginf mechaninsm is not implemented.
+         * Print the Stack Trace on the console while a logging mechanism is not implemented.
          */
         ex.printStackTrace();
 
@@ -83,6 +85,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<Object> handleValidationInternal(ValidationException ex, WebRequest request) {
         return handlerArgumentNotValid(ex, ex.getBindingResult(), new HttpHeaders(), BAD_REQUEST, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return ResponseEntity.status(status).headers(headers).build();
     }
 
     @Override
@@ -174,7 +181,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, HttpHeaders headers, WebRequest request) {
-        final var args = new Object[]{ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName()};
+        final var args = new Object[]{ex.getName(), ex.getValue(), Objects.requireNonNull(ex.getRequiredType()).getSimpleName()};
         final var detail = messageSource.getMessage("method-argument-type-mismatch", args, request.getLocale());
         final var message = messageSource.getMessage("default", null, request.getLocale());
 
@@ -193,7 +200,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private String joinPath(MismatchedInputException ex) {
         return ex.getPath().stream()
-                .map(reference -> reference.getFieldName())
+                .map(JsonMappingException.Reference::getFieldName)
                 .collect(Collectors.joining("."));
     }
 }
