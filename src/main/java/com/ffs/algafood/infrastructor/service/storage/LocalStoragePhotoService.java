@@ -1,8 +1,9 @@
 package com.ffs.algafood.infrastructor.service.storage;
 
+import com.ffs.algafood.core.storage.StorageProperties;
 import com.ffs.algafood.domain.service.storage.StoragePhotoService;
 import com.ffs.algafood.infrastructor.service.storage.exception.StorageException;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
@@ -12,10 +13,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
+@AllArgsConstructor
 public class LocalStoragePhotoService implements StoragePhotoService {
 
-    @Value("${application.storage.local.photo-directory}")
-    private Path directoryPhotos;
+    private final StorageProperties storageProperties;
 
     @Override
     public void store(final NewPhoto newPhoto) {
@@ -51,6 +52,6 @@ public class LocalStoragePhotoService implements StoragePhotoService {
     }
 
     private Path getFilePath(final String fileName) {
-        return this.directoryPhotos.resolve(Path.of(fileName));
+        return this.storageProperties.getLocal().getPhotoDirectory().resolve(Path.of(fileName));
     }
 }
