@@ -35,7 +35,7 @@ public interface StoragePhotoService {
         @Builder
         public NewPhoto(Long size, String originalFileName, String description, String contentType, InputStream inputStream) {
             this.size = size;
-            this.fileName = UUID.randomUUID().toString() + "_" + originalFileName;
+            this.fileName = UUID.randomUUID().toString() + "--" + originalFileName;
             this.originalFileName = originalFileName;
             this.description = description;
             this.contentType = contentType;

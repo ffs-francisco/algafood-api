@@ -1,21 +1,42 @@
 package com.ffs.algafood.infrastructor.service.storage;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.ffs.algafood.core.storage.StorageProperties;
 import com.ffs.algafood.domain.service.storage.StoragePhotoService;
+import com.ffs.algafood.infrastructor.service.storage.exception.StorageException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+
+import static com.amazonaws.services.s3.model.CannedAccessControlList.PublicRead;
 
 @Service
 @AllArgsConstructor
 public class S3StoragePhotoService implements StoragePhotoService {
 
     private final AmazonS3 amazonS3;
+    private final StorageProperties properties;
 
     @Override
-    public void store(NewPhoto newPhoto) {
+    public void store(final NewPhoto newPhoto) {
+        try {
+            final var objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType(newPhoto.getContentType());
 
+            final var putObjectRequest = new PutObjectRequest(
+                    properties.getS3().getBucket(),
+                    this.getFilePath(newPhoto.getFileName()),
+                    newPhoto.getInputStream(),
+                    objectMetadata
+            ).withCannedAcl(PublicRead);
+
+            this.amazonS3.putObject(putObjectRequest);
+        } catch (Exception ex) {
+            throw new StorageException("Could not store the file in Amazon S3", ex);
+        }
     }
 
     @Override
@@ -26,5 +47,9 @@ public class S3StoragePhotoService implements StoragePhotoService {
     @Override
     public InputStream recover(String fileName) {
         return null;
+    }
+
+    private String getFilePath(final String fileName) {
+        return String.format("%s/%s", properties.getS3().getPhotoDirectory(), fileName);
     }
 }
