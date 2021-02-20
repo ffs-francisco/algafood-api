@@ -10,8 +10,6 @@ import com.ffs.algafood.infrastructor.service.storage.exception.StorageException
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
-
 import static com.amazonaws.services.s3.model.CannedAccessControlList.PublicRead;
 
 @Service
@@ -56,8 +54,13 @@ public class S3StoragePhotoService implements StoragePhotoService {
     }
 
     @Override
-    public InputStream recover(String fileName) {
-        return null;
+    public RecoverPhoto recover(final String fileName) {
+        final var filePath = this.getFilePath(fileName);
+        final var url = this.amazonS3.getUrl(properties.getS3().getBucket(), filePath);
+
+        return RecoverPhoto.builder()
+                .url(url.toString())
+                .build();
     }
 
     private String getFilePath(final String fileName) {

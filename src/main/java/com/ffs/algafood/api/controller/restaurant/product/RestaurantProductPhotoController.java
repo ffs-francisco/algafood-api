@@ -16,8 +16,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.NO_CONTENT;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpHeaders.LOCATION;
+import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
@@ -52,8 +52,7 @@ public class RestaurantProductPhotoController {
     }
 
     @GetMapping
-    @ResponseStatus(OK)
-    public ResponseEntity<InputStreamResource> findResourceByRestaurantAndProduct(
+    public ResponseEntity<?> findResourceByRestaurantAndProduct(
             @PathVariable final Long restaurantId,
             @PathVariable final Long productId,
             @RequestHeader(name = "accept") final String acceptHeader
@@ -65,11 +64,17 @@ public class RestaurantProductPhotoController {
             final var mediaTypePhoto = MediaType.parseMediaType(photo.getContentType());
 
             this.mediaTypeCompatibilityChecker(mediaTypeAccept, mediaTypePhoto);
-            final var photoResource = this.storageService.recover(photo.getFileName());
+            final var recoverPhoto = this.storageService.recover(photo.getFileName());
 
-            return ResponseEntity.ok()
-                    .contentType(mediaTypePhoto)
-                    .body(new InputStreamResource(photoResource));
+            if (recoverPhoto.hasUrl()) {
+                return ResponseEntity.status(FOUND)
+                        .header(LOCATION, recoverPhoto.getUrl())
+                        .build();
+            } else {
+                return ResponseEntity.ok()
+                        .contentType(mediaTypePhoto)
+                        .body(new InputStreamResource(recoverPhoto.getInputStream()));
+            }
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

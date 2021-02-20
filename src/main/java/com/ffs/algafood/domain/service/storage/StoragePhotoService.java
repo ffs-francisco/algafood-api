@@ -12,7 +12,7 @@ public interface StoragePhotoService {
 
     void remove(final String fileName);
 
-    InputStream recover(final String fileName);
+    RecoverPhoto recover(final String fileName);
 
     default void update(final String oldFileName, final NewPhoto newPhoto) {
         this.store(newPhoto);
@@ -40,6 +40,22 @@ public interface StoragePhotoService {
             this.description = description;
             this.contentType = contentType;
             this.inputStream = inputStream;
+        }
+    }
+
+    @Getter
+    @Builder
+    class RecoverPhoto {
+
+        private final InputStream inputStream;
+        private final String url;
+
+        public boolean hasUrl() {
+            return this.url != null;
+        }
+
+        public boolean hasInputStream() {
+            return this.inputStream != null;
         }
     }
 }

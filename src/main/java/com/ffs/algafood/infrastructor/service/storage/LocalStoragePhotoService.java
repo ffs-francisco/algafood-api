@@ -4,11 +4,9 @@ import com.ffs.algafood.core.storage.StorageProperties;
 import com.ffs.algafood.domain.service.storage.StoragePhotoService;
 import com.ffs.algafood.infrastructor.service.storage.exception.StorageException;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -29,7 +27,6 @@ public class LocalStoragePhotoService implements StoragePhotoService {
         }
     }
 
-
     @Override
     public void remove(final String fileName) {
         try {
@@ -39,13 +36,14 @@ public class LocalStoragePhotoService implements StoragePhotoService {
         }
     }
 
-
     @Override
-    public InputStream recover(final String fileName) {
+    public RecoverPhoto recover(final String fileName) {
         final var path = getFilePath(fileName);
 
         try {
-            return Files.newInputStream(path);
+            return RecoverPhoto.builder()
+                    .inputStream(Files.newInputStream(path))
+                    .build();
         } catch (IOException e) {
             throw new StorageException("Could not recover the file", e);
         }
