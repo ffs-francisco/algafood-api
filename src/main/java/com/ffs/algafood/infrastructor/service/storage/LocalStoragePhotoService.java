@@ -3,18 +3,18 @@ package com.ffs.algafood.infrastructor.service.storage;
 import com.ffs.algafood.core.storage.StorageProperties;
 import com.ffs.algafood.domain.service.storage.StoragePhotoService;
 import com.ffs.algafood.infrastructor.service.storage.exception.StorageException;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-//@Service
-@AllArgsConstructor
+
 public class LocalStoragePhotoService implements StoragePhotoService {
 
-    private final StorageProperties storageProperties;
+    @Autowired
+    private StorageProperties storageProperties;
 
     @Override
     public void store(final NewPhoto newPhoto) {

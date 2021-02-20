@@ -7,17 +7,16 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ffs.algafood.core.storage.StorageProperties;
 import com.ffs.algafood.domain.service.storage.StoragePhotoService;
 import com.ffs.algafood.infrastructor.service.storage.exception.StorageException;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.amazonaws.services.s3.model.CannedAccessControlList.PublicRead;
 
-@Service
-@AllArgsConstructor
 public class S3StoragePhotoService implements StoragePhotoService {
 
-    private final AmazonS3 amazonS3;
-    private final StorageProperties properties;
+    @Autowired
+    private AmazonS3 amazonS3;
+    @Autowired
+    private StorageProperties properties;
 
     @Override
     public void store(final NewPhoto newPhoto) {
