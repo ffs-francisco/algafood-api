@@ -50,7 +50,8 @@ public class OrderService {
         final var message = Message.builder()
                 .recipient(order.getCustomer().getEmail())
                 .subject(order.getRestaurant().getName() + " - Confirmação de Pedido")
-                .body(String.format("O pedido de código <strong> %s </strong> for confirmado!", order.getCode()))
+                .body("order-confirmation.html")
+                .variable("order", order)
                 .build();
 
         this.emailService.send(message);

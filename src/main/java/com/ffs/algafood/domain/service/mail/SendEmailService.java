@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Singular;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface SendEmailService {
@@ -21,5 +22,8 @@ public interface SendEmailService {
         private final String subject;
         @NonNull
         private final String body;
+
+        @Singular
+        private final Map<String, Object> variables;
     }
 }
