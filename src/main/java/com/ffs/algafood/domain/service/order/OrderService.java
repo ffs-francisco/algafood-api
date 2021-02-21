@@ -9,13 +9,12 @@ import com.ffs.algafood.domain.repository.order.filter.OrderFilter;
 import com.ffs.algafood.domain.service.mail.SendEmailService;
 import com.ffs.algafood.infrastructor.repositoty.specification.OrderSpecs;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.ffs.algafood.domain.service.mail.SendEmailService.*;
+import static com.ffs.algafood.domain.service.mail.SendEmailService.Message;
 
 /**
  * @author francisco
@@ -51,8 +50,7 @@ public class OrderService {
         final var message = Message.builder()
                 .recipient(order.getCustomer().getEmail())
                 .subject(order.getRestaurant().getName() + " - Confirmação de Pedido")
-                .body(String.format(""" 
-                        O pedido de código <strong> %s </strong> for confirmado!""", order.getCode()))
+                .body(String.format("O pedido de código <strong> %s </strong> for confirmado!", order.getCode()))
                 .build();
 
         this.emailService.send(message);
