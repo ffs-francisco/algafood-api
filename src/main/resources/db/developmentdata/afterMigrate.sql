@@ -104,7 +104,9 @@ INSERT INTO user (id, name, email, password, date_register) VALUES
 (2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', utc_timestamp),
 (3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp),
-(5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp);
+(5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp),
+(6, 'Débora Mendonça', 'fsilvafrancisco16+debora@gmail.com', '123', utc_timestamp),
+(7, 'Carlos Lima', 'fsilvafrancisco16+carlos@gmail.com', '123', utc_timestamp)
 ;
 
 INSERT INTO group_user (group_id, user_id) VALUES
@@ -115,9 +117,6 @@ INSERT INTO restaurant_user_responsible (user_id, restaurant_id) VALUES
 (5, 1), (5, 3)
 ;
 
-
-
-
 INSERT INTO `order` (id, code, restaurant_id, customer_user_id, payment_method_id, status,
 address_city_id, address_cep, address_street, address_number, address_complement, address_district,
 date_register, date_confirmation, date_delivery, date_cancellation, sub_total, shipping_fee, amount) VALUES
@@ -125,7 +124,11 @@ date_register, date_confirmation, date_delivery, date_cancellation, sub_total, s
 (2, '60b7b5fa-ae76-11ea-b5b1-0242ac110002', 4, 1, 2, 'CREATED', 1, '38400-111', 'Rua Acre Rio Brancco', '300', 'Casa 200', 'Centro', utc_timestamp, null, null, null, 79, 0, 79),
 (3, 'b5741512-8fbc-47fa-9ac1-b530354fc0ff', 1, 1, 1, 'DELIVERED', 1, '38400-222', 'Rua Natal Alamedao', '200', 'Apto 200', 'Brasil', '2020-06-30 21:10:00', '2020-06-30 21:10:45', '2020-06-30 21:55:44', null, 110, 10, 120),
 (4, '5c621c9a-ba61-4454-8631-8aabefe58dc2', 1, 2, 1, 'DELIVERED', 1, '38400-800', 'Rua Fortaleza Cear', '900', 'Apto 504', 'Centro', '2020-07-02 20:34:04', '2020-07-02 20:35:10', '2020-07-02 21:10:32', null, 174.4, 5, 179.4),
-(5, '5c621c9a-ba61-4454-8631-8aabefe58d32', 1, 2, 1, 'DELIVERED', 1, '38400-800', 'Rua Fortaleza Cear', '900', 'Apto 504', 'Centro', '2020-07-03 02:00:04', '2020-07-03 02:00:10', '2020-07-03 02:00:32', null, 174.4, 5, 179.4)
+(5, '5c621c9a-ba61-4454-8631-8aabefe58d32', 1, 2, 1, 'DELIVERED', 1, '38400-800', 'Rua Fortaleza Cear', '900', 'Apto 504', 'Centro', '2020-07-03 02:00:04', '2020-07-03 02:00:10', '2020-07-03 02:00:32', null, 174.4, 5, 179.4),
+(6, '534b9fb8-ae76-11ea-b5b1-0242ac110012', 1, 6, 1, 'CREATED', 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil', utc_timestamp, null, null, null, 298.90, 10, 308.90),
+(7, '60b7b5fa-ae76-11ea-b5b1-0242ac110022', 4, 7, 2, 'CREATED', 1, '38400-111', 'Rua Acre Rio Brancco', '300', 'Casa 200', 'Centro', utc_timestamp, null, null, null, 79, 0, 79),
+(8, '534b9fb8-ae76-11ea-b5b1-0242ac110032', 1, 6, 1, 'CREATED', 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil', utc_timestamp, null, null, null, 298.90, 10, 308.90),
+(9, '60b7b5fa-ae76-11ea-b5b1-0242ac110042', 4, 7, 1, 'CREATED', 1, '38400-111', 'Rua Acre Rio Brancco', '300', 'Casa 200', 'Centro', utc_timestamp, null, null, null, 79, 0, 79)
 ;
 
 INSERT INTO order_item (id, order_id, product_id, quantity, price_amount, price_unit, observation) values
@@ -134,5 +137,9 @@ INSERT INTO order_item (id, order_id, product_id, quantity, price_amount, price_
 (3, 2, 6, 1, 79, 79, 'Ao ponto'),
 (4, 3, 2, 1, 110, 110, null),
 (5, 4, 3, 2, 87.2, 174.4, null),
-(6, 5, 3, 2, 87.2, 174.4, null)
+(6, 5, 3, 2, 87.2, 174.4, null),
+(7, 6, 2, 2, 110, 220, 'Menos picante, por favor - debora'),
+(8, 7, 6, 1, 79, 79, 'Ao ponto - carlos'),
+(9, 8, 2, 2, 110, 220, 'Menos picante, por favor - carlos'),
+(10, 9, 6, 1, 79, 79, 'Ao ponto - debora')
 ;
