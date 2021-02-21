@@ -40,6 +40,13 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <!-- E-MAIL -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <!-- E-MAIL -->
+
         <!-- PROJECTIONS -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
