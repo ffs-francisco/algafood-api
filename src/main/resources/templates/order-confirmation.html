@@ -10,17 +10,17 @@
     <#list order.itens as item>
     <tr>
         <td style="padding: 10px 0">${item.quantity}x ${item.product.name}</td>
-        <td style="width: 30px">${item.priceAmount}</td>
+        <td style="width: 30px">${item.priceAmount?string.currency}</td>
     </tr>
     </#list>
 
     <tr>
         <td style="padding: 10px 0">Frete</td>
-        <td>${order.shippingFee}</td>
+        <td>${order.shippingFee?string.currency}</td>
     </tr>
     <tr style="font-weight: bold">
         <td style="padding: 10px 0">Total</td>
-        <td>${order.subTotal}</td>
+        <td>${order.subTotal?string.currency}</td>
     </tr>
 </table>
 
