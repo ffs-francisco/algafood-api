@@ -1,4 +1,4 @@
-package com.ffs.algafood.infrastructor.service.storage.exception;
+package com.ffs.algafood.infrastructor.service.mail.exception;
 
 /**
  * @author francisco

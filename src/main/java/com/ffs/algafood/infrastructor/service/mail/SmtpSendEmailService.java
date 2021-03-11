@@ -2,10 +2,11 @@ package com.ffs.algafood.infrastructor.service.mail;
 
 import com.ffs.algafood.core.EmailProperties;
 import com.ffs.algafood.domain.service.mail.SendEmailService;
-import com.ffs.algafood.infrastructor.service.storage.exception.EmailException;
+import com.ffs.algafood.infrastructor.service.mail.exception.EmailException;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import java.io.IOException;
 
 @Service
+@Profile("prod")
 @AllArgsConstructor
 public class SmtpSendEmailService implements SendEmailService {
 
@@ -39,7 +41,7 @@ public class SmtpSendEmailService implements SendEmailService {
         }
     }
 
-    private String processTemplate(final Message message) {
+    protected String processTemplate(final Message message) {
         try {
             final var template = configuration.getTemplate(message.getBody());
 
