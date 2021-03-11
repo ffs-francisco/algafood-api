@@ -17,4 +17,13 @@ public class EmailProperties {
 
     @NotBlank
     private String sender;
+    private Sandbox sandbox = new Sandbox();
+
+    @Getter
+    @Setter
+    public class Sandbox {
+
+        @NotBlank
+        public String recipient;
+    }
 }

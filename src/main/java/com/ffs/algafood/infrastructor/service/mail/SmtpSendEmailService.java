@@ -12,6 +12,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 
 @Service
@@ -25,20 +27,26 @@ public class SmtpSendEmailService implements SendEmailService {
 
     @Override
     public void send(final Message message) {
-        final var body = this.processTemplate(message);
-        final var mimeMessage = mailSender.createMimeMessage();
-
         try {
-            final var helper = new MimeMessageHelper(mimeMessage, "UTF-8");
-            helper.setTo(message.getRecipients().toArray(new String[0]));
-            helper.setFrom(properties.getSender());
-            helper.setSubject(message.getSubject());
-            helper.setText(body, true);
+            final var mimeMessage = this.createMimeMessage(message);
 
             mailSender.send(mimeMessage);
         } catch (Exception ex) {
             throw new EmailException("Unable to send e-amil", ex);
         }
+    }
+
+    protected MimeMessage createMimeMessage(final Message message) throws MessagingException {
+        final var body = this.processTemplate(message);
+        final var mimeMessage = mailSender.createMimeMessage();
+
+        final var helper = new MimeMessageHelper(mimeMessage, "UTF-8");
+        helper.setTo(message.getRecipients().toArray(new String[0]));
+        helper.setFrom(properties.getSender());
+        helper.setSubject(message.getSubject());
+        helper.setText(body, true);
+
+        return mimeMessage;
     }
 
     protected String processTemplate(final Message message) {
