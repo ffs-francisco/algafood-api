@@ -1,4 +1,4 @@
-package com.ffs.algafood.infrastructor.service;
+package com.ffs.algafood.infrastructor.service.mail;
 
 import com.ffs.algafood.core.EmailProperties;
 import com.ffs.algafood.domain.service.mail.SendEmailService;

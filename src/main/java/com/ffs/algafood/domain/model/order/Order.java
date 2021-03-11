@@ -29,7 +29,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "\"order\"") // The name is necessary. Becoause "GROUP" is an SQL rezeverd word
+@Table(name = "\"order\"") // The name is necessary. Because "GROUP" is an SQL rezeverd word
 public class Order implements Serializable {
 
     @EqualsAndHashCode.Include
