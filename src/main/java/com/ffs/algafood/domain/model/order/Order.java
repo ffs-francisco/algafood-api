@@ -97,7 +97,8 @@ public class Order extends AbstractAggregateRoot<Order> implements Serializable 
     private void setStatus(final StatusOrderEnum status) {
         if (!getStatus().isValidStatusChanging(status)) {
             throw new BusinessException(
-                    String.format("Order %s status can no longer be %s", getCode(), status.getDescription()));
+                    String.format("Order %s status can no longer be %s", getCode(), status.getDescription())
+            );
         }
 
         this.status = status;
