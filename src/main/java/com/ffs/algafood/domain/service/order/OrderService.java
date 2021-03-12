@@ -48,7 +48,10 @@ public class OrderService {
 
     @Transactional
     public void cancel(final String orderCode) {
-        this.findByCode(orderCode).cancel();
+        final var order = this.findByCode(orderCode);
+        order.cancel();
+
+        orderRepository.save(order);
     }
 
     @Transactional

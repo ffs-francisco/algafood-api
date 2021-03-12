@@ -1,5 +1,6 @@
 package com.ffs.algafood.domain.model.order;
 
+import com.ffs.algafood.domain.event.OrderCanceledEvent;
 import com.ffs.algafood.domain.event.OrderConfirmedEvent;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.model.Address;
@@ -87,6 +88,8 @@ public class Order extends AbstractAggregateRoot<Order> implements Serializable 
     public void cancel() {
         setStatus(CANCELED);
         setDateCancellation(OffsetDateTime.now());
+
+        registerEvent(new OrderCanceledEvent(this));
     }
 
     public void delivered() {
