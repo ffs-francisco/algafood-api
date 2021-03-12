@@ -6,15 +6,12 @@ import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.order.Order;
 import com.ffs.algafood.domain.repository.order.OrderRepository;
 import com.ffs.algafood.domain.repository.order.filter.OrderFilter;
-import com.ffs.algafood.domain.service.mail.SendEmailService;
 import com.ffs.algafood.infrastructor.repositoty.specification.OrderSpecs;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.ffs.algafood.domain.service.mail.SendEmailService.Message;
 
 /**
  * @author francisco
@@ -26,7 +23,6 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     private final OrderCreateUtil orderCreteUtil;
-    private final SendEmailService emailService;
 
     public Page<Order> findAllByFilter(final OrderFilter filter, final Pageable pageable) {
         return orderRepository.findAll(OrderSpecs.whitFilter(filter), pageable);
@@ -47,14 +43,7 @@ public class OrderService {
         final var order = this.findByCode(orderCode);
         order.confirm();
 
-        final var message = Message.builder()
-                .recipient(order.getCustomer().getEmail())
-                .subject(order.getRestaurant().getName() + " - Confirmação de Pedido")
-                .body("order-confirmation.html")
-                .variable("order", order)
-                .build();
-
-        this.emailService.send(message);
+        orderRepository.save(order);
     }
 
     @Transactional

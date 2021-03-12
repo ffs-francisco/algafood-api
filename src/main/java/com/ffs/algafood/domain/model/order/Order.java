@@ -1,5 +1,6 @@
 package com.ffs.algafood.domain.model.order;
 
+import com.ffs.algafood.domain.event.OrderConfirmedEvent;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.model.Address;
 import com.ffs.algafood.domain.model.User;
@@ -8,6 +9,7 @@ import com.ffs.algafood.domain.model.restaurant.Restaurant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,14 +25,13 @@ import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
 
 /**
- *
  * @author francisco
  */
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Entity
-@Table(name = "\"order\"") // The name is necessary. Because "GROUP" is an SQL rezeverd word
-public class Order implements Serializable {
+@Table(name = "\"order\"") // The name is necessary. Because "GROUP" is an SQL received word
+public class Order extends AbstractAggregateRoot<Order> implements Serializable {
 
     @EqualsAndHashCode.Include
     @Id
@@ -79,6 +80,8 @@ public class Order implements Serializable {
     public void confirm() {
         setStatus(CONFIRMED);
         setDateConfirmation(OffsetDateTime.now());
+
+        registerEvent(new OrderConfirmedEvent(this));
     }
 
     public void cancel() {
