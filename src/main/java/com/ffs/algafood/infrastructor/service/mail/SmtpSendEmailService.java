@@ -1,6 +1,6 @@
 package com.ffs.algafood.infrastructor.service.mail;
 
-import com.ffs.algafood.core.EmailProperties;
+import com.ffs.algafood.core.email.EmailProperties;
 import com.ffs.algafood.domain.service.mail.SendEmailService;
 import com.ffs.algafood.infrastructor.service.mail.exception.EmailException;
 import freemarker.template.Configuration;

@@ -1,4 +1,4 @@
-package com.ffs.algafood.core;
+package com.ffs.algafood.core.email;
 
 import lombok.Getter;
 import lombok.Setter;
