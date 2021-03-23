@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.springframework.http.HttpStatus.*;
@@ -37,8 +36,12 @@ public class PaymentMethodController {
 
     @GetMapping("/{paymentMethodId}")
     @ResponseStatus(OK)
-    public PaymentMethodResponse getById(@PathVariable final Long paymentMethodId) {
-        return PaymentMethodResponse.from(paymentService.findById(paymentMethodId));
+    public ResponseEntity<PaymentMethodResponse> getById(@PathVariable final Long paymentMethodId) {
+        final var payment = PaymentMethodResponse.from(paymentService.findById(paymentMethodId));
+
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, SECONDS))
+                .body(payment);
     }
 
     @PostMapping
