@@ -5,6 +5,7 @@ import com.ffs.algafood.api.model.response.city.CityResponse;
 import com.ffs.algafood.domain.exception.StateNotFoundException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.service.CityService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +15,9 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.*;
 
 /**
- *
  * @author francisco
  */
+@Api(tags = "Cities")
 @RestController
 @RequestMapping("/cities")
 public class CityConstroller {
