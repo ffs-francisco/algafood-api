@@ -24,6 +24,7 @@
         <modelmapper.version>2.3.0</modelmapper.version>
         <jasperreports.version>6.13.0</jasperreports.version>
         <wixEmbeddedMysql.version>4.6.1</wixEmbeddedMysql.version>
+        <spring-fox.version>2.9.2</spring-fox.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -39,6 +40,14 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+
+        <!-- DOCUMENTATION -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${spring-fox.version}</version>
+        </dependency>
+        <!-- DOCUMENTATION -->
 
         <!-- E-MAIL -->
         <dependency>
