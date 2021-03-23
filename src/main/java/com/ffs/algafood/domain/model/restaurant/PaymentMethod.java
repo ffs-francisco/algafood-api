@@ -30,5 +30,6 @@ public class PaymentMethod implements Serializable {
     private String description;
 
     @UpdateTimestamp
+    @Column(nullable = false)
     private OffsetTime dateUpdated;
 }
