@@ -11,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- *
  * @author francisco
  */
 @Getter
@@ -30,14 +29,13 @@ public class CityRequest {
     }
 
     public void copyPropertiesTo(City city) {
-        /**
-         * To avoid the a exception when trying to change the entity ID.
-         *
-         * org.hibernate.HibernateException: identifier of an instance of
-         * com.domain.Entity was altered from 1 to 2
+        /*
+          To avoid the a exception when trying to change the entity ID.
+
+          org.hibernate.HibernateException: identifier of an instance of
+          com.domain.Entity was altered from 1 to 2
          */
         city.setState(new State());
-
         new ModelMapper().map(this, city);
     }
 }

@@ -7,6 +7,7 @@ import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.service.CityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,14 +37,20 @@ public class CityController {
     @ApiOperation("Search city by ID")
     @GetMapping("/{cityId}")
     @ResponseStatus(OK)
-    public CityResponse getById(@PathVariable final Long cityId) {
+    public CityResponse getById(
+            @ApiParam(value = "ID of a city", example = "1")
+            @PathVariable final Long cityId
+    ) {
         return CityResponse.from(cityService.findById(cityId));
     }
 
     @ApiOperation("Register new city")
     @PostMapping
     @ResponseStatus(CREATED)
-    public CityResponse add(@RequestBody @Valid final CityRequest cityRequest) {
+    public CityResponse add(
+            @ApiParam(name = "body", value = "Representation of a new city")
+            @RequestBody @Valid final CityRequest cityRequest
+    ) {
         try {
             return CityResponse.from(cityService.save(cityRequest.toModel()));
         } catch (StateNotFoundException e) {
@@ -54,7 +61,13 @@ public class CityController {
     @ApiOperation("Update a city by ID")
     @PutMapping("/{cityId}")
     @ResponseStatus(OK)
-    public CityResponse update(@PathVariable final Long cityId, @RequestBody @Valid CityRequest cityRequest) {
+    public CityResponse update(
+            @ApiParam(value = "ID of a city", example = "1")
+            @PathVariable final Long cityId,
+
+            @ApiParam(name = "body", value = "Representation of a city with a new datas")
+            @RequestBody @Valid CityRequest cityRequest
+    ) {
         final var city = cityService.findById(cityId);
 
         try {
@@ -68,7 +81,10 @@ public class CityController {
     @ApiOperation("Delete a city by ID")
     @DeleteMapping("/{cityId}")
     @ResponseStatus(NO_CONTENT)
-    public void delete(@PathVariable final Long cityId) {
+    public void delete(
+            @ApiParam(value = "ID of a city", example = "1")
+            @PathVariable final Long cityId
+    ) {
         cityService.delete(cityId);
     }
 }
