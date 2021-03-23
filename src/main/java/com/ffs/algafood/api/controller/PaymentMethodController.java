@@ -4,15 +4,18 @@ import com.ffs.algafood.api.model.request.payment.method.PaymentMethodRequest;
 import com.ffs.algafood.api.model.response.payment.method.PaymentMethodResponse;
 import com.ffs.algafood.domain.service.restaurant.PaymentMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.springframework.http.HttpStatus.*;
 
 /**
- *
  * @author francisco
  */
 @RestController
@@ -24,8 +27,12 @@ public class PaymentMethodController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public List<PaymentMethodResponse> listAll() {
-        return PaymentMethodResponse.fromList(paymentService.findAll());
+    public ResponseEntity<List<PaymentMethodResponse>> listAll() {
+        final var payments = PaymentMethodResponse.fromList(paymentService.findAll());
+
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(10, SECONDS))
+                .body(payments);
     }
 
     @GetMapping("/{paymentMethodId}")
