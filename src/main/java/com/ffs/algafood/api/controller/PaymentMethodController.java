@@ -40,7 +40,7 @@ public class PaymentMethodController {
         final var payment = PaymentMethodResponse.from(paymentService.findById(paymentMethodId));
 
         return ResponseEntity.ok()
-                .cacheControl(CacheControl.maxAge(10, SECONDS))
+                .cacheControl(CacheControl.maxAge(10, SECONDS).cachePublic())
                 .body(payment);
     }
 
