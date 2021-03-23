@@ -6,6 +6,7 @@ import com.ffs.algafood.domain.exception.StateNotFoundException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.service.CityService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,23 +21,26 @@ import static org.springframework.http.HttpStatus.*;
 @Api(tags = "Cities")
 @RestController
 @RequestMapping("/cities")
-public class CityConstroller {
+public class CityController {
 
     @Autowired
     private CityService cityService;
 
+    @ApiOperation("List all cities")
     @GetMapping
     @ResponseStatus(OK)
     public List<CityResponse> listAll() {
         return CityResponse.fromList(cityService.findAll());
     }
 
+    @ApiOperation("Search city by ID")
     @GetMapping("/{cityId}")
     @ResponseStatus(OK)
     public CityResponse getById(@PathVariable final Long cityId) {
         return CityResponse.from(cityService.findById(cityId));
     }
 
+    @ApiOperation("Register new city")
     @PostMapping
     @ResponseStatus(CREATED)
     public CityResponse add(@RequestBody @Valid final CityRequest cityRequest) {
@@ -47,6 +51,7 @@ public class CityConstroller {
         }
     }
 
+    @ApiOperation("Update a city by ID")
     @PutMapping("/{cityId}")
     @ResponseStatus(OK)
     public CityResponse update(@PathVariable final Long cityId, @RequestBody @Valid CityRequest cityRequest) {
@@ -60,6 +65,7 @@ public class CityConstroller {
         }
     }
 
+    @ApiOperation("Delete a city by ID")
     @DeleteMapping("/{cityId}")
     @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable final Long cityId) {
