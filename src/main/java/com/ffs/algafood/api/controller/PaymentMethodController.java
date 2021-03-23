@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -26,10 +28,18 @@ public class PaymentMethodController {
 
     @GetMapping
     @ResponseStatus(OK)
-    public ResponseEntity<List<PaymentMethodResponse>> listAll() {
-        final var payments = PaymentMethodResponse.fromList(paymentService.findAll());
+    public ResponseEntity<List<PaymentMethodResponse>> listAll(ServletWebRequest request) {
+        ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 
+        final var latestUpdated = paymentService.findLatestUpdatedDate();
+        final var eTag = (latestUpdated == null) ? "0" : String.valueOf(latestUpdated.toEpochSecond());
+        if (request.checkNotModified(eTag)) {
+            return null;
+        }
+
+        final var payments = PaymentMethodResponse.fromList(paymentService.findAll());
         return ResponseEntity.ok()
+                .eTag(eTag)
                 .cacheControl(CacheControl.maxAge(10, SECONDS))
                 .body(payments);
     }

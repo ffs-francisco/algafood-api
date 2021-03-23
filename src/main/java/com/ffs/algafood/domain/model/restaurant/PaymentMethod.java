@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.time.OffsetTime;
+import java.time.OffsetDateTime;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -31,5 +31,5 @@ public class PaymentMethod implements Serializable {
 
     @UpdateTimestamp
     @Column(nullable = false)
-    private OffsetTime dateUpdated;
+    private OffsetDateTime dateUpdated;
 }

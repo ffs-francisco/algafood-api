@@ -10,10 +10,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
- *
  * @author francisco
  */
 @Service
@@ -29,6 +29,10 @@ public class PaymentMethodService {
     public PaymentMethod findById(final Long paymentId) {
         return paymentMethodRepository.findById(paymentId)
                 .orElseThrow(() -> new PaymentMethodNotFoundException("id", paymentId));
+    }
+
+    public OffsetDateTime findLatestUpdatedDate() {
+        return paymentMethodRepository.findLatestUpdatedDate();
     }
 
     @Transactional
