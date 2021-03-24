@@ -11,7 +11,6 @@ import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.ResponseMessage;
@@ -21,7 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.*;
+import static com.ffs.algafood.core.openapi.DefaultMessages.*;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 
@@ -71,40 +70,24 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
     private List<ResponseMessage> globalGetDefaultMessages() {
         return Arrays.asList(
-                new ResponseMessageBuilder()
-                        .code(NOT_ACCEPTABLE.value()).message("Representation not acceptable")
-                        .build(),
-                new ResponseMessageBuilder()
-                        .code(INTERNAL_SERVER_ERROR.value()).message("Internal server error")
-                        .build()
+                NOT_ACCEPTABLE_MESSAGE.getMessage(),
+                INTERNAL_ERROR_MESSAGE.getMessage()
         );
     }
 
     private List<ResponseMessage> globalPostDefaultMessages() {
         return Arrays.asList(
-                new ResponseMessageBuilder()
-                        .code(BAD_REQUEST.value()).message("Bad Request")
-                        .build(),
-                new ResponseMessageBuilder()
-                        .code(NOT_ACCEPTABLE.value()).message("Representation not acceptable")
-                        .build(),
-                new ResponseMessageBuilder()
-                        .code(UNSUPPORTED_MEDIA_TYPE.value()).message("Media type not supported")
-                        .build(),
-                new ResponseMessageBuilder()
-                        .code(INTERNAL_SERVER_ERROR.value()).message("Internal server error")
-                        .build()
+                BAD_REQUEST_MESSAGE.getMessage(),
+                NOT_ACCEPTABLE_MESSAGE.getMessage(),
+                UNSUPPORTED_MEDIA_TYPE_MESSAGE.getMessage(),
+                INTERNAL_ERROR_MESSAGE.getMessage()
         );
     }
 
     private List<ResponseMessage> globalDeleteDefaultMessages() {
         return Arrays.asList(
-                new ResponseMessageBuilder()
-                        .code(BAD_REQUEST.value()).message("Bad Request")
-                        .build(),
-                new ResponseMessageBuilder()
-                        .code(INTERNAL_SERVER_ERROR.value()).message("Internal server error")
-                        .build()
+                BAD_REQUEST_MESSAGE.getMessage(),
+                INTERNAL_ERROR_MESSAGE.getMessage()
         );
     }
 }
