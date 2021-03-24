@@ -13,16 +13,14 @@ import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.ResponseMessage;
-import springfox.documentation.service.Tag;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 
 @Configuration
@@ -37,10 +35,14 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .apis(RequestHandlerSelectors.basePackage("com.ffs.algafood.api"))
                 .paths(PathSelectors.any())
                 .build()
+
                 .useDefaultResponseMessages(false)
-                .globalResponseMessage(GET, getResponseMessages())
-                .apiInfo(apiInfo())
-                .tags(new Tag("Cities", "Management os Cities"));
+                .globalResponseMessage(GET, globalGetDefaultMessages())
+                .globalResponseMessage(POST, globalPostDefaultMessages())
+                .globalResponseMessage(PUT, globalPostDefaultMessages())
+                .globalResponseMessage(DELETE, globalDeleteDefaultMessages())
+
+                .apiInfo(apiInfo());
     }
 
     @Override
@@ -61,15 +63,41 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .build();
     }
 
-    private List<ResponseMessage> getResponseMessages() {
+    private List<ResponseMessage> globalGetDefaultMessages() {
         return Arrays.asList(
                 new ResponseMessageBuilder()
-                        .code(INTERNAL_SERVER_ERROR.value())
-                        .message("Internal server error")
+                        .code(NOT_ACCEPTABLE.value()).message("Representation not acceptable")
                         .build(),
                 new ResponseMessageBuilder()
-                        .code(NOT_ACCEPTABLE.value())
-                        .message("Representation not acceptable")
+                        .code(INTERNAL_SERVER_ERROR.value()).message("Internal server error")
+                        .build()
+        );
+    }
+
+    private List<ResponseMessage> globalPostDefaultMessages() {
+        return Arrays.asList(
+                new ResponseMessageBuilder()
+                        .code(BAD_REQUEST.value()).message("Bad Request")
+                        .build(),
+                new ResponseMessageBuilder()
+                        .code(NOT_ACCEPTABLE.value()).message("Representation not acceptable")
+                        .build(),
+                new ResponseMessageBuilder()
+                        .code(UNSUPPORTED_MEDIA_TYPE.value()).message("Media type not supported")
+                        .build(),
+                new ResponseMessageBuilder()
+                        .code(INTERNAL_SERVER_ERROR.value()).message("Internal server error")
+                        .build()
+        );
+    }
+
+    private List<ResponseMessage> globalDeleteDefaultMessages() {
+        return Arrays.asList(
+                new ResponseMessageBuilder()
+                        .code(BAD_REQUEST.value()).message("Bad Request")
+                        .build(),
+                new ResponseMessageBuilder()
+                        .code(INTERNAL_SERVER_ERROR.value()).message("Internal server error")
                         .build()
         );
     }
