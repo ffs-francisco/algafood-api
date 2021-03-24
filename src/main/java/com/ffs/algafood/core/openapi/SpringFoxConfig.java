@@ -1,5 +1,7 @@
 package com.ffs.algafood.core.openapi;
 
+import com.fasterxml.classmate.TypeResolver;
+import com.ffs.algafood.api.exception.model.ApiException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -30,6 +32,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
 
     @Bean
     public Docket apiDocket() {
+        final var typeResolver = new TypeResolver();
+
         return new Docket(SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ffs.algafood.api"))
@@ -41,6 +45,8 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(POST, globalPostDefaultMessages())
                 .globalResponseMessage(PUT, globalPostDefaultMessages())
                 .globalResponseMessage(DELETE, globalDeleteDefaultMessages())
+
+                .additionalModels(typeResolver.resolve(ApiException.class))
 
                 .apiInfo(apiInfo());
     }
