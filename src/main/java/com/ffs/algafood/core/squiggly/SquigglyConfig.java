@@ -19,10 +19,10 @@ public class SquigglyConfig {
     public FilterRegistrationBean<SquigglyRequestFilter> squigglyRequestFilter(final ObjectMapper mapper) {
         Squiggly.init(mapper, new RequestSquigglyContextProvider());
 
-        final var filterResgistration = new FilterRegistrationBean<SquigglyRequestFilter>();
-        filterResgistration.setFilter(new SquigglyRequestFilter());
-        filterResgistration.setOrder(1);
+        final var filterRegistration = new FilterRegistrationBean<SquigglyRequestFilter>();
+        filterRegistration.setFilter(new SquigglyRequestFilter());
+        filterRegistration.setOrder(1);
 
-        return filterResgistration;
+        return filterRegistration;
     }
 }
