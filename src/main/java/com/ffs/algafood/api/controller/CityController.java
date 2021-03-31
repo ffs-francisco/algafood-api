@@ -13,12 +13,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * @author francisco
  */
 @RestController
-@RequestMapping("/cities")
+@RequestMapping(path = "/cities", produces = APPLICATION_JSON_VALUE)
 public class CityController implements CityControllerOpenApi {
 
     @Autowired
