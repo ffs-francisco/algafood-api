@@ -51,15 +51,6 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(PUT, globalPostDefaultMessages())
                 .globalResponseMessage(DELETE, globalDeleteDefaultMessages())
 
-                .globalOperationParameters(Collections.singletonList(
-                        new ParameterBuilder()
-                                .name("fields")
-                                .description("Property names to filter in the response, separated by comma")
-                                .parameterType("query")
-                                .modelRef(new ModelRef("string"))
-                                .build()
-                ))
-
                 .ignoredParameterTypes(ServletWebRequest.class)
                 .additionalModels(typeResolver.resolve(ApiException.class))
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)

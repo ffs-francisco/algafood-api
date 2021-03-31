@@ -6,6 +6,8 @@ import com.ffs.algafood.api.ultil.ApiUpdateUtils;
 import com.ffs.algafood.domain.exception.RestaurantNotFoundException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.service.restaurant.RestaurantService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,12 +33,18 @@ public class RestaurantController {
     @Autowired
     private ApiUpdateUtils updateUtils;
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fields", paramType = "query", type = "string", value = "Property names to filter in the response, separated by comma")
+    })
     @GetMapping
     @ResponseStatus(OK)
     public List<RestaurantResponse> listAll(@RequestParam(required = false) final String projection) {
         return RestaurantResponse.fromList(restaurantService.findAll());
     }
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fields", paramType = "query", type = "string", value = "Property names to filter in the response, separated by comma")
+    })
     @GetMapping("/{restaurantId}")
     @ResponseStatus(OK)
     public RestaurantResponse getById(@PathVariable Long restaurantId) {
