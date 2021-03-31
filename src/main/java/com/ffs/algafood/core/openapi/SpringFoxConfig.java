@@ -2,9 +2,11 @@ package com.ffs.algafood.core.openapi;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.ffs.algafood.api.exception.model.ApiException;
+import com.ffs.algafood.core.openapi.model.PageableModelOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
@@ -46,6 +48,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(DELETE, globalDeleteDefaultMessages())
 
                 .additionalModels(typeResolver.resolve(ApiException.class))
+                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 
                 .apiInfo(apiInfo());
     }
