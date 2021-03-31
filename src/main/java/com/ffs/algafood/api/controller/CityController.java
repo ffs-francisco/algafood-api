@@ -1,13 +1,12 @@
 package com.ffs.algafood.api.controller;
 
+import com.ffs.algafood.api.exception.model.ApiException;
 import com.ffs.algafood.api.model.request.city.CityRequest;
 import com.ffs.algafood.api.model.response.city.CityResponse;
 import com.ffs.algafood.domain.exception.StateNotFoundException;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.service.CityService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +34,10 @@ public class CityController {
     }
 
     @ApiOperation("Search city by ID")
+    @ApiResponses({
+            @ApiResponse(code = 400, message = "ID of city is invalid", response = ApiException.class),
+            @ApiResponse(code = 404, message = "City not found", response = ApiException.class)
+    })
     @GetMapping("/{cityId}")
     @ResponseStatus(OK)
     public CityResponse getById(
@@ -45,6 +48,9 @@ public class CityController {
     }
 
     @ApiOperation("Register new city")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "City registered")
+    })
     @PostMapping
     @ResponseStatus(CREATED)
     public CityResponse add(
@@ -59,6 +65,10 @@ public class CityController {
     }
 
     @ApiOperation("Update a city by ID")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "City updated"),
+            @ApiResponse(code = 404, message = "City not found", response = ApiException.class)
+    })
     @PutMapping("/{cityId}")
     @ResponseStatus(OK)
     public CityResponse update(
@@ -79,6 +89,10 @@ public class CityController {
     }
 
     @ApiOperation("Delete a city by ID")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "City deleted"),
+            @ApiResponse(code = 404, message = "City not found", response = ApiException.class)
+    })
     @DeleteMapping("/{cityId}")
     @ResponseStatus(NO_CONTENT)
     public void delete(
