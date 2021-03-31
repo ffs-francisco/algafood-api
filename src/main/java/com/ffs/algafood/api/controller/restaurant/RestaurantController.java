@@ -89,7 +89,7 @@ public class RestaurantController {
         restaurantService.inactivate(restaurantId);
     }
 
-    @PutMapping("/activations")
+    @PutMapping("/activation")
     @ResponseStatus(NO_CONTENT)
     public void activeMany(@RequestBody final List<Long> restaurantIds) {
         try {
@@ -99,7 +99,7 @@ public class RestaurantController {
         }
     }
 
-    @DeleteMapping("/inactivations")
+    @DeleteMapping("/inactivation")
     @ResponseStatus(NO_CONTENT)
     public void inactiveMany(@RequestBody final List<Long> restaurantIds) {
         try {
