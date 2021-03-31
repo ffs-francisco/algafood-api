@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
@@ -47,6 +48,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(PUT, globalPostDefaultMessages())
                 .globalResponseMessage(DELETE, globalDeleteDefaultMessages())
 
+                .ignoredParameterTypes(ServletWebRequest.class)
                 .additionalModels(typeResolver.resolve(ApiException.class))
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 
