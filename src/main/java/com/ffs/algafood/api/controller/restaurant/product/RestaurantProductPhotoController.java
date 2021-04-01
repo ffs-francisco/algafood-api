@@ -1,25 +1,29 @@
 package com.ffs.algafood.api.controller.restaurant.product;
 
-import com.ffs.algafood.api.model.request.restaurant.ProductPhotoRequest;
 import com.ffs.algafood.api.model.request.restaurant.ProductPhotoResponse;
+import com.ffs.algafood.core.validation.annotation.FileContentType.FileContentType;
+import com.ffs.algafood.core.validation.annotation.FileSize.FileSize;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.service.restaurant.product.ProductPhotoService;
 import com.ffs.algafood.domain.service.storage.StoragePhotoService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.List;
 
+import static com.ffs.algafood.domain.service.storage.StoragePhotoService.NewPhoto;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
+import static org.springframework.http.MediaType.*;
 
 /**
  * @author francisco
@@ -37,11 +41,26 @@ public class RestaurantProductPhotoController {
     public ProductPhotoResponse updateByRestaurantAndProduct(
             @PathVariable final Long restaurantId,
             @PathVariable final Long productId,
-            @Valid ProductPhotoRequest photoRequest
+            @NotBlank
+            @RequestParam String description,
+
+            @NotNull
+            @RequestPart(required = true)
+            @FileSize(max = "500KB")
+            @FileContentType(allowed = {IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE}) MultipartFile file
     ) throws IOException {
-        return ProductPhotoResponse.fromModel(this.photoService.save(restaurantId, productId, photoRequest.getPhoto()));
+        final var photo = NewPhoto.builder()
+                .description(description)
+                .size(file.getSize())
+                .originalFileName(file.getOriginalFilename())
+                .contentType(file.getContentType())
+                .inputStream(file.getInputStream())
+                .build();
+
+        return ProductPhotoResponse.fromModel(this.photoService.save(restaurantId, productId, photo));
     }
 
+    @ApiOperation(value = "Get a photo of product", produces = "application/json, image/jpeg, image/png")
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
     public ProductPhotoResponse findByRestaurantAndProduct(
@@ -51,7 +70,7 @@ public class RestaurantProductPhotoController {
         return ProductPhotoResponse.fromModel(this.photoService.findByRestaurantAndProduct(restaurantId, productId));
     }
 
-    @GetMapping
+    @GetMapping(produces = {IMAGE_JPEG_VALUE, IMAGE_PNG_VALUE})
     public ResponseEntity<?> findResourceByRestaurantAndProduct(
             @PathVariable final Long restaurantId,
             @PathVariable final Long productId,

@@ -6,24 +6,27 @@ import com.ffs.algafood.core.openapi.model.PageableModelOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLStreamHandler;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.ffs.algafood.core.openapi.DefaultMessages.*;
@@ -51,7 +54,10 @@ public class SpringFoxConfig implements WebMvcConfigurer {
                 .globalResponseMessage(PUT, globalPostDefaultMessages())
                 .globalResponseMessage(DELETE, globalDeleteDefaultMessages())
 
-                .ignoredParameterTypes(ServletWebRequest.class)
+                .ignoredParameterTypes(
+                        ServletWebRequest.class, InputStream.class,
+                        URL.class, URI.class, URLStreamHandler.class, Resource.class, File.class
+                )
                 .additionalModels(typeResolver.resolve(ApiException.class))
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
 
