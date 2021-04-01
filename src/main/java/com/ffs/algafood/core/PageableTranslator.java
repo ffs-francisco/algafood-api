@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  *
  * @author francisco
  */
-public class PageablerTranslator {
+public class PageableTranslator {
 
     public static Pageable translate(Pageable pageable, Map<String, String> mapping) {
         var orders = pageable.getSort().stream()

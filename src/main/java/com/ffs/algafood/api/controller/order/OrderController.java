@@ -3,7 +3,7 @@ package com.ffs.algafood.api.controller.order;
 import com.ffs.algafood.api.model.request.order.OrderRequest;
 import com.ffs.algafood.api.model.response.order.OrderResponse;
 import com.ffs.algafood.api.model.response.order.OrderSummaryResponse;
-import com.ffs.algafood.core.PageablerTranslator;
+import com.ffs.algafood.core.PageableTranslator;
 import com.ffs.algafood.domain.exception.base.BusinessException;
 import com.ffs.algafood.domain.exception.base.EntityNotFoundException;
 import com.ffs.algafood.domain.model.User;
@@ -71,6 +71,6 @@ public class OrderController {
                 "nameCustomer", "customer.name"
         );
 
-        return PageablerTranslator.translate(pageable, mapping);
+        return PageableTranslator.translate(pageable, mapping);
     }
 }
