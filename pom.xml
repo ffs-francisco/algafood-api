@@ -41,6 +41,13 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <!-- SECURITY -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- SECURITY -->
+
         <!-- DOCUMENTATION -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -160,6 +167,12 @@
             <groupId>com.wix</groupId>
             <artifactId>wix-embedded-mysql</artifactId>
             <version>${wixEmbeddedMysql.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- TESTS -->
