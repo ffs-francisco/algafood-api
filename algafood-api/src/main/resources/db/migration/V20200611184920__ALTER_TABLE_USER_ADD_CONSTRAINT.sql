@@ -1,0 +1,1 @@
+ALTER TABLE user ADD UNIQUE KEY uk_u_email (email);
